@@ -1,0 +1,38 @@
+body {
+    background: #111;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap {
+    background: blue;
+}
+
+.card {
+    position: relative;
+    width: 320px;
+    background: red;
+    height: 400px;
+    color: #fff;
+    display: flex;
+    margin: 20px;
+}
+
+.alert {
+    flex: 100%;
+    text-align: center;
+    font-size: 40px;
+}
+
+.fakeBtn {
+    background-color: #fff;
+    color: black;
+    padding: 5px;
+}
