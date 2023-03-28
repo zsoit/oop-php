@@ -28,11 +28,28 @@ body {
 .alert {
     flex: 100%;
     text-align: center;
+    font-size: 30px;
+    color: orange;
+    padding: 10px;
+}
+
+.alert__nazwa {
+    color: black;
+    background-color: white;
     font-size: 40px;
+}
+
+pre {
+    flex: 100%;
+    background-color: red;
+    padding: 30px;
+    /* text-align: center; */
+    /* font-size: 10px; */
 }
 
 .fakeBtn {
     background-color: #fff;
     color: black;
     padding: 5px;
+    text-decoration: none;
 }

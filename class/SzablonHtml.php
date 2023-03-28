@@ -1,15 +1,17 @@
 <?php
+namespace Pilkanozna;
 class SzablonHtml
 {
 
-    public static function Card($wiersz) {
+    public static function Card($wiersz)
+    {
         $id = $wiersz['id'];
         echo <<<HTML
         <div class='card'>
             <ul>
             <p>
-                <a href="?co=usun&id=$id" name='delete'>Usuń</a>
-                <a href="?co=edytuj&id=$id" name='edit'>Edytuj</a>
+                <a class="fakeBtn" href="?co=usun&id=$id" name='delete'>Usuń</a>
+                <a class="fakeBtn" href="?co=edytuj&id=$id" name='edit'>Edytuj</a>
             </p>
             <li> imię: {$wiersz['imie']}</li>
             <li> nazwisko: {$wiersz['nazwisko']}</li>
@@ -34,7 +36,8 @@ class SzablonHtml
         HTML;
     }
 
-    public static function Formularz($wiersz) {
+    public static function Formularz($wiersz)
+    {
         $id = $wiersz['id'];
         echo <<<HTML
             <form action="index.php?co=zapisz&id=$id" method="POST">
@@ -84,7 +87,7 @@ class SzablonHtml
                 <td><input type="text" value="{$wiersz['pozycja']}" name="fk_pozycja"></td>
             </tr>
             <tr>
-                <td> <br> <input type="submit" value="Zapisz"></td>
+                <td> <br> <input class="fakeBtn" type="submit" value="Zapisz"></td>
             </tr>
             </table>
             </form>
