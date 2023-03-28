@@ -11,7 +11,6 @@
 
 <?php
     include_once 'class/PilkaNozna.php';
-    include_once 'class/SzablonHtml.php';
 
     $Zadanie = new PilkaNozna();
     $Zadanie->KontrolerStrony();

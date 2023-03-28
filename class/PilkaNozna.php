@@ -1,16 +1,13 @@
 <?php
-class PilkaNozna
+include_once 'BazaDanych.php';
+include_once 'SzablonHtml.php';
+
+class PilkaNozna extends BazaDanych
 {
-    private $polaczenie;
 
     public function __construct()
     {
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "pilkanozna";
-
-        $this->polaczenie = mysqli_connect($servername, $username, $password, $database);
+        $this->DBPolaczenie();
     }
 
     private function getID()
@@ -28,7 +25,7 @@ class PilkaNozna
     {
 
         $select = <<<SQL
-        SELECT PK_pilkarz, imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa, ilosc_strzelonych_goli, krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
+        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa, ilosc_strzelonych_goli, krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
         FROM pilkarz
         join krajpilkarza on FK_kraj=PK_kraj
         join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
@@ -36,24 +33,10 @@ class PilkaNozna
         SQL;
 
         $wynik = mysqli_query($this->polaczenie, $select);
-
-
         if ($wynik->num_rows < 0) SzablonHtml::Alert("Brak piłkarzy");
         else {
             while ($wiersz = $wynik->fetch_assoc()) {
-                SzablonHtml::Card(
-                    $wiersz['imie'],
-                    $wiersz['nazwisko'],
-                    $wiersz['wzrost'],
-                    $wiersz['data_urodzenia'],
-                    $wiersz['wiodaca_noga'],
-                    $wiersz['wartosc_rynkowa'],
-                    $wiersz['ilosc_strzelonych_goli'],
-                    $wiersz['pilkarzkraj'],
-                    $wiersz['numer'],
-                    $wiersz['pozycja'],
-                    $wiersz['PK_pilkarz']
-                );
+                SzablonHtml::Card($wiersz);
             }
         }
     }
@@ -81,7 +64,7 @@ class PilkaNozna
         SzablonHtml::Alert("EDYCJA");
 
         $select = <<<SQL
-        SELECT PK_pilkarz, imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa, ilosc_strzelonych_goli, krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
+        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa, ilosc_strzelonych_goli, krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
         FROM pilkarz
         join krajpilkarza on FK_kraj=PK_kraj
         join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
@@ -91,19 +74,7 @@ class PilkaNozna
 
         $wynik = mysqli_query($this->polaczenie, $select);
         while ($wiersz = $wynik->fetch_assoc()) {
-            SzablonHtml::Formularz(
-                $wiersz['imie'],
-                $wiersz['nazwisko'],
-                $wiersz['wzrost'],
-                $wiersz['data_urodzenia'],
-                $wiersz['wiodaca_noga'],
-                $wiersz['wartosc_rynkowa'],
-                $wiersz['ilosc_strzelonych_goli'],
-                $wiersz['pilkarzkraj'],
-                $wiersz['numer'],
-                $wiersz['pozycja'],
-                $id
-            );
+            SzablonHtml::Formularz($wiersz);
         }
     }
 
@@ -169,6 +140,6 @@ class PilkaNozna
 
     public function __destruct()
     {
-        mysqli_close($this->polaczenie);
+        $this->DBRozlaczenie();
     }
 }
