@@ -1,112 +1,107 @@
 <?php
+
 namespace Pilkanozna;
+
 include_once 'BazaDanych.php';
 include_once 'ZapytaniaSql.php';
+include_once 'KontrolerDanych.php';
 include_once 'SzablonHtml.php';
 
 class Aplikacja extends BazaDanych
 {
+    private int $id;
+    private $Dane;
 
     public function __construct()
     {
         $this->DBPolaczenie();
+
+        $this->Dane = new KontrolerDanych();
+        $this->id = $this->Dane->getID();
     }
 
-    // POBIERA ID Z LINKU
-    private function getID()
+    private function Wyswietl(): void
     {
-        if (isset($_GET['id'])) return $_GET['id'];
-        else null;
-    }
-
-    // POBIERA POLE Z FORMULARZA
-    private function getPOST($nazwa)
-    {
-        if(isset($_POST[$nazwa])) return $_POST[$nazwa];
-        else return null;
-    }
-
-    // POBIERA I USTAWIA POLA Z FORMULARZA DO NOWEJ TABLICY
-    private function setPOST($lista)
-    {
-        $setPOST = array();
-        foreach($lista as $element)
-        {
-            $setPOST[$element] = $this->getPOST($element);
-        }
-
-        return $setPOST;
-
-    }
-
-    private function Wyswietl()
-    {
+        SzablonHtml::Naglowek("ZAWODNICY");
         $select = ZapytaniaSql::select_Wyswietl();
         $wynik = mysqli_query($this->polaczenie, $select);
-        if ($wynik->num_rows < 0) SzablonHtml::Alert("Brak piłkarzy");
-        else
-        {
-            while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Card($wiersz);
+
+        if ($wynik->num_rows < 0) SzablonHtml::Naglowek("Brak piłkarzy");
+        else {
+            while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Zawodnik($wiersz);
         }
     }
 
-    private function Usun()
+    private function Usun(): void
     {
         $keydisable = "SET FOREIGN_KEY_CHECKS=0";
         mysqli_query($this->polaczenie, $keydisable);
 
-        $id = $this->getID();
-        $sql = "DELETE FROM pilkarz WHERE PK_pilkarz = $id";
+        $sql = "DELETE FROM pilkarz WHERE PK_pilkarz = $this->id";
         $zapytanie = mysqli_query($this->polaczenie, $sql);
         if (!$zapytanie) die("Błąd w zapytaniu!");
 
-        SzablonHtml::Alert("Usunięto! Piłkarza #$id");
+        SzablonHtml::Naglowek("Usunięto! Piłkarza #$this->id");
         $this->Wyswietl();
 
         $keyenable = "SET FOREIGN_KEY_CHECKS=1";
         mysqli_query($this->polaczenie, $keyenable);
     }
 
-    private function Edytuj()
+    private function Edytuj(): void
     {
-
-        SzablonHtml::Alert("EDYCJA");
-        $id = $this->getID();
-
-        $select = ZapytaniaSql::select_Edytuj($id);
+        $wiersz = (array)
+        SzablonHtml::Naglowek("EDYCJA");
+        $select = ZapytaniaSql::select_Edytuj($this->id);
         $wynik = mysqli_query($this->polaczenie, $select);
-        while ($wiersz = $wynik->fetch_assoc())  SzablonHtml::Formularz($wiersz);
-
+        while ($wiersz = $wynik->fetch_assoc())  SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id");
     }
 
-    private function Zapisz()
+    private function Zapisz(): void
     {
-        SzablonHtml::Alert("Zapisano! {$this->getPOST("imie")}!");
+        SzablonHtml::Naglowek("Zapisano! {$this->Dane->getPOST("imie")}");
 
-        $id = $this->getID();
-
+        $list = (array)
         $list = [
             "imie", "nazwisko", "wzrost",
             "data_urodzenia", "wiodaca_noga",
             "wartosc_rynkowa", "ilosc_strzelonych_goli",
-            "fk_kraj","fk_numernakoszulce","fk_pozycja"
+            "fk_kraj", "fk_numernakoszulce", "fk_pozycja"
         ];
-        $update = ZapytaniaSql::update_Zapisz($id,$this->setPOST($list));
 
-        // DEBUGOWANIE ZAPYTANIA:
-        // echo "<pre>$update</pre>";
+        $update = ZapytaniaSql::update_Zapisz($this->id, $this->Dane->setPOST($list));
 
-        $zapytanie = mysqli_query($this->polaczenie,$update);
-        if(!$zapytanie){
+
+        // KontrolerDanych::Testowanie($update);
+
+        $zapytanie = mysqli_query($this->polaczenie, $update);
+        if (!$zapytanie) {
             echo "<p>Błąd w zapytaniu!: </p> <br /> <br /> <p>" . mysqli_error($this->polaczenie) . "</p>";
             exit();
         }
 
         $this->Wyswietl();
-
     }
 
-    public function KontrolerStrony()
+    private function Dodaj(): void
+    {
+        $pusty_formularz = (array)
+        $list =  [
+            "id", "imie", "nazwisko", "wzrost",
+            "data_urodzenia", "wiodaca_noga",
+            "wartosc_rynkowa", "ilosc_strzelonych_goli",
+            "fk_kraj", "fk_numernakoszulce", "fk_pozycja"
+        ];
+
+        $pusty_formularz = $this->Dane->setPOST($list);
+
+
+
+        SzablonHtml::Naglowek("Dodawanie");
+        SzablonHtml::Formularz($pusty_formularz,"?co=dodaj&id=$this->id");
+    }
+
+    public function KontrolerStrony(): void
     {
 
         $strona = isset($_GET['co']) ? $_GET['co']  : 'domyslna';
@@ -126,7 +121,9 @@ class Aplikacja extends BazaDanych
             case 'zapisz':
                 $this->Zapisz();
                 break;
-
+            case 'dodaj':
+                $this->Dodaj();
+                break;
             default:
                 $this->Wyswietl();
                 break;

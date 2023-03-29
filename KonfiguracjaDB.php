@@ -4,3 +4,4 @@ define("HOST", "localhost");
 define("UZYTKOWNIK", "root");
 define("HASLO", "");
 define("BAZADANYCH", "pilkanozna");
+

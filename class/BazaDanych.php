@@ -2,10 +2,11 @@
 namespace Pilkanozna;
 class BazaDanych
 {
-    protected $polaczenie;
-    protected function DBPolaczenie(){
+    protected object $polaczenie;
+    protected function DBPolaczenie(): void
+    {
 
-        include_once 'KonfiguracjaDB.php';
+        include_once './KonfiguracjaDB.php';
         $this->polaczenie = mysqli_connect(HOST,UZYTKOWNIK,HASLO,BAZADANYCH);
         if(!$this->polaczenie)
         {
@@ -14,7 +15,7 @@ class BazaDanych
         }
     }
 
-    protected function DBRozlaczenie()
+    protected function DBRozlaczenie(): void
     {
         mysqli_close($this->polaczenie);
     }

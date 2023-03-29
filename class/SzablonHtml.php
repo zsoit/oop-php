@@ -3,16 +3,16 @@ namespace Pilkanozna;
 class SzablonHtml
 {
 
-    public static function Card($wiersz)
+    public static function Zawodnik(array $wiersz): void
     {
         $id = $wiersz['id'];
         echo <<<HTML
         <div class='card'>
             <ul>
-            <p>
+            <div class='fakeBtn_wrapper'>
                 <a class="fakeBtn" href="?co=usun&id=$id" name='delete'>Usuń</a>
                 <a class="fakeBtn" href="?co=edytuj&id=$id" name='edit'>Edytuj</a>
-            </p>
+            </div>
             <li> imię: {$wiersz['imie']}</li>
             <li> nazwisko: {$wiersz['nazwisko']}</li>
             <li> wzrost: {$wiersz['wzrost']}</li>
@@ -29,18 +29,18 @@ class SzablonHtml
         HTML;
     }
 
-    public static function Alert($napis)
+    public static function Naglowek(string $napis): void
     {
         echo <<<HTML
-            <div class="alert" >$napis</div>
+            <div class="alert alert__header" >$napis</div>
         HTML;
     }
 
-    public static function Formularz($wiersz)
+    public static function Formularz(array $wiersz, string $strona): void
     {
         $id = $wiersz['id'];
         echo <<<HTML
-            <form action="index.php?co=zapisz&id=$id" method="POST">
+            <form action="index.php$strona" method="POST">
             <table>
             <tr>
                 <td><label>ID</label></td>
@@ -76,15 +76,15 @@ class SzablonHtml
             </tr>
             <tr>
                 <td><label>Kraj pilkarza</label></td>
-                <td><input type="text" value="{$wiersz['pilkarzkraj']}" name="fk_kraj"></td>
+                <td><input type="text" value="{$wiersz['fk_kraj']}" name="fk_kraj"></td>
             </tr>
             <tr>
                 <td><label>Numer na koszulce</label></td>
-                <td><input type="text" value="{$wiersz['numer']}" name="fk_numernakoszulce"></td>
+                <td><input type="text" value="{$wiersz['fk_numernakoszulce']}" name="fk_numernakoszulce"></td>
             </tr>
             <tr>
                 <td><label>Pozycja</label></td>
-                <td><input type="text" value="{$wiersz['pozycja']}" name="fk_pozycja"></td>
+                <td><input type="text" value="{$wiersz['fk_pozycja']}" name="fk_pozycja"></td>
             </tr>
             <tr>
                 <td> <br> <input class="fakeBtn" type="submit" value="Zapisz"></td>

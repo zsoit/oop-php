@@ -1,0 +1,44 @@
+<?php
+
+namespace Pilkanozna;
+
+class KontrolerDanych
+{
+    // POBIERA ID Z LINKU
+    public static function getID(): int
+    {
+
+        if (isset($_GET['id'])) return $_GET['id'];
+        else return 0;
+    }
+
+    // POBIERA POLE Z FORMULARZA
+    public function getPOST(string $nazwa): string
+    {
+        if(isset($_POST[$nazwa])) return $_POST[$nazwa];
+        else return "";
+    }
+
+    // POBIERA I USTAWIA POLA Z FORMULARZA DO NOWEJ TABLICY
+    public function setPOST(array $lista): array
+    {
+        $setPOST = array();
+        foreach($lista as $element)
+        {
+            $setPOST[$element] = $this->getPOST($element);
+        }
+
+        return $setPOST;
+
+    }
+
+    // WYSWIETLA OBIEKT/FUNKCJE TESTOWO W PRZYSTEPNY SPOSOB
+    public static function Testowanie($x)
+    {
+        echo "<pre>";
+        print_r($x);
+        echo "</pre>";
+
+    }
+}
+
