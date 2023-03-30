@@ -1,5 +1,7 @@
 <?php
+
 namespace Pilkanozna;
+
 class SzablonHtml
 {
 
@@ -9,12 +11,18 @@ class SzablonHtml
         echo <<<HTML
         <div class='card'>
             <ul>
+                <h2>{$wiersz['nazwisko']}</h2>
+                <h3>{$wiersz['imie']} </h3>
             <div class='fakeBtn_wrapper'>
-                <a class="fakeBtn" href="?co=usun&id=$id" name='delete'>Usuń</a>
-                <a class="fakeBtn" href="?co=edytuj&id=$id" name='edit'>Edytuj</a>
+                <a class="fakeBtn" href="?co=usun&id=$id" name='delete'>
+                    <i class="fa-solid fa-trash"></i>
+                    <span>Usuń</span>
+                </a>
+                <a class="fakeBtn" href="?co=edytuj&id=$id" name='edit'>
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Edytuj</span>
+                </a>
             </div>
-            <li> imię: {$wiersz['imie']}</li>
-            <li> nazwisko: {$wiersz['nazwisko']}</li>
             <li> wzrost: {$wiersz['wzrost']}</li>
             <li> data urodzenia: {$wiersz['data_urodzenia']}</li>
             <li> wiodąca noga: {$wiersz['wiodaca_noga']}</li>
@@ -42,7 +50,7 @@ class SzablonHtml
         echo <<<HTML
             <form action="index.php$strona" method="POST">
             <table>
-            <tr>
+            <tr style="display: none;">
                 <td><label>ID</label></td>
                 <td><input type="text" value="$id" name="id"></td>
             </tr>
@@ -87,7 +95,12 @@ class SzablonHtml
                 <td><input type="text" value="{$wiersz['fk_pozycja']}" name="fk_pozycja"></td>
             </tr>
             <tr>
-                <td> <br> <input class="fakeBtn" type="submit" value="Zapisz"></td>
+                <td><br>
+                <button class="fakeBtn">
+                    <i class="fa-regular fa-floppy-disk"></i>
+                    <span>Zapisz</span>
+                </button>
+                </td>
             </tr>
             </table>
             </form>

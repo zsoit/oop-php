@@ -33,7 +33,7 @@ class KontrolerDanych
     }
 
     // WYSWIETLA OBIEKT/FUNKCJE TESTOWO W PRZYSTEPNY SPOSOB
-    public static function Testowanie($x)
+    public static function Testowanie($x): void
     {
         echo "<pre>";
         print_r($x);

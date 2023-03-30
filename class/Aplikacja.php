@@ -23,87 +23,64 @@ class Aplikacja extends BazaDanych
     private function Wyswietl(): void
     {
         SzablonHtml::Naglowek("ZAWODNICY");
-        $select = ZapytaniaSql::select_Wyswietl();
-        $wynik = mysqli_query($this->polaczenie, $select);
 
-        if ($wynik->num_rows < 0) SzablonHtml::Naglowek("Brak piłkarzy");
-        else {
+        $wynik = $this->DBZapytanie(
+            ZapytaniaSql::select_Wyswietl()
+        );
+
+        if ($wynik->num_rows > 0)
             while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Zawodnik($wiersz);
-        }
+        else
+            SzablonHtml::Naglowek("Brak piłkarzy");
     }
 
     private function Usun(): void
     {
-        $keydisable = "SET FOREIGN_KEY_CHECKS=0";
-        mysqli_query($this->polaczenie, $keydisable);
-
-        $sql = "DELETE FROM pilkarz WHERE PK_pilkarz = $this->id";
-        $zapytanie = mysqli_query($this->polaczenie, $sql);
-        if (!$zapytanie) die("Błąd w zapytaniu!");
+        $this->DBZapytanie("SET FOREIGN_KEY_CHECKS=0");
+        $this->DBZapytanie("DELETE FROM pilkarz WHERE PK_pilkarz = $this->id");
+        $this->DBZapytanie("SET FOREIGN_KEY_CHECKS=1");
 
         SzablonHtml::Naglowek("Usunięto! Piłkarza #$this->id");
         $this->Wyswietl();
-
-        $keyenable = "SET FOREIGN_KEY_CHECKS=1";
-        mysqli_query($this->polaczenie, $keyenable);
     }
 
     private function Edytuj(): void
     {
-        $wiersz = (array)
         SzablonHtml::Naglowek("EDYCJA");
-        $select = ZapytaniaSql::select_Edytuj($this->id);
-        $wynik = mysqli_query($this->polaczenie, $select);
-        while ($wiersz = $wynik->fetch_assoc())  SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id");
+
+        $wynik = $this->DBZapytanie(
+            ZapytaniaSql::select_Edytuj($this->id)
+        );
+
+        while ($wiersz = (array) $wynik->fetch_assoc())
+            SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id");
     }
 
     private function Zapisz(): void
     {
         SzablonHtml::Naglowek("Zapisano! {$this->Dane->getPOST("imie")}");
 
-        $list = (array)
-        $list = [
-            "imie", "nazwisko", "wzrost",
-            "data_urodzenia", "wiodaca_noga",
-            "wartosc_rynkowa", "ilosc_strzelonych_goli",
-            "fk_kraj", "fk_numernakoszulce", "fk_pozycja"
-        ];
+        $update = ZapytaniaSql::update_Zapisz(
+            $this->id, $this->Dane->setPOST($this->KOLUMNYPILKARZ)
+        );
 
-        $update = ZapytaniaSql::update_Zapisz($this->id, $this->Dane->setPOST($list));
-
+        $this->DBZapytanie($update);
 
         // KontrolerDanych::Testowanie($update);
-
-        $zapytanie = mysqli_query($this->polaczenie, $update);
-        if (!$zapytanie) {
-            echo "<p>Błąd w zapytaniu!: </p> <br /> <br /> <p>" . mysqli_error($this->polaczenie) . "</p>";
-            exit();
-        }
-
         $this->Wyswietl();
     }
 
     private function Dodaj(): void
     {
         $pusty_formularz = (array)
-        $list =  [
-            "id", "imie", "nazwisko", "wzrost",
-            "data_urodzenia", "wiodaca_noga",
-            "wartosc_rynkowa", "ilosc_strzelonych_goli",
-            "fk_kraj", "fk_numernakoszulce", "fk_pozycja"
-        ];
-
-        $pusty_formularz = $this->Dane->setPOST($list);
-
-
+        $pusty_formularz = $this->Dane->setPOST($this->KOLUMNYPILKARZ);
 
         SzablonHtml::Naglowek("Dodawanie");
-        SzablonHtml::Formularz($pusty_formularz,"?co=dodaj&id=$this->id");
+        SzablonHtml::Formularz($pusty_formularz, "?co=dodaj");
     }
 
     public function KontrolerStrony(): void
     {
-
         $strona = isset($_GET['co']) ? $_GET['co']  : 'domyslna';
         switch ($strona) {
             case 'domyslna':
@@ -121,9 +98,11 @@ class Aplikacja extends BazaDanych
             case 'zapisz':
                 $this->Zapisz();
                 break;
+
             case 'dodaj':
                 $this->Dodaj();
                 break;
+
             default:
                 $this->Wyswietl();
                 break;

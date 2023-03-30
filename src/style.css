@@ -21,16 +21,58 @@ main {
     background: blue;
 }
 
+pre {
+    flex: 100%;
+    background-color: darkred;
+    padding: 30px;
+    /* text-align: center; */
+    /* font-size: 10px; */
+}
+
+.footer {
+    flex: 100%;
+    text-align: center;
+    font-size: 15px;
+    color: orange;
+    padding: 10px;
+    margin-top: 600px;
+}
+
+
+/* ZAWODNIK */
+
 .card {
     position: relative;
     width: 320px;
-    background: red;
+    background: darkred;
     border-radius: 10%;
     height: 400px;
     color: #fff;
     display: flex;
     margin: 20px;
 }
+
+.card h2 {
+    text-transform: uppercase;
+}
+
+
+/* NAWIGACJA MENU */
+
+.menu {
+    display: flex;
+    background-color: rgb(102, 97, 97);
+    font-size: 15px;
+}
+
+.menu__item {
+    padding: 8px;
+    margin: 5px;
+    font-size: 15px;
+}
+
+
+/* sekcja  */
 
 .alert {
     flex: 100%;
@@ -44,15 +86,6 @@ main {
     margin: 20px;
 }
 
-.footer {
-    flex: 100%;
-    text-align: center;
-    font-size: 15px;
-    color: orange;
-    padding: 10px;
-    margin-top: 200px;
-}
-
 .alert__nazwa {
     color: black;
     background-color: white;
@@ -64,23 +97,20 @@ main {
     color: black;
 }
 
-pre {
-    flex: 100%;
-    background-color: red;
-    padding: 30px;
-    /* text-align: center; */
-    /* font-size: 10px; */
-}
+
+/* PRZYCISK */
 
 .fakeBtn_wrapper {
-    margin: 15px;
-    padding: 15px;
+    margin: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
 }
 
 .fakeBtn {
     background-color: #fff;
     color: black;
     padding: 10px;
+    margin: 10px;
     text-decoration: none;
     border: none;
     border-radius: 10%;
@@ -89,17 +119,4 @@ pre {
 .fakeBtn:hover {
     background-color: orange;
     cursor: pointer;
-}
-
-.menu {
-    display: flex;
-    background-color: rgb(102, 97, 97);
-    /* margin: 50px; */
-    /* margin-top: 50px; */
-    padding: 30px;
-    font-size: 15px;
-}
-
-.menu__item {
-    padding: 20px;
 }
