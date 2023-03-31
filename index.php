@@ -1,4 +1,6 @@
 <?php
+    // error_reporting(E_ERROR | E_PARSE);
+
     function Main()
     {
         include_once './class/Aplikacja.php';

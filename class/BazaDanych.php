@@ -2,6 +2,8 @@
 
 namespace Pilkanozna;
 
+use mysqli;
+
 class BazaDanych
 {
 
@@ -11,11 +13,13 @@ class BazaDanych
     {
 
         include_once './KonfiguracjaDB.php';
-        $this->polaczenie = mysqli_connect(HOST, UZYTKOWNIK, HASLO, BAZADANYCH);
-        if (!$this->polaczenie) {
-            echo "Błąd połącznia z bazą danych!";
+        $pol = mysqli_connect(HOST, UZYTKOWNIK, HASLO, BAZADANYCH);
+        if (!$pol) {
+            echo "<h1 style='color: red; '>Błąd połącznia z bazą danych!</h1>";
             exit();
         }
+
+        $this->polaczenie = $pol;
     }
 
     protected function DBRozlaczenie(): void

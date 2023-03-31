@@ -13,7 +13,7 @@
     <div class="menu alert">
 
         <div class="menu__item">
-            <a class="fakeBtn" href="index.php?co=szukaj">
+            <a class="fakeBtn" href="index.php">
                 <i class="fa-solid fa-house"></i>
             </a>
         </div>
