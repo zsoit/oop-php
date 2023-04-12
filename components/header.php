@@ -15,6 +15,7 @@
         <div class="menu__item">
             <a class="fakeBtn" href="index.php">
                 <i class="fa-solid fa-house"></i>
+                <span>Strona Główna</span>
             </a>
         </div>
 
@@ -24,11 +25,14 @@
                 <span>Dodaj</span>
             </a>
         </div>
-        <div class="menu__item">
-            <a class="fakeBtn" href="index.php?co=szukaj">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <span>Szukaj</span>
-            </a>
+        <div class="menu__item menu__item--search">
+            <form action="index.php?co=szukaj" method="POST">
+                <input class="fakeBtn"  type="text" name="slowo" placeholder="Imie lub nazwisko" required>
+                <button class="fakeBtn" >
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>Szukaj</span>
+                </button>
+                </form>
         </div>
     </div>
 </header>

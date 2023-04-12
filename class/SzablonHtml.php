@@ -26,14 +26,14 @@ class SzablonHtml
                 <span>Edytuj</span>
                 </a>
             </div>
-            <li> wzrost: {$wiersz['wzrost']}</li>
-            <li> data urodzenia: {$wiersz['data_urodzenia']}</li>
-            <li> wiodąca noga: {$wiersz['wiodaca_noga']}</li>
-            <li> wartość rynkowa: {$wiersz['wartosc_rynkowa']}</li>
-            <li> ilość strzelonych goli: {$wiersz['ilosc_strzelonych_goli']}</li>
-            <li> kraj: {$wiersz['pilkarzkraj']}</li>
-            <li> numer na koszulce: {$wiersz['numer']}</li>
-            <li> pozycja: {$wiersz['pozycja']}</li>
+            <li> wzrost: <span>{$wiersz['wzrost']}</span></li>
+            <li> data urodzenia: <span>{$wiersz['data_urodzenia']}</span></li>
+            <li> wiodąca noga: <span>{$wiersz['wiodaca_noga']}</span></li>
+            <li> wartość rynkowa: <span>{$wiersz['wartosc_rynkowa']}</span></li>
+            <li> ilość strzelonych goli: <span>{$wiersz['ilosc_strzelonych_goli']}</span></li>
+            <li> kraj: <span>{$wiersz['pilkarzkraj']}</span></li>
+            <li> numer na koszulce: <span>{$wiersz['numer']}</span></li>
+            <li> pozycja: <span>{$wiersz['pozycja']}</span></li>
             </ul>
             </div>
         </div>

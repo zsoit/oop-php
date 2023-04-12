@@ -100,6 +100,26 @@ class Aplikacja extends BazaDanych
 
     }
 
+    private function Szukaj(): void
+    {
+
+        $szukaj = $this->Dane->getPOST('slowo');
+
+        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b>$szukaj</b>");
+
+        $sql = ZapytaniaSql::select_Szukaj($szukaj);
+        $wynik = $this->DBZapytanie(
+            $sql
+        );
+
+        if ($wynik->num_rows > 0)
+            while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Zawodnik($wiersz);
+        else
+            SzablonHtml::Naglowek("BRAK");
+    }
+
+
+
     // FORMULARZ
 
     public function SelectHTML($zapytanie, $id, $nazwa, $fk): string
@@ -171,6 +191,10 @@ class Aplikacja extends BazaDanych
 
             case 'formularz_dodaj':
                 $this->Formularz_Dodaj();
+                break;
+
+            case 'szukaj':
+                $this->Szukaj();
                 break;
 
             default:

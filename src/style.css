@@ -61,14 +61,28 @@ pre {
 
 .menu {
     display: flex;
+    flex-direction: row;
     background-color: rgb(102, 97, 97);
     font-size: 15px;
+    justify-content: center;
 }
 
 .menu__item {
-    padding: 8px;
-    margin: 5px;
+    padding: 10px;
+    margin: 8px;
     font-size: 15px;
+}
+
+.menu__item--search {
+    padding: 0;
+    margin: 0;
+}
+
+@media screen and (max-width: 800px) {
+    /* reguły stylów dla urządzeń o szerokości ekranu mniejszej lub równej 600px */
+    .menu {
+        flex-wrap: wrap;
+    }
 }
 
 
@@ -97,6 +111,10 @@ pre {
     color: black;
 }
 
+.alert b {
+    color: white;
+}
+
 
 /* PRZYCISK */
 
@@ -119,4 +137,18 @@ pre {
 .fakeBtn:hover {
     background-color: orange;
     cursor: pointer;
+}
+
+ul {
+    list-style: none;
+}
+
+ul li span {
+    font-weight: bold;
+    color: gold;
+}
+
+a {
+    text-decoration: none;
+    color: #111;
 }

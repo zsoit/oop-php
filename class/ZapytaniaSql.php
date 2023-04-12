@@ -6,13 +6,44 @@ class ZapytaniaSql
     public static function select_Wyswietl(): string
     {
         return <<<SQL
-        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa, ilosc_strzelonych_goli, krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
+        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa,
+        ilosc_strzelonych_goli,
+        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
         FROM pilkarz
         join krajpilkarza on FK_kraj=PK_kraj
         join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
         join pozycja on FK_pozycja=PK_pozycja
         order by pk_pilkarz DESC
         SQL;
+    }
+
+    public static function select_Szukaj($SZUKAJ): string
+    {
+        $sql = <<<SQL
+        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa,
+        ilosc_strzelonych_goli,
+        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
+        FROM pilkarz
+        join krajpilkarza on FK_kraj=PK_kraj
+        join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
+        join pozycja on FK_pozycja=PK_pozycja
+        WHERE
+            imie LIKE "%$SZUKAJ%" OR
+            imie LIKE "$SZUKAJ%"  OR
+            imie LIKE "%$SZUKAJ"
+        OR
+            nazwisko LIKE "%$SZUKAJ%" OR
+            nazwisko LIKE "$SZUKAJ%" OR
+            nazwisko LIKE "%$SZUKAJ"
+        OR
+            imie LIKE "%$SZUKAJ%" AND  nazwisko LIKE "%$SZUKAJ%" OR
+            imie LIKE "$SZUKAJ%" AND  nazwisko LIKE "$SZUKAJ%"  OR
+            imie LIKE "%$SZUKAJ" AND  nazwisko LIKE "%$SZUKAJ"
+
+        SQL;
+
+        return $sql;
+
     }
 
     public static function select_Edytuj(string $id): string
