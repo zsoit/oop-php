@@ -47,11 +47,15 @@ class SzablonHtml
         HTML;
     }
 
-    public static function Formularz(array $wiersz, string $strona, $kraje, $numernakoszulce, $pozycja): void
+    public static function Formularz(
+        array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk
+    ): void
     {
+
+
         $id = $wiersz['id'];
         echo <<<HTML
-            <form action="index.php$strona" method="POST">
+            <form action="index.php$adres" method="POST">
             <table>
             <tr style="display: none;">
                 <td><label>ID</label></td>
@@ -101,7 +105,7 @@ class SzablonHtml
                 <td><br>
                 <button class="fakeBtn">
                     <i class="fa-regular fa-floppy-disk"></i>
-                    <span>Zapisz</span>
+                    <span>$napisprzycisk</span>
                 </button>
                 </td>
             </tr>

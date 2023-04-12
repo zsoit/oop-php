@@ -53,7 +53,8 @@ class Aplikacja extends BazaDanych
         );
 
         while ($wiersz = (array) $wynik->fetch_assoc())
-            SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id"," ", " ", " ");
+            $this->Formularz($wiersz, "?co=zapisz&id=$this->id", "Zapisz");
+
     }
 
     private function Zapisz(): void
@@ -89,43 +90,36 @@ class Aplikacja extends BazaDanych
 
 
 
+    private function Formularz($dane,$adres,$napisprzycisk): void
+    {
+
+        $sqlkraj = ZapytaniaSql::select_Kraj();
+        $select_kraje_html = $this->SelectHTMLSzablon($sqlkraj,'pk_kraj','nazwa');
+
+        $sqlnumer = ZapytaniaSql::select_Numernakoszulce();
+        $select_numernakoszulce_html = $this->SelectHTMLSzablon($sqlnumer,'pk_numernakoszulce','numer');
+
+        $sqlpozycja = ZapytaniaSql::select_Pozycja();
+        $select_pozycja_html = $this->SelectHTMLSzablon($sqlpozycja,'pk_pozycja','nazwa');
+
+
+
+        SzablonHtml::Formularz(
+            $dane, $adres,
+            $select_kraje_html,
+            $select_numernakoszulce_html,
+            $select_pozycja_html,
+            $napisprzycisk
+        );
+    }
+
     private function Dodaj(): void
     {
         $pusty_formularz = (array)
         $pusty_formularz = $this->Dane->setPOST($this->KOLUMNYPILKARZ);
 
         SzablonHtml::Naglowek("Dodawanie");
-
-        $sqlkraj = ZapytaniaSql::select_Kraj();
-        $select_kraje_html = $this->SelectHTMLSzablon(
-            $sqlkraj,
-            'pk_kraj',
-            'nazwa'
-        );
-
-
-        $sqlnumernakoszulce = ZapytaniaSql::select_Numernakoszulce();
-        $select_numernakoszulce_html = $this->SelectHTMLSzablon(
-            $sqlnumernakoszulce,
-            'pk_numernakoszulce',
-            'numer'
-        );
-
-        $sqlpozycja = ZapytaniaSql::select_Pozycja();
-        $select_pozycja_html = $this->SelectHTMLSzablon(
-            $sqlpozycja,
-            'pk_pozycja',
-            'nazwa'
-        );
-
-
-
-        SzablonHtml::Formularz(
-            $pusty_formularz, "?co=dodaj",
-            $select_kraje_html,
-            $select_numernakoszulce_html,
-            $select_pozycja_html
-        );
+        $this->Formularz($pusty_formularz, "?co=dodaj", "Dodaj");
     }
 
 
