@@ -53,7 +53,7 @@ class Aplikacja extends BazaDanych
         );
 
         while ($wiersz = (array) $wynik->fetch_assoc())
-            SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id"," ");
+            SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id"," ", " ", " ");
     }
 
     private function Zapisz(): void
@@ -75,10 +75,7 @@ class Aplikacja extends BazaDanych
        $wynik = $this->DBZapytanie($zapytanie);
 
 
-        $html = '
-        <label for="cars">Wybierz kraj:</label>
-            <select id="cars">
-        ';
+        $html = "<select>";
 
         while ($wiersz = (array) $wynik->fetch_assoc())
         {
@@ -99,17 +96,36 @@ class Aplikacja extends BazaDanych
 
         SzablonHtml::Naglowek("Dodawanie");
 
-        // $select_kraje_html = $this->SelectKrajeHTML();
-
-        $sql = ZapytaniaSql::select_Kraj();
+        $sqlkraj = ZapytaniaSql::select_Kraj();
         $select_kraje_html = $this->SelectHTMLSzablon(
-            $sql,
+            $sqlkraj,
             'pk_kraj',
             'nazwa'
         );
 
 
-        SzablonHtml::Formularz($pusty_formularz, "?co=dodaj",$select_kraje_html);
+        $sqlnumernakoszulce = ZapytaniaSql::select_Numernakoszulce();
+        $select_numernakoszulce_html = $this->SelectHTMLSzablon(
+            $sqlnumernakoszulce,
+            'pk_numernakoszulce',
+            'numer'
+        );
+
+        $sqlpozycja = ZapytaniaSql::select_Pozycja();
+        $select_pozycja_html = $this->SelectHTMLSzablon(
+            $sqlpozycja,
+            'pk_pozycja',
+            'nazwa'
+        );
+
+
+
+        SzablonHtml::Formularz(
+            $pusty_formularz, "?co=dodaj",
+            $select_kraje_html,
+            $select_numernakoszulce_html,
+            $select_pozycja_html
+        );
     }
 
 

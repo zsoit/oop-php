@@ -47,7 +47,7 @@ class SzablonHtml
         HTML;
     }
 
-    public static function Formularz(array $wiersz, string $strona, $kraje): void
+    public static function Formularz(array $wiersz, string $strona, $kraje, $numernakoszulce, $pozycja): void
     {
         $id = $wiersz['id'];
         echo <<<HTML
@@ -86,15 +86,16 @@ class SzablonHtml
                 <td><input type="text" value="{$wiersz['ilosc_strzelonych_goli']}" name="ilosc_strzelonych_goli"></td>
             </tr>
             <tr>
+                <td><label for="kraj">Wybierz kraj:</label></td>
                 <td>$kraje</td>
             </tr>
             <tr>
-                <td><label>Numer na koszulce</label></td>
-                <td><input type="text" value="{$wiersz['fk_numernakoszulce']}" name="fk_numernakoszulce"></td>
+                <td><label for="numrnakoszulce">Numer na koszulce</label></td>
+                <td>$numernakoszulce</td>
             </tr>
             <tr>
-                <td><label>Pozycja</label></td>
-                <td><input type="text" value="{$wiersz['fk_pozycja']}" name="fk_pozycja"></td>
+                <td><label for="pozycja">Pozycja</label></td>
+                <td>$pozycja</td>
             </tr>
             <tr>
                 <td><br>

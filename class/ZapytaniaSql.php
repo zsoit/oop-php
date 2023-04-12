@@ -64,4 +64,24 @@ class ZapytaniaSql
 
         return $sql;
     }
+
+    public static function select_Numernakoszulce()
+    {
+        $sql =  <<<SQL
+        SELECT pk_numernakoszulce, numer
+        FROM numernakoszulce
+        SQL;
+
+        return $sql;
+    }
+
+    public static function select_Pozycja()
+    {
+        $sql =  <<<SQL
+        SELECT pk_pozycja, nazwa
+        FROM pozycja
+        SQL;
+
+        return $sql;
+    }
 }
