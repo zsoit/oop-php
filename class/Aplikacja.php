@@ -53,7 +53,7 @@ class Aplikacja extends BazaDanych
         );
 
         while ($wiersz = (array) $wynik->fetch_assoc())
-            SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id");
+            SzablonHtml::Formularz($wiersz, "?co=zapisz&id=$this->id"," ");
     }
 
     private function Zapisz(): void
@@ -70,14 +70,49 @@ class Aplikacja extends BazaDanych
         $this->Wyswietl();
     }
 
+    public function SelectHTMLSzablon($zapytanie,$id,$nazwa)
+    {
+       $wynik = $this->DBZapytanie($zapytanie);
+
+
+        $html = '
+        <label for="cars">Wybierz kraj:</label>
+            <select id="cars">
+        ';
+
+        while ($wiersz = (array) $wynik->fetch_assoc())
+        {
+           $html = $html . "<option value='{$wiersz[$id]}'>{$wiersz[$nazwa]}</option>";
+        }
+
+        $html = $html .  "</select>";
+
+        return $html;
+    }
+
+
+
     private function Dodaj(): void
     {
         $pusty_formularz = (array)
         $pusty_formularz = $this->Dane->setPOST($this->KOLUMNYPILKARZ);
 
         SzablonHtml::Naglowek("Dodawanie");
-        SzablonHtml::Formularz($pusty_formularz, "?co=dodaj");
+
+        // $select_kraje_html = $this->SelectKrajeHTML();
+
+        $sql = ZapytaniaSql::select_Kraj();
+        $select_kraje_html = $this->SelectHTMLSzablon(
+            $sql,
+            'pk_kraj',
+            'nazwa'
+        );
+
+
+        SzablonHtml::Formularz($pusty_formularz, "?co=dodaj",$select_kraje_html);
     }
+
+
 
     public function KontrolerStrony(): void
     {
@@ -85,6 +120,7 @@ class Aplikacja extends BazaDanych
         switch ($strona) {
             case 'domyslna':
                 $this->Wyswietl();
+                // $this->SelectKraje();
                 break;
 
             case 'edytuj':
@@ -97,7 +133,7 @@ class Aplikacja extends BazaDanych
 
             case 'zapisz':
                 $this->Zapisz();
-                break;
+                break;;
 
             case 'dodaj':
                 $this->Dodaj();

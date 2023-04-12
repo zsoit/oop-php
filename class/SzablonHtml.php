@@ -2,8 +2,11 @@
 
 namespace Pilkanozna;
 
+
 class SzablonHtml
 {
+
+
 
     public static function Zawodnik(array $wiersz): void
     {
@@ -44,7 +47,7 @@ class SzablonHtml
         HTML;
     }
 
-    public static function Formularz(array $wiersz, string $strona): void
+    public static function Formularz(array $wiersz, string $strona, $kraje): void
     {
         $id = $wiersz['id'];
         echo <<<HTML
@@ -83,8 +86,7 @@ class SzablonHtml
                 <td><input type="text" value="{$wiersz['ilosc_strzelonych_goli']}" name="ilosc_strzelonych_goli"></td>
             </tr>
             <tr>
-                <td><label>Kraj pilkarza</label></td>
-                <td><input type="text" value="{$wiersz['fk_kraj']}" name="fk_kraj"></td>
+                <td>$kraje</td>
             </tr>
             <tr>
                 <td><label>Numer na koszulce</label></td>

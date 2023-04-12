@@ -54,4 +54,14 @@ class ZapytaniaSql
         return $update;
 
     }
+
+    public static function select_Kraj()
+    {
+        $sql =  <<<SQL
+        SELECT pk_kraj, nazwa
+        FROM `krajpilkarza`
+        SQL;
+
+        return $sql;
+    }
 }

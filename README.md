@@ -16,5 +16,3 @@ podobnie jak w językach C/C++, Java, C#. Jest to bardziej przewidywalene i pozw
 - src (pliki css, javascript albo inne zdjęcia itp.)
 
 4. Ikonki z https://fontawesome.com/search
-
-
