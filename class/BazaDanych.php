@@ -44,7 +44,9 @@ class BazaDanych
         "id", "imie", "nazwisko", "wzrost",
         "data_urodzenia", "wiodaca_noga",
         "wartosc_rynkowa", "ilosc_strzelonych_goli",
-        "fk_kraj", "fk_numernakoszulce", "fk_pozycja"
+        "fk_kraj", "fk_numernakoszulce", "fk_pozycja",
+        'pk_kraj',"pk_numernakoszulce", "pk_pozycja"
+
     ];
 
 

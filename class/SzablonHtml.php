@@ -91,15 +91,22 @@ class SzablonHtml
             </tr>
             <tr>
                 <td><label for="kraj">Wybierz kraj:</label></td>
+
                 <td>$kraje</td>
+                <!-- ZAZNACZA NUMER NA KOSZULCE PILKARZA Z BAZY-->
+                <script>document.querySelector("select[name='fk_kraj'] option[value='{$wiersz['pk_kraj']}']").selected = true;</script>
             </tr>
             <tr>
                 <td><label for="numrnakoszulce">Numer na koszulce</label></td>
                 <td>$numernakoszulce</td>
+                <!-- ZAZNACZA NUMER NA KOSZULCE PILKARZA Z BAZY-->
+                <script> document.querySelector("select[name='fk_numernakoszulce'] option[value='{$wiersz['pk_numernakoszulce']}']").selected = true;</script>
             </tr>
             <tr>
                 <td><label for="pozycja">Pozycja</label></td>
                 <td>$pozycja</td>
+                <!-- ZAZNACZA POZYCJE PILKARZA Z BAZY-->
+                <script>document.querySelector("select[name='fk_pozycja'] option[value='{$wiersz['pk_pozycja']}']").selected = true;</script>
             </tr>
             <tr>
                 <td><br>

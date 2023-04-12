@@ -17,7 +17,10 @@ class ZapytaniaSql
     public static function select_Edytuj(string $id): string
     {
         return <<<SQL
-        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa, ilosc_strzelonych_goli, krajpilkarza.nazwa as 'fk_kraj', numernakoszulce.numer as 'fk_numernakoszulce', pozycja.nazwa as 'fk_pozycja'
+        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa, ilosc_strzelonych_goli, krajpilkarza.nazwa as 'fk_kraj', numernakoszulce.numer as 'fk_numernakoszulce', pozycja.nazwa as 'fk_pozycja',
+        krajpilkarza.pk_kraj as 'pk_kraj',
+        numernakoszulce.pk_numernakoszulce as 'pk_numernakoszulce',
+        pozycja.pk_pozycja as 'pk_pozycja'
         FROM pilkarz
         join krajpilkarza on FK_kraj=PK_kraj
         join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
@@ -37,21 +40,13 @@ class ZapytaniaSql
         wiodaca_noga = "{$setPOST["wiodaca_noga"]}",
         wartosc_rynkowa = {$setPOST["wartosc_rynkowa"]},
         ilosc_strzelonych_goli = {$setPOST["ilosc_strzelonych_goli"]},
-        fk_kraj = 2,
-        fk_numernakoszulce = 3,
-        fk_pozycja = 8
+        fk_kraj = {$setPOST["fk_kraj"]},
+        fk_numernakoszulce = {$setPOST["fk_numernakoszulce"]},
+        fk_pozycja = {$setPOST["fk_pozycja"]}
         WHERE PK_pilkarz = $id
         SQL;
 
-        $update = <<<SQL
-        UPDATE pilkarz SET
-        imie = "{$setPOST["imie"]}",
-        nazwisko = "{$setPOST["nazwisko"]}",
-        wzrost = {$setPOST["wzrost"]}
-        WHERE PK_pilkarz = $id
-        SQL;
-
-        return $update;
+        return $update1;
 
     }
 

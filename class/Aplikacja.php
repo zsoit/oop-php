@@ -54,7 +54,6 @@ class Aplikacja extends BazaDanych
 
         while ($wiersz = (array) $wynik->fetch_assoc())
             $this->Formularz($wiersz, "?co=zapisz&id=$this->id", "Zapisz");
-
     }
 
     private function Zapisz(): void
@@ -62,7 +61,8 @@ class Aplikacja extends BazaDanych
         SzablonHtml::Naglowek("Zapisano! {$this->Dane->getPOST("imie")}");
 
         $update = ZapytaniaSql::update_Zapisz(
-            $this->id, $this->Dane->setPOST($this->KOLUMNYPILKARZ)
+            $this->id,
+            $this->Dane->setPOST($this->KOLUMNYPILKARZ)
         );
 
         $this->DBZapytanie($update);
@@ -71,16 +71,16 @@ class Aplikacja extends BazaDanych
         $this->Wyswietl();
     }
 
-    public function SelectHTMLSzablon($zapytanie,$id,$nazwa)
+    public function SelectHTMLSzablon($zapytanie, $id, $nazwa, $fk)
     {
-       $wynik = $this->DBZapytanie($zapytanie);
+        $wynik = $this->DBZapytanie($zapytanie);
 
 
-        $html = "<select>";
+        $html = "<select name='$fk'>";
 
-        while ($wiersz = (array) $wynik->fetch_assoc())
-        {
-           $html = $html . "<option value='{$wiersz[$id]}'>{$wiersz[$nazwa]}</option>";
+
+        while ($wiersz = (array) $wynik->fetch_assoc()) {
+            $html = $html . "<option value='{$wiersz[$id]}'>{$wiersz[$nazwa]}</option>";
         }
 
         $html = $html .  "</select>";
@@ -90,22 +90,23 @@ class Aplikacja extends BazaDanych
 
 
 
-    private function Formularz($dane,$adres,$napisprzycisk): void
+    private function Formularz($dane, $adres, $napisprzycisk): void
     {
 
         $sqlkraj = ZapytaniaSql::select_Kraj();
-        $select_kraje_html = $this->SelectHTMLSzablon($sqlkraj,'pk_kraj','nazwa');
+        $select_kraje_html = $this->SelectHTMLSzablon($sqlkraj, 'pk_kraj', 'nazwa', 'fk_kraj');
 
         $sqlnumer = ZapytaniaSql::select_Numernakoszulce();
-        $select_numernakoszulce_html = $this->SelectHTMLSzablon($sqlnumer,'pk_numernakoszulce','numer');
+        $select_numernakoszulce_html = $this->SelectHTMLSzablon($sqlnumer, 'pk_numernakoszulce', 'numer', 'fk_numernakoszulce');
 
         $sqlpozycja = ZapytaniaSql::select_Pozycja();
-        $select_pozycja_html = $this->SelectHTMLSzablon($sqlpozycja,'pk_pozycja','nazwa');
+        $select_pozycja_html = $this->SelectHTMLSzablon($sqlpozycja, 'pk_pozycja', 'nazwa', 'fk_pozycja');
 
 
 
         SzablonHtml::Formularz(
-            $dane, $adres,
+            $dane,
+            $adres,
             $select_kraje_html,
             $select_numernakoszulce_html,
             $select_pozycja_html,
