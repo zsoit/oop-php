@@ -58,7 +58,10 @@ class Aplikacja extends BazaDanych
 
     private function Zapisz(): void
     {
-        SzablonHtml::Naglowek("Zapisano! {$this->Dane->getPOST("imie")}");
+        $imie = $this->Dane->getPOST("imie");
+        $nazwisko = $this->Dane->getPOST("nazwisko");
+
+        SzablonHtml::Naglowek("Zapisano $imie $nazwisko!");
 
         $update = ZapytaniaSql::update_Zapisz(
             $this->id,
@@ -67,40 +70,62 @@ class Aplikacja extends BazaDanych
 
         $this->DBZapytanie($update);
 
-        // KontrolerDanych::Testowanie($update);
         $this->Wyswietl();
     }
 
-    public function SelectHTMLSzablon($zapytanie, $id, $nazwa, $fk)
+
+    private function Formularz_Dodaj(): void
+    {
+        $pusty_formularz = (array)
+        $pusty_formularz = $this->Dane->setPOST($this->KOLUMNYPILKARZ);
+
+        SzablonHtml::Naglowek("Dodawanie");
+        $this->Formularz($pusty_formularz, "?co=dodaj", "Dodaj");
+    }
+
+    private function Dodaj(): void
+    {
+        $imie = $this->Dane->getPOST("imie");
+        $nazwisko = $this->Dane->getPOST("nazwisko");
+
+        SzablonHtml::Naglowek("Dodano $imie $nazwisko!");
+
+        $update = ZapytaniaSql::insert_Dodaj(
+            $this->Dane->setPOST($this->KOLUMNYPILKARZ)
+        );
+
+        $this->DBZapytanie($update);
+
+        $this->Wyswietl();
+
+    }
+
+    // FORMULARZ
+
+    public function SelectHTML($zapytanie, $id, $nazwa, $fk): string
     {
         $wynik = $this->DBZapytanie($zapytanie);
 
-
         $html = "<select name='$fk'>";
-
-
         while ($wiersz = (array) $wynik->fetch_assoc()) {
-            $html = $html . "<option value='{$wiersz[$id]}'>{$wiersz[$nazwa]}</option>";
+            $html .=  "<option value='{$wiersz[$id]}'>{$wiersz[$nazwa]}</option>";
         }
-
-        $html = $html .  "</select>";
+        $html .=  "</select>";
 
         return $html;
     }
-
-
 
     private function Formularz($dane, $adres, $napisprzycisk): void
     {
 
         $sqlkraj = ZapytaniaSql::select_Kraj();
-        $select_kraje_html = $this->SelectHTMLSzablon($sqlkraj, 'pk_kraj', 'nazwa', 'fk_kraj');
+        $select_kraje_html = $this->SelectHTML($sqlkraj, 'pk_kraj', 'nazwa', 'fk_kraj');
 
         $sqlnumer = ZapytaniaSql::select_Numernakoszulce();
-        $select_numernakoszulce_html = $this->SelectHTMLSzablon($sqlnumer, 'pk_numernakoszulce', 'numer', 'fk_numernakoszulce');
+        $select_numernakoszulce_html = $this->SelectHTML($sqlnumer, 'pk_numernakoszulce', 'numer', 'fk_numernakoszulce');
 
         $sqlpozycja = ZapytaniaSql::select_Pozycja();
-        $select_pozycja_html = $this->SelectHTMLSzablon($sqlpozycja, 'pk_pozycja', 'nazwa', 'fk_pozycja');
+        $select_pozycja_html = $this->SelectHTML($sqlpozycja, 'pk_pozycja', 'nazwa', 'fk_pozycja');
 
 
 
@@ -114,14 +139,9 @@ class Aplikacja extends BazaDanych
         );
     }
 
-    private function Dodaj(): void
-    {
-        $pusty_formularz = (array)
-        $pusty_formularz = $this->Dane->setPOST($this->KOLUMNYPILKARZ);
+    // ! FORMULARZ
 
-        SzablonHtml::Naglowek("Dodawanie");
-        $this->Formularz($pusty_formularz, "?co=dodaj", "Dodaj");
-    }
+
 
 
 
@@ -131,7 +151,6 @@ class Aplikacja extends BazaDanych
         switch ($strona) {
             case 'domyslna':
                 $this->Wyswietl();
-                // $this->SelectKraje();
                 break;
 
             case 'edytuj':
@@ -148,6 +167,10 @@ class Aplikacja extends BazaDanych
 
             case 'dodaj':
                 $this->Dodaj();
+                break;;
+
+            case 'formularz_dodaj':
+                $this->Formularz_Dodaj();
                 break;
 
             default:

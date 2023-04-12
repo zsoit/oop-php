@@ -10,7 +10,8 @@ class ZapytaniaSql
         FROM pilkarz
         join krajpilkarza on FK_kraj=PK_kraj
         join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
-        join pozycja on FK_pozycja=PK_pozycja order by pk_pilkarz
+        join pozycja on FK_pozycja=PK_pozycja
+        order by pk_pilkarz DESC
         SQL;
     }
 
@@ -47,6 +48,41 @@ class ZapytaniaSql
         SQL;
 
         return $update1;
+
+    }
+
+    public static function insert_Dodaj(array $setPOST)
+    {
+        $insert = <<<SQL
+        INSERT INTO pilkarz
+        (
+            pk_pilkarz,
+            imie,nazwisko,
+            wzrost,data_urodzenia,
+            wiodaca_noga,
+            wartosc_rynkowa,
+            ilosc_strzelonych_goli,
+            fk_kraj,
+            fk_numernakoszulce,
+            fk_pozycja
+        )
+        VALUES
+        (
+            NULL,
+            "{$setPOST["imie"]}",
+            "{$setPOST["nazwisko"]}",
+            {$setPOST["wzrost"]},
+            '{$setPOST["data_urodzenia"]}',
+            "{$setPOST["wiodaca_noga"]}",
+            {$setPOST["wartosc_rynkowa"]},
+            {$setPOST["ilosc_strzelonych_goli"]},
+            {$setPOST["fk_kraj"]},
+            {$setPOST["fk_numernakoszulce"]},
+            {$setPOST["fk_pozycja"]}
+        )
+        SQL;
+
+        return $insert;
 
     }
 

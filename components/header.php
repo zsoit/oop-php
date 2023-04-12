@@ -19,7 +19,7 @@
         </div>
 
         <div class="menu__item">
-            <a class="fakeBtn" href="index.php?co=dodaj">
+            <a class="fakeBtn" href="index.php?co=formularz_dodaj">
                 <i class="fa-solid fa-user-plus"></i>
                 <span>Dodaj</span>
             </a>

@@ -63,31 +63,39 @@ class SzablonHtml
             </tr>
             <tr>
                 <td><label>Imie</label></td>
-                <td><input type="text" value="{$wiersz['imie']}" name="imie"></td>
+                <td><input type="text" value="{$wiersz['imie']}" name="imie" required></td>
             </tr>
             <tr>
                 <td><label>Nazwisko</label></td>
-                <td><input type="text" value="{$wiersz['nazwisko']}" name="nazwisko"></td>
+                <td><input type="text" value="{$wiersz['nazwisko']}" name="nazwisko" required></td>
             </tr>
             <tr>
                 <td><label>Wzrost</label></td>
-                <td><input type="text" value="{$wiersz['wzrost']}" name="wzrost"></td>
+                <td><input type="number" value="{$wiersz['wzrost']}" name="wzrost" step="0.01" min="0"  placeholder="np. 1.77"  required></td>
             </tr>
             <tr>
                 <td><label>Data urodzenia</label></td>
-                <td><input type="text" value="{$wiersz['data_urodzenia']}" name="data_urodzenia"></td>
+                <td><input type="text" value="{$wiersz['data_urodzenia']}" name="data_urodzenia" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="YYYY-MM-DD" required></td>
             </tr>
             <tr>
                 <td><label>Wiodąca noga</label></td>
-                <td><input type="text" value="{$wiersz['wiodaca_noga']}" name="wiodaca_noga"></td>
+                <td>
+                    <select name="wiodaca_noga">
+                        <option value="LEWA">LEWA</option>
+                        <option value="PRAWA">PRAWA</option>
+                        <option value="OBU-NOŻNY">OBU-NOŻNY</option>
+                    </select>
+                </td>
+                <!-- ZAZNACZA NUMER NA KOSZULCE PILKARZA Z BAZY-->
+                <script>document.querySelector("select[name='wiodaca_noga'] option[value='{$wiersz['wiodaca_noga']}']").selected = true;</script>
             </tr>
             <tr>
                 <td><label>Wartość rynkowa</label></td>
-                <td><input type="text" value="{$wiersz['wartosc_rynkowa']}" name="wartosc_rynkowa"></td>
+                <td><input type="number" value="{$wiersz['wartosc_rynkowa']}" name="wartosc_rynkowa" required></td>
             </tr>
             <tr>
                 <td><label>Ilość strzelonych goli</label></td>
-                <td><input type="text" value="{$wiersz['ilosc_strzelonych_goli']}" name="ilosc_strzelonych_goli"></td>
+                <td><input type="number" value="{$wiersz['ilosc_strzelonych_goli']}" name="ilosc_strzelonych_goli" required></td>
             </tr>
             <tr>
                 <td><label for="kraj">Wybierz kraj:</label></td>
