@@ -46,6 +46,20 @@ class ZapytaniaSql
 
     }
 
+
+    public static function select_ZawodnikById($id): string
+    {
+        $sql = <<<SQL
+        SELECT imie, nazwisko
+        FROM pilkarz
+        WHERE pk_pilkarz = $id
+        SQL;
+
+        return $sql;
+    }
+
+
+
     public static function select_Edytuj(string $id): string
     {
         return <<<SQL

@@ -6,8 +6,6 @@ namespace Pilkanozna;
 class SzablonHtml
 {
 
-
-
     public static function Zawodnik(array $wiersz): void
     {
         $id = $wiersz['id'];
@@ -46,6 +44,28 @@ class SzablonHtml
             <div class="alert alert__header" >$napis</div>
         HTML;
     }
+
+    public static function PotwierdzUsuniecie($id,$imie,$nazwisko): void
+    {
+        echo <<<HTML
+            <div class="alert" >
+                <p>Czy na pewno jesteś pewien że chcesz usunąc zawodnika <b>$imie $nazwisko</b>?</p>
+                <a href="index.php?co=usun&id=$id&potwierdzenie=tak">
+                    <button class="fakeBtn">
+                        <i class="fa-solid fa-check"></i>
+                        Tak
+                    </button>
+                </a>
+                <a href="index.php">
+                    <button class="fakeBtn">
+                        <i class="fa-solid fa-xmark"></i>
+                        Anuluj
+                    </button>
+                </a>
+            </div>
+        HTML;
+    }
+
 
     public static function Formularz(
         array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk
@@ -91,11 +111,11 @@ class SzablonHtml
             </tr>
             <tr>
                 <td><label>Wartość rynkowa</label></td>
-                <td><input type="number" value="{$wiersz['wartosc_rynkowa']}" name="wartosc_rynkowa" required></td>
+                <td><input type="number" value="{$wiersz['wartosc_rynkowa']}" name="wartosc_rynkowa" placeholder="np. 22" required></td>
             </tr>
             <tr>
                 <td><label>Ilość strzelonych goli</label></td>
-                <td><input type="number" value="{$wiersz['ilosc_strzelonych_goli']}" name="ilosc_strzelonych_goli" required></td>
+                <td><input type="number" value="{$wiersz['ilosc_strzelonych_goli']}" name="ilosc_strzelonych_goli"  placeholder="np. 5"  required></td>
             </tr>
             <tr>
                 <td><label for="kraj">Wybierz kraj:</label></td>

@@ -36,12 +36,31 @@ class Aplikacja extends BazaDanych
 
     private function Usun(): void
     {
-        $this->DBZapytanie("SET FOREIGN_KEY_CHECKS=0");
-        $this->DBZapytanie("DELETE FROM pilkarz WHERE PK_pilkarz = $this->id");
-        $this->DBZapytanie("SET FOREIGN_KEY_CHECKS=1");
+        $imie = "";
+        $nazwisko = "";
 
-        SzablonHtml::Naglowek("Usunięto! Piłkarza #$this->id");
-        $this->Wyswietl();
+        $wynik = $this->DBZapytanie(
+            ZapytaniaSql::select_ZawodnikById($this->id)
+        );
+        while ($wiersz = $wynik->fetch_assoc())
+        {
+            $imie = $wiersz['imie'];
+            $nazwisko = $wiersz['nazwisko'];
+        }
+
+        $potwierdzenie =  (isset($_GET['potwierdzenie'])) ? $_GET['potwierdzenie'] : null;
+        if($potwierdzenie == "tak")
+        {
+            $this->DBZapytanie("SET FOREIGN_KEY_CHECKS=0");
+            $this->DBZapytanie("DELETE FROM pilkarz WHERE PK_pilkarz = $this->id");
+            $this->DBZapytanie("SET FOREIGN_KEY_CHECKS=1");
+
+            SzablonHtml::Naglowek("Usunięto piłkarza <b>$imie $nazwisko</b>!");
+            $this->Wyswietl();
+        }
+        else{
+            SzablonHtml::PotwierdzUsuniecie($this->id,$imie,$nazwisko);
+        }
     }
 
     private function Edytuj(): void
@@ -61,7 +80,7 @@ class Aplikacja extends BazaDanych
         $imie = $this->Dane->getPOST("imie");
         $nazwisko = $this->Dane->getPOST("nazwisko");
 
-        SzablonHtml::Naglowek("Zapisano $imie $nazwisko!");
+        SzablonHtml::Naglowek("Zapisano <b>$imie $nazwisko</b>!");
 
         $update = ZapytaniaSql::update_Zapisz(
             $this->id,
@@ -88,7 +107,7 @@ class Aplikacja extends BazaDanych
         $imie = $this->Dane->getPOST("imie");
         $nazwisko = $this->Dane->getPOST("nazwisko");
 
-        SzablonHtml::Naglowek("Dodano $imie $nazwisko!");
+        SzablonHtml::Naglowek("Dodano <b>$imie $nazwisko</b>!");
 
         $update = ZapytaniaSql::insert_Dodaj(
             $this->Dane->setPOST($this->KOLUMNYPILKARZ)
