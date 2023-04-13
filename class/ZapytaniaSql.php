@@ -19,7 +19,7 @@ class ZapytaniaSql
 
     public static function select_Szukaj($SZUKAJ): string
     {
-        $sql = <<<SQL
+        return <<<SQL
         SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa,
         ilosc_strzelonych_goli,
         krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
@@ -35,35 +35,24 @@ class ZapytaniaSql
             nazwisko LIKE "%$SZUKAJ%" OR
             nazwisko LIKE "$SZUKAJ%" OR
             nazwisko LIKE "%$SZUKAJ"
-        OR
-            imie LIKE "%$SZUKAJ%" AND  nazwisko LIKE "%$SZUKAJ%" OR
-            imie LIKE "$SZUKAJ%" AND  nazwisko LIKE "$SZUKAJ%"  OR
-            imie LIKE "%$SZUKAJ" AND  nazwisko LIKE "%$SZUKAJ"
-
         SQL;
-
-        return $sql;
-
     }
 
     public static function liczbaZawodnikow(): string
     {
-        $sql = <<<SQL
+        return <<<SQL
         SELECT count(*) as 'liczba_pilkarzy'
         FROM pilkarz
         SQL;
-        return $sql;
     }
 
     public static function select_ZawodnikById($id): string
     {
-        $sql = <<<SQL
+        return <<<SQL
         SELECT imie, nazwisko
         FROM pilkarz
         WHERE pk_pilkarz = $id
         SQL;
-
-        return $sql;
     }
 
 
@@ -85,12 +74,12 @@ class ZapytaniaSql
 
     public static function update_Zapisz(int $id,array $setPOST): string
     {
-        $update1 = <<<SQL
+        return <<<SQL
         UPDATE pilkarz SET
         imie = "{$setPOST["imie"]}",
         nazwisko = "{$setPOST["nazwisko"]}",
         wzrost = {$setPOST["wzrost"]},
-        data_urodzenia = {$setPOST["data_urodzenia"]},
+        data_urodzenia = "{$setPOST['data_urodzenia']}",
         wiodaca_noga = "{$setPOST["wiodaca_noga"]}",
         wartosc_rynkowa = {$setPOST["wartosc_rynkowa"]},
         ilosc_strzelonych_goli = {$setPOST["ilosc_strzelonych_goli"]},
@@ -100,13 +89,11 @@ class ZapytaniaSql
         WHERE PK_pilkarz = $id
         SQL;
 
-        return $update1;
-
     }
 
     public static function insert_Dodaj(array $setPOST)
     {
-        $insert = <<<SQL
+        return <<<SQL
         INSERT INTO pilkarz
         (
             pk_pilkarz,
@@ -125,7 +112,7 @@ class ZapytaniaSql
             "{$setPOST["imie"]}",
             "{$setPOST["nazwisko"]}",
             {$setPOST["wzrost"]},
-            '{$setPOST["data_urodzenia"]}',
+            "{$setPOST['data_urodzenia']}",
             "{$setPOST["wiodaca_noga"]}",
             {$setPOST["wartosc_rynkowa"]},
             {$setPOST["ilosc_strzelonych_goli"]},
@@ -135,37 +122,29 @@ class ZapytaniaSql
         )
         SQL;
 
-        return $insert;
-
     }
 
     public static function select_Kraj()
     {
-        $sql =  <<<SQL
+        return <<<SQL
         SELECT pk_kraj, nazwa
         FROM `krajpilkarza`
         SQL;
-
-        return $sql;
     }
 
     public static function select_Numernakoszulce()
     {
-        $sql =  <<<SQL
+        return <<<SQL
         SELECT pk_numernakoszulce, numer
         FROM numernakoszulce
         SQL;
-
-        return $sql;
     }
 
     public static function select_Pozycja()
     {
-        $sql =  <<<SQL
+        return <<<SQL
         SELECT pk_pozycja, nazwa
         FROM pozycja
         SQL;
-
-        return $sql;
     }
 }

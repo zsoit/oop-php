@@ -105,7 +105,7 @@ class SzablonHtml
                         <option value="OBU-NOŻNY">OBU-NOŻNY</option>
                     </select>
                 </td>
-                <!-- ZAZNACZA NUMER NA KOSZULCE PILKARZA Z BAZY-->
+                <!-- ZAZNACZA WIODACA NOGE PILKARZA Z BAZY-->
                 <script>document.querySelector("select[name='wiodaca_noga'] option[value='{$wiersz['wiodaca_noga']}']").selected = true;</script>
             </tr>
             <tr>
