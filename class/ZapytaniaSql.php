@@ -113,7 +113,7 @@ class ZapytaniaSql
             "{$setPOST["nazwisko"]}",
             {$setPOST["wzrost"]},
             "{$setPOST['data_urodzenia']}",
-            "{$setPOST["wiodaca_noga"]}",
+            "{$setPOST['wiodaca_noga']}",
             {$setPOST["wartosc_rynkowa"]},
             {$setPOST["ilosc_strzelonych_goli"]},
             {$setPOST["fk_kraj"]},

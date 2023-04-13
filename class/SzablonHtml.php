@@ -23,7 +23,7 @@ class SzablonHtml
                 <span>Edytuj</span>
                 </a>
             </div>
-            <li> wzrost: <span>{$wiersz['wzrost']}</span></li>
+            <li> wzrost: <span>{$wiersz['wzrost']} m</span></li>
             <li> data urodzenia: <span>{$wiersz['data_urodzenia']}</span></li>
             <li> wiodąca noga: <span>{$wiersz['wiodaca_noga']}</span></li>
             <li> wartość rynkowa: <span>{$wiersz['wartosc_rynkowa']}</span></li>
@@ -70,8 +70,6 @@ class SzablonHtml
         array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk
     ): void
     {
-
-
         $id = $wiersz['id'];
         echo <<<HTML
             <form action="index.php$adres" method="POST">
@@ -94,7 +92,7 @@ class SzablonHtml
             </tr>
             <tr>
                 <td><label>Data urodzenia</label></td>
-                <td><input type="text" value="{$wiersz['data_urodzenia']}" name="data_urodzenia" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="YYYY-MM-DD" required></td>
+                <td><input type="date" value="{$wiersz['data_urodzenia']}" name="data_urodzenia" placeholder="YYYY-MM-DD" required></td>
             </tr>
             <tr>
                 <td><label>Wiodąca noga</label></td>
@@ -105,7 +103,6 @@ class SzablonHtml
                         <option value="OBU-NOŻNY">OBU-NOŻNY</option>
                     </select>
                 </td>
-                <!-- ZAZNACZA WIODACA NOGE PILKARZA Z BAZY-->
                 <script>document.querySelector("select[name='wiodaca_noga'] option[value='{$wiersz['wiodaca_noga']}']").selected = true;</script>
             </tr>
             <tr>
@@ -120,19 +117,16 @@ class SzablonHtml
                 <td><label for="kraj">Wybierz kraj:</label></td>
 
                 <td>$kraje</td>
-                <!-- ZAZNACZA NUMER NA KOSZULCE PILKARZA Z BAZY-->
                 <script>document.querySelector("select[name='fk_kraj'] option[value='{$wiersz['pk_kraj']}']").selected = true;</script>
             </tr>
             <tr>
                 <td><label for="numrnakoszulce">Numer na koszulce</label></td>
                 <td>$numernakoszulce</td>
-                <!-- ZAZNACZA NUMER NA KOSZULCE PILKARZA Z BAZY-->
                 <script> document.querySelector("select[name='fk_numernakoszulce'] option[value='{$wiersz['pk_numernakoszulce']}']").selected = true;</script>
             </tr>
             <tr>
                 <td><label for="pozycja">Pozycja</label></td>
                 <td>$pozycja</td>
-                <!-- ZAZNACZA POZYCJE PILKARZA Z BAZY-->
                 <script>document.querySelector("select[name='fk_pozycja'] option[value='{$wiersz['pk_pozycja']}']").selected = true;</script>
             </tr>
             <tr>
