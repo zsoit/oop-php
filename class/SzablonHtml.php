@@ -2,7 +2,6 @@
 
 namespace Pilkanozna;
 
-
 class SzablonHtml
 {
 
