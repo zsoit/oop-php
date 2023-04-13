@@ -46,6 +46,14 @@ class ZapytaniaSql
 
     }
 
+    public static function liczbaZawodnikow(): string
+    {
+        $sql = <<<SQL
+        SELECT count(*) as 'liczba_pilkarzy'
+        FROM pilkarz
+        SQL;
+        return $sql;
+    }
 
     public static function select_ZawodnikById($id): string
     {

@@ -20,9 +20,10 @@ class Aplikacja extends BazaDanych
         $this->id = $this->Dane->getID();
     }
 
+
     private function Wyswietl(): void
     {
-        SzablonHtml::Naglowek("ZAWODNICY");
+        SzablonHtml::Naglowek("ZAWODNICY ({$this->LiczbaPilkarzy()})");
 
         $wynik = $this->DBZapytanie(
             ZapytaniaSql::select_Wyswietl()
@@ -138,6 +139,14 @@ class Aplikacja extends BazaDanych
     }
 
 
+    private function LiczbaPilkarzy(): int
+    {
+        $wynik = $this->DBZapytanie(
+            ZapytaniaSql::liczbaZawodnikow()
+        );
+        $wiersz = $wynik->fetch_assoc();
+        return  $wiersz['liczba_pilkarzy'];
+    }
 
     // FORMULARZ
 
@@ -166,8 +175,6 @@ class Aplikacja extends BazaDanych
         $sqlpozycja = ZapytaniaSql::select_Pozycja();
         $select_pozycja_html = $this->SelectHTML($sqlpozycja, 'pk_pozycja', 'nazwa', 'fk_pozycja');
 
-
-
         SzablonHtml::Formularz(
             $dane,
             $adres,
@@ -179,9 +186,6 @@ class Aplikacja extends BazaDanych
     }
 
     // ! FORMULARZ
-
-
-
 
 
     public function KontrolerStrony(): void

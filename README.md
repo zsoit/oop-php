@@ -1,7 +1,7 @@
 # PIŁKARZE APP
 
 - Prosta aplikacja napisana Obiekowo w PHP;
-- Wymagany PHP 7.4+
+- Wymagany PHP 8+
 
 ## CECHY
 1. Aplikacja napisana jest w sposób obiektowy OOP, tak aby była jak najbardziej skalowalna, czytelna, łatwa w debugowaniu
