@@ -7,7 +7,7 @@
             width="40px"
         >
         </a>
-        <a href="index.php">Piłka nożna APP</a>
+        <a href="index.php"><?php echo TYTUL_APLIKACJI; ?></a>
     </div>
 
     <div class="menu alert">

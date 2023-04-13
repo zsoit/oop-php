@@ -1,5 +1,5 @@
 <?php
-    // error_reporting(E_ERROR | E_PARSE);
+    define("TYTUL_APLIKACJI", "Piłka nożna APP");
 
     function Main()
     {

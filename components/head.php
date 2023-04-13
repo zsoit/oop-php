@@ -5,7 +5,7 @@
 <meta name="copyright" content="Adrian">
 <meta name="description" content="Prosta aplikacja OOP w języku PHP">
 <meta name="keywords" content="php,oop,mysql">
-<title>Piłka nożna APP</title>
+<title><?php echo TYTUL_APLIKACJI; ?></title>
 <link rel="stylesheet" href="src/style.css">
 
 <!-- IKONKI -->

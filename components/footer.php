@@ -1,3 +1,3 @@
 <footer class='footer'>
-    &COPY; 2023 Piłka nożna APP
+    &COPY; <?php echo date("Y"); ?> <?php echo TYTUL_APLIKACJI; ?>
 </footer>
