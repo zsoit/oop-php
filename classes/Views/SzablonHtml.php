@@ -11,6 +11,9 @@ class SzablonHtml
         echo <<<HTML
         <div class='card'>
             <ul>
+                <div class='card__avatar'>
+                    <img src='public/user.png' />
+                </div>
                 <h2>{$wiersz['nazwisko']}</h2>
                 <h3>{$wiersz['imie']} </h3>
             <div class='fakeBtn_wrapper'>

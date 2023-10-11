@@ -2,15 +2,15 @@
 
 namespace Pilkanozna;
 
-include_once 'BazaDanych.php';
-include_once 'ZapytaniaSql.php';
-include_once 'KontrolerDanych.php';
-include_once 'SzablonHtml.php';
+include_once './classes/Models/BazaDanych.php';
+include_once './classes/Models/ZapytaniaSql.php';
+include_once './classes/Controllers/KontrolerDanych.php';
+include_once './classes/Views/SzablonHtml.php';
 
 class Aplikacja extends BazaDanych
 {
-    private int $id;
-    private $Dane;
+    protected int $id;
+    protected $Dane;
 
     public function __construct()
     {
@@ -20,8 +20,13 @@ class Aplikacja extends BazaDanych
         $this->id = $this->Dane->getID();
     }
 
+    public function __destruct()
+    {
+        $this->DBRozlaczenie();
+    }
 
-    private function Wyswietl(): void
+
+    protected function Wyswietl(): void
     {
         SzablonHtml::Naglowek("ZAWODNICY ({$this->LiczbaPilkarzy()})");
 
@@ -35,7 +40,7 @@ class Aplikacja extends BazaDanych
             SzablonHtml::Naglowek("Brak piłkarzy");
     }
 
-    private function Usun(): void
+    protected function Usun(): void
     {
         $imie = "";
         $nazwisko = "";
@@ -64,7 +69,7 @@ class Aplikacja extends BazaDanych
         }
     }
 
-    private function Edytuj(): void
+    protected function Edytuj(): void
     {
         SzablonHtml::Naglowek("EDYCJA");
 
@@ -76,7 +81,7 @@ class Aplikacja extends BazaDanych
             $this->Formularz($wiersz, "?co=zapisz&id=$this->id", "Zapisz");
     }
 
-    private function Zapisz(): void
+    protected function Zapisz(): void
     {
         $imie = $this->Dane->getPOST("imie");
         $nazwisko = $this->Dane->getPOST("nazwisko");
@@ -94,7 +99,7 @@ class Aplikacja extends BazaDanych
     }
 
 
-    private function Formularz_Dodaj(): void
+    protected function Formularz_Dodaj(): void
     {
         $pusty_formularz = (array)
         $pusty_formularz = $this->Dane->setPOST($this->KOLUMNYPILKARZ);
@@ -103,7 +108,7 @@ class Aplikacja extends BazaDanych
         $this->Formularz($pusty_formularz, "?co=dodaj", "Dodaj");
     }
 
-    private function Dodaj(): void
+    protected function Dodaj(): void
     {
         $imie = $this->Dane->getPOST("imie");
         $nazwisko = $this->Dane->getPOST("nazwisko");
@@ -120,7 +125,7 @@ class Aplikacja extends BazaDanych
 
     }
 
-    private function Szukaj(): void
+    protected function Szukaj(): void
     {
 
         $szukaj = $this->Dane->getPOST('slowo');
@@ -139,7 +144,7 @@ class Aplikacja extends BazaDanych
     }
 
 
-    private function LiczbaPilkarzy(): int
+    protected function LiczbaPilkarzy(): int
     {
         $wynik = $this->DBZapytanie(
             ZapytaniaSql::liczbaZawodnikow()
@@ -163,7 +168,7 @@ class Aplikacja extends BazaDanych
         return $html;
     }
 
-    private function Formularz($dane, $adres, $napisprzycisk): void
+    protected function Formularz($dane, $adres, $napisprzycisk): void
     {
 
         $sqlkraj = ZapytaniaSql::select_Kraj();
@@ -186,48 +191,4 @@ class Aplikacja extends BazaDanych
     }
 
     // ! FORMULARZ
-
-
-    public function KontrolerStrony(): void
-    {
-        $strona = isset($_GET['co']) ? $_GET['co']  : 'domyslna';
-        switch ($strona) {
-            case 'domyslna':
-                $this->Wyswietl();
-                break;
-
-            case 'edytuj':
-                $this->Edytuj();
-                break;
-
-            case 'usun':
-                $this->Usun();
-                break;
-
-            case 'zapisz':
-                $this->Zapisz();
-                break;;
-
-            case 'dodaj':
-                $this->Dodaj();
-                break;;
-
-            case 'formularz_dodaj':
-                $this->Formularz_Dodaj();
-                break;
-
-            case 'szukaj':
-                $this->Szukaj();
-                break;
-
-            default:
-                $this->Wyswietl();
-                break;
-        }
-    }
-
-    public function __destruct()
-    {
-        $this->DBRozlaczenie();
-    }
 }

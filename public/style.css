@@ -46,7 +46,7 @@ pre {
     width: 320px;
     background: darkred;
     border-radius: 10%;
-    height: 400px;
+    height: 500px;
     color: #fff;
     display: flex;
     margin: 20px;
@@ -54,6 +54,17 @@ pre {
 
 .card h2 {
     text-transform: uppercase;
+}
+
+.card__avatar {
+    display: flex;
+    /* text-align: center; */
+}
+
+.card__avatar img {
+    width: 100px;
+    border-radius: 20px;
+    justify-content: center;
 }
 
 

@@ -48,30 +48,6 @@ create table stadion (
 	ilosc_miejsc_siedzacych int not null
 );
 
-alter table pilkarz
-add constraint fk_kraj
-foreign key (fk_kraj)
-references krajpilkarza (pk_kraj);
-
-alter table pilkarz
-add constraint fk_numernakoszulce
-foreign key (fk_numernakoszulce)
-references numernakoszulce (pk_numernakoszulce);
-
-alter table pilkarz
-add constraint fk_pozycja
-foreign key (fk_pozycja)
-references Pozycja (pk_pozycja);
-
-alter table druzyna
-add constraint fk_stadion
-foreign key (fk_stadion)
-references stadion (pk_stadion);
-
-alter table druzyna
-add constraint fk_krajdruzyny
-foreign key (fk_krajdruzyny)
-references krajdruzyny (pk_krajdruzyny);
 
 INSERT INTO `stadion` VALUES (1,'Mrsool Park','TAK',25000),(2,'Spotify Camp Nou','TAK',99354),(3,'	Parc des Princes','TAK',48712),(4,'Etihad Stadium','TAK',55017),(5,'Stamford Bridge','TAK',40853);
 INSERT INTO `pozycja` VALUES (1,'Środkowy napastnik'),(2,'Środkowy obrońca'),(3,'Prawy napastnik'),(4,'Bramkarz'),(5,'Lewy napastnik'),(6,'Ofensywny pomocnik'),(7,'Środkowy pomocnik');
@@ -113,14 +89,40 @@ create table pilkarzdruzyna (
 );
 
 
-alter table pilkarzdruzyna
-add constraint fk_pilkarz
-foreign key (fk_pilkarz)
-references pilkarz (pk_pilkarz);
-
-alter table pilkarzdruzyna
-add constraint fk_druzyna
-foreign key (fk_druzyna)
-references druzyna (pk_druzyna);
-
 INSERT INTO `pilkarzdruzyna` VALUES (1,1),(2,2),(3,2),(4,2),(5,2),(6,3),(7,3),(8,3),(9,3),(10,3),(11,4),(12,4),(13,4),(14,4),(15,4),(16,5),(17,5),(18,5),(19,5),(20,5);
+
+
+-- alter table pilkarz
+-- add constraint fk_kraj
+-- foreign key (fk_kraj)
+-- references krajpilkarza (pk_kraj);
+
+-- alter table pilkarz
+-- add constraint fk_numernakoszulce
+-- foreign key (fk_numernakoszulce)
+-- references numernakoszulce (pk_numernakoszulce);
+
+-- alter table pilkarz
+-- add constraint fk_pozycja
+-- foreign key (fk_pozycja)
+-- references Pozycja (pk_pozycja);
+
+-- alter table druzyna
+-- add constraint fk_stadion
+-- foreign key (fk_stadion)
+-- references stadion (pk_stadion);
+
+-- alter table druzyna
+-- add constraint fk_krajdruzyny
+-- foreign key (fk_krajdruzyny)
+-- references krajdruzyny (pk_krajdruzyny);
+
+-- alter table pilkarzdruzyna
+-- add constraint fk_pilkarz
+-- foreign key (fk_pilkarz)
+-- references pilkarz (pk_pilkarz);
+
+-- alter table pilkarzdruzyna
+-- add constraint fk_druzyna
+-- foreign key (fk_druzyna)
+-- references druzyna (pk_druzyna);
