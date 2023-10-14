@@ -17,11 +17,11 @@ class SzablonHtml
                 <h2>{$wiersz['nazwisko']}</h2>
                 <h3>{$wiersz['imie']} </h3>
             <div class='fakeBtn_wrapper'>
-                <a class="fakeBtn" href="?co=usun&id=$id" name='delete'>
+                <a class="fakeBtn" href="/usun?id=$id" name='delete'>
                     <i class="fa-solid fa-trash"></i>
                     <span>Usuń</span>
                 </a>
-                <a class="fakeBtn" href="?co=edytuj&id=$id" name='edit'>
+                <a class="fakeBtn" href="/edytuj?id=$id" name='edit'>
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span>Edytuj</span>
                 </a>
@@ -52,13 +52,13 @@ class SzablonHtml
         echo <<<HTML
             <div class="alert" >
                 <p>Czy na pewno jesteś pewien że chcesz usunąc zawodnika <b>$imie $nazwisko</b>?</p>
-                <a href="index.php?co=usun&id=$id&potwierdzenie=tak">
+                <a href="/usun?id=$id&potwierdzenie=tak">
                     <button class="fakeBtn">
                         <i class="fa-solid fa-check"></i>
                         Tak
                     </button>
                 </a>
-                <a href="index.php">
+                <a href="/">
                     <button class="fakeBtn">
                         <i class="fa-solid fa-xmark"></i>
                         Anuluj
@@ -75,7 +75,7 @@ class SzablonHtml
     {
         $id = $wiersz['id'];
         echo <<<HTML
-            <form action="index.php$adres" method="POST">
+            <form action="$adres" method="POST">
             <table>
             <tr style="display: none;">
                 <td><label>ID</label></td>
@@ -143,5 +143,39 @@ class SzablonHtml
             </table>
             </form>
             HTML;
+    }
+
+    public static function FormularzLogowania(): void
+    {
+        echo <<<HTML
+
+       
+
+        <form method="post" action="/zaloguj">
+            <div class="mb-3">
+                <label for="uzytkownik" class="form-label">Użytkownik</label>
+                <input type="text" class="form-control" id="uzytkownik" name="uzytkownik" required>
+            </div>
+            <div class="mb-3">
+                <label for="haslo" class="form-label">haslo</label>
+                <input type="password" class="form-control" id="haslo" name="haslo" required>
+            </div>
+            <p><i>Treść widoczna tylko dla zalogowanych użytkowników!</i></p>
+            <button type="submit" class="btn btn-primary">
+                Zaloguj <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+        </form>
+
+        <script>document.querySelector(".menu").style.display="none";</script>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+            
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="public/style.css">
+
+        
+
+        HTML;
     }
 }

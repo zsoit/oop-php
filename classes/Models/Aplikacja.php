@@ -78,7 +78,7 @@ class Aplikacja extends BazaDanych
         );
 
         while ($wiersz = (array) $wynik->fetch_assoc())
-            $this->Formularz($wiersz, "?co=zapisz&id=$this->id", "Zapisz");
+            $this->Formularz($wiersz, "/zapisz?id=$this->id", "Zapisz");
     }
 
     protected function Zapisz(): void
@@ -105,7 +105,7 @@ class Aplikacja extends BazaDanych
         $pusty_formularz = $this->Dane->setPOST($this->KOLUMNYPILKARZ);
 
         SzablonHtml::Naglowek("Dodawanie");
-        $this->Formularz($pusty_formularz, "?co=dodaj", "Dodaj");
+        $this->Formularz($pusty_formularz, "/dodaj", "Dodaj");
     }
 
     protected function Dodaj(): void
@@ -191,4 +191,18 @@ class Aplikacja extends BazaDanych
     }
 
     // ! FORMULARZ
+
+
+    protected function Zaloguj(): void
+    {
+
+        SzablonHtml::Naglowek("Zaloguj się");
+        SzablonHtml::FormularzLogowania();
+
+    }
+
+    protected function Error404(): void
+    {
+        SzablonHtml::Naglowek("404 - Strona nie istnieje! ");
+    }
 }

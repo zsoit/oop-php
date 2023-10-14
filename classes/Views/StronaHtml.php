@@ -1,15 +1,18 @@
 <?php
 namespace Pilkanozna;
 
+include_once './KonfiguracjaApp.php';
+
+
 class StronaHtml
 {
 
 
-    private string $tytul = "Piłka Nożna - Katalog";
-    private string $autorzy = "Jakub Achtelik, Oliwier Budnik";
-    private string $rok = "2023";
-    private string $przedmiot = "III Semestr, Zastosowanie Programowania Obiektowego";
-    private string $uczelnia = "Politechnika Koszalińska";
+    private string $tytul = TYTUL;
+    private string $autorzy = AUTORZY;
+    private string $rok = ROK;
+    private string $przedmiot = PRZEDMIOT;
+    private string $uczelnia = UCZLENIA;
 
     public function  Head() :void
     {
@@ -25,13 +28,17 @@ class StronaHtml
             <meta name="description" content="Prosta aplikacja OOP w języku PHP">
             <meta name="keywords" content="php,oop,mysql">
             <title> {$this->tytul} </title>
+
             <link rel="stylesheet" href="public/style.css">
+
 
             <!-- IKONKI -->
             <link rel="icon" href="public/logo.webp">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/fontawesome.min.js"></script>
             <!-- IKONI::KONIEC -->
+
+    
         </head>
         <body>
 
@@ -43,33 +50,33 @@ class StronaHtml
         echo <<<HTML
         <header>
             <div class="alert alert__nazwa">
-            <a href="index.php">
+            <a href="/">
             <img
                 src="public/logo.webp"
                 alt="Przykładowe logo"
                 width="40px"
             >
             </a>
-            <a href="index.php">{$this->tytul} </a>
+            <a href="/">{$this->tytul} </a>
             </div>
 
             <div class="menu alert">
 
             <div class="menu__item">
-                <a class="fakeBtn" href="index.php">
+                <a class="fakeBtn" href="/">
                     <i class="fa-solid fa-house"></i>
                     <span>Strona Główna</span>
                 </a>
             </div>
 
             <div class="menu__item">
-                <a class="fakeBtn" href="index.php?co=formularz_dodaj">
+                <a class="fakeBtn" href="/formularz_dodaj">
                     <i class="fa-solid fa-user-plus"></i>
                     <span>Dodaj</span>
                 </a>
             </div>
             <div class="menu__item menu__item--search">
-                <form action="index.php?co=szukaj" method="POST">
+                <form action="/szukaj" method="POST">
                     <input class="fakeBtn"  type="text" name="slowo" placeholder="Imie lub nazwisko" required>
                     <button class="fakeBtn" >
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -77,6 +84,14 @@ class StronaHtml
                     </button>
                     </form>
             </div>
+            
+            <div class="menu__item">
+                <a class="fakeBtn" href="/wyloguj">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Wyloguj</span>
+                </a>
+            </div>
+
             </div>
         </header>
         <main>
@@ -84,6 +99,7 @@ class StronaHtml
 
         HTML;
     }
+
 
     public function Footer(): void 
     {

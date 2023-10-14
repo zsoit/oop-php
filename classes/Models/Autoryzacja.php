@@ -1,23 +1,21 @@
 <?php
+
+include_once './KonfiguracjaApp.php';
+
 class Autoryzacja
 {
-    private string $login = "test";
-    private string $haslo= "test";
-    private string $error_wiadomosc = "Tylko dla zalogowanych uzytkownikow";
+    private string $login = UZYTKOWNIKADMIN;
+    private string $haslo= HASLOADMIN;
 
     public function __construct() {
         session_start();
     }
 
-    public function getError(): string
-    {
-        return $this->error_wiadomosc;
-    }
 
     public function SprawdzCzyZalogowano(): void
     {
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-            header('Location: /login');
+            header('Location: /zaloguj');
             exit();
         }
     }
@@ -31,27 +29,30 @@ class Autoryzacja
             $uzytkownik= $this->login;
             $haslo= $this->haslo; 
 
-            if (
-                isset($_POST['uzytkownik']) 
-                && isset($_POST['haslo']) 
-                && $_POST['uzytkownik'] === $uzytkownik 
-                && $_POST['haslo'] === $haslo
-            ) {
-                $_SESSION['logged_in'] = true;
-                header('Location: /index.php');
-                exit();
-            } 
-            else 
+            if (isset($_POST['uzytkownik']) && isset($_POST['haslo'])) 
             {
-                $this->error_wiadomosc = 'Login Failed.';
+                if($_POST['uzytkownik'] === $uzytkownik && $_POST['haslo'] === $haslo)
+                {
+    
+                    $_SESSION['logged_in'] = true;
+                    header('Location: /');
+                    exit();
+                    
+                }
+
+                else{
+                    echo "<i style='color: red;'>Niepoprawne dane logowania!</i> ";
+    
+                }
             }
         }
+       
     }
 
     public function Wyloguj(): void
     {
         unset($_SESSION['logged_in']);
-        header('Location: /index.php?co=login');
+        header('Location: /zaloguj');
         exit();
     }
 }

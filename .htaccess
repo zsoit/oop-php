@@ -1,4 +1,4 @@
 AddType application/x-httpd-php82 .php
 
 Options -Indexes
-# FallbackResource /index.php
+FallbackResource /index.php
