@@ -4,7 +4,7 @@
 Jakub Achtelik, Oliwier Budnik\
 III Semestr, Zastosowanie Programowania Obiektowego
 
-- Demo: https://kurvix.smallhost.pl/
+- Demo: https://projekt.hu1.pl/
 - Baza danych: https://pma.small.pl/
 
 
@@ -44,7 +44,7 @@ MVC Model-View-Controller (pol. Model-Widok-Kontroler) :
 - pakiet make - automatyzacja poleń w terminalu
 
 ### serwer:
-- Linux: serwer NGINIX + serwer MariaDB
+- Linux: serwer HTTP Apache + serwer MariaDB
 
 ## KONIFGURACJA SERWERA MYSQL
 ```sql
