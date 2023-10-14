@@ -13,9 +13,10 @@ III Semestr, Zastosowanie Programowania Obiektowego
 Język: PHP
 Katalog z piłkarzmi , umożlia:
 
-- edycje, usuwanie, dodawanie nowego piłkarza, sortowanie oraz wyświetalnie zdjęć
+- edycje, usuwanie, dodawanie nowego piłkarza, sortowanie oraz wyświetalnie zdjęć, wyszukiwanie
 - interfejs webowy, zarządzanie bazą danych z poziomu aplikacji internetowej w PHP
-- logowanie oraz autoryzacja użytkownika
+- logowanie oraz autoryzację użytkownika
+- dodawanie/edycje, zdjęcia piłkarza
 
 
 ## CECHY

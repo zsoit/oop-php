@@ -5,7 +5,7 @@ namespace Pilkanozna;
 use Autoryzacja;
 
 include_once './classes/Models/Aplikacja.php';
-include_once './classes/Models/Autoryzacja.php';
+include_once './classes/Controllers/Autoryzacja.php';
 
 
 class KontrolerStrony extends Aplikacja
