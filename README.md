@@ -14,6 +14,7 @@ Język: PHP
 Katalog z piłkarzmi , umożlia:
 
 - edycje, usuwanie, dodawanie nowego piłkarza, sortowanie oraz wyświetalnie zdjęć, wyszukiwanie
+- filtrowanie po np. kraju, pozycji itp.
 - interfejs webowy, zarządzanie bazą danych z poziomu aplikacji internetowej w PHP
 - logowanie oraz autoryzację użytkownika
 - dodawanie/edycje, zdjęcia piłkarza

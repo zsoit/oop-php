@@ -1,5 +1,5 @@
 <?php
-namespace Pilkanozna;
+namespace Pilkanozna\Views;
 
 include_once './KonfiguracjaApp.php';
 

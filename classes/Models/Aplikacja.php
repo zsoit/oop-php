@@ -1,11 +1,12 @@
 <?php
 
-namespace Pilkanozna;
+namespace Pilkanozna\Models;
 
-include_once './classes/Models/BazaDanych.php';
-include_once './classes/Models/ZapytaniaSql.php';
-include_once './classes/Controllers/KontrolerDanych.php';
-include_once './classes/Views/SzablonHtml.php';
+use Pilkanozna\Models\BazaDanych;
+use Pilkanozna\Models\ZapytaniaSql;
+use Pilkanozna\Controller\KontrolerDanych;
+use Pilkanozna\Views\SzablonHtml;
+
 
 class Aplikacja extends BazaDanych
 {

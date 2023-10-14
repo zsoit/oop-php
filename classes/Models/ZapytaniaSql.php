@@ -1,5 +1,6 @@
 <?php
-namespace Pilkanozna;
+namespace Pilkanozna\Models;
+
 class ZapytaniaSql
 {
 

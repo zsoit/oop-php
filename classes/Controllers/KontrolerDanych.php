@@ -1,6 +1,6 @@
 <?php
 
-namespace Pilkanozna;
+namespace Pilkanozna\Controller;
 
 class KontrolerDanych
 {

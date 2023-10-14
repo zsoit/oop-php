@@ -1,11 +1,9 @@
 <?php
 
-namespace Pilkanozna;
+namespace Pilkanozna\Controller;
 
-use Autoryzacja;
-
-include_once './classes/Models/Aplikacja.php';
-include_once './classes/Controllers/Autoryzacja.php';
+use Pilkanozna\Controller\Autoryzacja;
+use Pilkanozna\Models\Aplikacja;
 
 
 class KontrolerStrony extends Aplikacja

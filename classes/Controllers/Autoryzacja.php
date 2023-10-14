@@ -1,6 +1,8 @@
 <?php
+namespace Pilkanozna\Controller;
 
 include_once './KonfiguracjaApp.php';
+
 
 class Autoryzacja
 {

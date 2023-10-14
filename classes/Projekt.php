@@ -3,9 +3,8 @@
 
 namespace Pilkanozna;
 
-
-include_once "./classes/Controllers/KontrolerStrony.php";
-include_once "./classes/Views/StronaHtml.php";
+use Pilkanozna\Controller\KontrolerStrony;
+use Pilkanozna\Views\StronaHtml;
 
 
 class Projekt
