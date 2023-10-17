@@ -7,12 +7,22 @@ class SzablonHtml
 
     public static function Zawodnik(array $wiersz): void
     {
+
+        $imie = $wiersz['imie'];
+        $nazwisko = $wiersz['nazwisko'];
+
+        $pobieraczObrazow = new PobieraczObrazowWikipedia($imie, $nazwisko);
+        $pobieraczObrazow->pobierzDaneObrazu();
+       
+
+        $awatar =  $pobieraczObrazow->wyswietlObraz();
+
         $id = $wiersz['id'];
         echo <<<HTML
         <div class='card'>
             <ul>
                 <div class='card__avatar'>
-                    <img src='public/user.png' />
+                    $awatar
                 </div>
                 <h2>{$wiersz['nazwisko']}</h2>
                 <h3>{$wiersz['imie']} </h3>
@@ -73,10 +83,32 @@ class SzablonHtml
         array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk
     ): void
     {
+
+
+        $imie = $wiersz['imie'];
+        $nazwisko = $wiersz['nazwisko'];
+
+        $pobieraczObrazow = new PobieraczObrazowWikipedia($imie, $nazwisko);
+        $pobieraczObrazow->pobierzDaneObrazu();
+       
+
+        $awatar =  $pobieraczObrazow->wyswietlObraz();
+
+
         $id = $wiersz['id'];
         echo <<<HTML
             <form action="$adres" method="POST">
             <table>
+
+            <tr>
+                <td  colspan="2">
+
+                    <center style="margin: 20px">
+                        $awatar
+                    </center>
+
+                </td>
+            </tr>
             <tr style="display: none;">
                 <td><label>ID</label></td>
                 <td><input type="text" value="$id" name="id"></td>
