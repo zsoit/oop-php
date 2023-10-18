@@ -1,7 +1,7 @@
 <?php
 namespace Pilkanozna\Models;
 
-class ZapytaniaSql
+abstract class ZapytaniaSql
 {
 
     public static function getWszytkieKolumnyPilkarz()
@@ -216,6 +216,16 @@ class ZapytaniaSql
         SQL;
     }
 
+
+
+    public static function delete_pilkarz($pk_pilkarz)
+    {
+        return <<<SQL
+        DELETE FROM pilkarz WHERE 
+        PK_pilkarz = $pk_pilkarz
+        ;
+        SQL;
+    }
 
 
 

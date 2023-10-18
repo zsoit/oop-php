@@ -2,46 +2,54 @@
 
 namespace Pilkanozna\Models;
 
-use Pilkanozna\Models\BazaDanych;
+
+use Pilkanozna\Helper\BazaDanychHelper;
 use Pilkanozna\Models\ZapytaniaSql;
 use Pilkanozna\Controller\KontrolerDanych;
 use Pilkanozna\Views\SzablonHtml;
+use Pilkanozna\Helper\FormularzHelper;
 
 
-class Aplikacja extends BazaDanych
+// klasa Pilkarz
+
+class Aplikacja extends BazaDanychHelper
 {
     protected int $id;
-    protected $Dane;
 
-    private $imie;
-    private $nazwisko;
+    protected object $Dane;
+    private string $imie;
+    private string $nazwisko;
+    private string $szukaj;
 
-    private $PobieraczObrazow;
+    private object $Wikipedia;
+    private mixed $link;
+
+    private object $Formularz;
+
 
     public function __construct()
     {
-        $this->DBPolaczenie();
 
         $this->Dane = new KontrolerDanych();
+
         $this->id = $this->Dane->getID();
-        
         $this->imie = $this->Dane->getPOST("imie");
         $this->nazwisko = $this->Dane->getPOST("nazwisko");
-        $this->PobieraczObrazow = new PobieraczObrazowWikipedia($this->imie, $this->nazwisko);
+        $this->szukaj = $this->Dane->getPOST('slowo');
+
+        $this->Wikipedia = new PobieraczObrazowWikipedia($this->imie, $this->nazwisko);
+        $this->Formularz = new FormularzHelper();
+
+        $this->link = $this->Wikipedia->updateObrazka();
+
 
     }
-
-    public function __destruct()
-    {
-        $this->DBRozlaczenie();
-    }
-
 
     protected function Wyswietl(): void
     {
         SzablonHtml::Naglowek("ZAWODNICY ({$this->LiczbaPilkarzy()})");
  
-        $wynik = $this->DBZapytanie(
+        $wynik = $this->Zapytanie(
             ZapytaniaSql::select_Wyswietl()
         );
 
@@ -49,8 +57,7 @@ class Aplikacja extends BazaDanych
             while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Zawodnik($wiersz);
         else SzablonHtml::Naglowek("Brak piłkarzy");
         
-        
-            
+                
     }
 
     protected function Usun(): void
@@ -58,7 +65,7 @@ class Aplikacja extends BazaDanych
         $imie = "";
         $nazwisko = "";
 
-        $wynik = $this->DBZapytanie(
+        $wynik = $this->Zapytanie(
             ZapytaniaSql::select_ZawodnikById($this->id)
         );
         while ($wiersz = $wynik->fetch_assoc())
@@ -68,13 +75,14 @@ class Aplikacja extends BazaDanych
         }
 
         $potwierdzenie =  (isset($_GET['potwierdzenie'])) ? $_GET['potwierdzenie'] : null;
+
         if($potwierdzenie == "tak")
         {
 
             SzablonHtml::Naglowek("Usunięto piłkarza <b>$imie $nazwisko</b>!");
 
-            $this->DBZapytanie("DELETE FROM pilkarz WHERE PK_pilkarz = $this->id");
-            $this->DBZapytanie(ZapytaniaSql::delete_Awatar($this->id));
+            $this->Zapytanie(ZapytaniaSql::delete_pilkarz($this->id));
+            $this->Zapytanie(ZapytaniaSql::delete_Awatar($this->id));
 
             $this->Wyswietl();
         }
@@ -87,12 +95,12 @@ class Aplikacja extends BazaDanych
     {
         SzablonHtml::Naglowek("EDYCJA");
 
-        $wynik = $this->DBZapytanie(
+        $wynik = $this->Zapytanie(
             ZapytaniaSql::select_Edytuj($this->id)
         );
         
         while ($wiersz = (array) $wynik->fetch_assoc())
-            $this->Formularz($wiersz, "/zapisz?id=$this->id", "Zapisz");
+            $this->Formularz->Pilkarz($wiersz, "/zapisz?id=$this->id", "Zapisz",[$this, 'fetchData']);
     }
 
     protected function Zapisz(): void
@@ -100,9 +108,8 @@ class Aplikacja extends BazaDanych
 
         SzablonHtml::Naglowek("Zapisano <b>$this->imie $this->nazwisko</b>!");
         
-
         // update info o pilkarzu
-        $this->DBZapytanie(
+        $this->Zapytanie(
             ZapytaniaSql::update_Zapisz(
                 $this->id,
                 $this->Dane->setPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
@@ -110,11 +117,8 @@ class Aplikacja extends BazaDanych
         );
     
         // update obrazka
-        $this->PobieraczObrazow->pobierzDaneObrazu();
-        $link = $this->PobieraczObrazow->pobierzZrodloPierwszejStrony();
-
-        $this->DBZapytanie(
-            ZapytaniaSql::update_Awatar($link,$this->id)
+        $this->Zapytanie(
+            ZapytaniaSql::update_Awatar($this->link,$this->id)
         );
         
         $this->Wyswietl();
@@ -128,7 +132,7 @@ class Aplikacja extends BazaDanych
         $pusty_formularz = (array)
         $pusty_formularz = $this->Dane->setPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz());
 
-        $this->Formularz($pusty_formularz, "/dodaj", "Dodaj");
+        $this->Formularz->Pilkarz($pusty_formularz, "/dodaj", "Dodaj",[$this, 'fetchData']);
     }
 
     protected function Dodaj(): void
@@ -136,11 +140,7 @@ class Aplikacja extends BazaDanych
         SzablonHtml::Naglowek("Dodano <b>$this->imie $this->nazwisko</b>!");
         
         // ustaw obrazek
-        $this->PobieraczObrazow->pobierzDaneObrazu();
-        $link = $this->PobieraczObrazow->pobierzZrodloPierwszejStrony();
-        
-
-        $this->DBZapytanie
+        $this->Zapytanie
         (
             ZapytaniaSql::insert_Dodaj(
                 $this->Dane->setPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
@@ -149,8 +149,8 @@ class Aplikacja extends BazaDanych
 
         $liczba = $this->OstatniPilkarz();
 
-        $this->DBZapytanie(
-            ZapytaniaSql::insert_Awatar($link, $liczba)
+        $this->Zapytanie(
+            ZapytaniaSql::insert_Awatar($this->link, $liczba)
         );
 
         $this->Wyswietl();
@@ -161,12 +161,10 @@ class Aplikacja extends BazaDanych
     protected function Szukaj(): void
     {
 
-        $szukaj = $this->Dane->getPOST('slowo');
+        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b>$this->szukaj</b>");
 
-        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b>$szukaj</b>");
-
-        $sql = ZapytaniaSql::select_Szukaj($szukaj);
-        $wynik = $this->DBZapytanie(
+        $sql = ZapytaniaSql::select_Szukaj($this->szukaj);
+        $wynik = $this->Zapytanie(
             $sql
         );
 
@@ -197,61 +195,8 @@ class Aplikacja extends BazaDanych
     }
 
 
-    // FORMULARZ
-
-    public function SelectHTML($zapytanie, $id, $nazwa, $fk): string
-    {
-        $wynik = $this->DBZapytanie($zapytanie);
-
-        $html = "<select name='$fk'>";
-        while ($wiersz = (array) $wynik->fetch_assoc()) {
-            $html .=  "<option value='{$wiersz[$id]}'>{$wiersz[$nazwa]}</option>";
-        }
-        $html .=  "</select>";
-
-        return $html;
-    }
-
-    protected function Formularz($dane, $adres, $napisprzycisk): void
-    {
-
-        $sqlkraj = ZapytaniaSql::select_Kraj();
-        $select_kraje_html = $this->SelectHTML($sqlkraj, 'pk_kraj', 'nazwa', 'fk_kraj');
-
-        $sqlnumer = ZapytaniaSql::select_Numernakoszulce();
-        $select_numernakoszulce_html = $this->SelectHTML($sqlnumer, 'pk_numernakoszulce', 'numer', 'fk_numernakoszulce');
-
-        $sqlpozycja = ZapytaniaSql::select_Pozycja();
-        $select_pozycja_html = $this->SelectHTML($sqlpozycja, 'pk_pozycja', 'nazwa', 'fk_pozycja');
-
-        SzablonHtml::Formularz(
-            $dane,
-            $adres,
-            $select_kraje_html,
-            $select_numernakoszulce_html,
-            $select_pozycja_html,
-            $napisprzycisk
-        );
-    }
-
-    // ! FORMULARZ
 
 
-    // Zwracanie wynikow z bazy podstaowoych
-
-    protected function LiczbaPilkarzy(): int
-    {
-        $wynik = $this->DBZapytanie(ZapytaniaSql::liczbaZawodnikow());
-        $wiersz = $wynik->fetch_assoc();
-        return  $wiersz['liczba_pilkarzy'];
-    }
-
-    protected function OstatniPilkarz(): int
-    {
-        $wynik = $this->DBZapytanie(ZapytaniaSql::select_ostaniZawodnik());
-        $wiersz = $wynik->fetch_array();
-        return  $wiersz[0];
-    }
 
 }
 

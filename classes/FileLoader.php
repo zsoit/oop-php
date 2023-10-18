@@ -16,4 +16,8 @@ class Fl
     public static function Controllers($name) {
         require_once "./classes/Controllers/$name.php";
     }
+
+    public static function Helpers($name) {
+        require_once "./classes/Helpers/$name.php";
+    }
 }

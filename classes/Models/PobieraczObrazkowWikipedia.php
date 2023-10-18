@@ -13,20 +13,20 @@ class PobieraczObrazowWikipedia
     const ANON_AVATAR = "public/user.png";
 
 
-    private $szukaneHaslo;
-    private $daneJson;
+    private string $szukaneHaslo;
+    private string | array $daneJson;
     
     
     public function __construct($imie, $nazwisko) {
         $this->szukaneHaslo = urlencode("{$imie}_{$nazwisko}");
     }
     
-    public function pobierzDaneObrazu() {
+    public function pobierzDaneObrazu(): void {
         $daneWikipedia = file_get_contents(self::API_URL . $this->szukaneHaslo);
         $this->daneJson = json_decode($daneWikipedia, true);
     }
 
-    public function pobierzZrodloPierwszejStrony() {
+    public function pobierzZrodlo(): mixed {
         if (isset($this->daneJson['query']['pages'])) {
             $dane = $this->daneJson;
             $pierwszyKluczStrony = key($dane['query']['pages']);
@@ -37,8 +37,13 @@ class PobieraczObrazowWikipedia
         return self::ANON_AVATAR;
     }
 
-    public function wyswietlObraz() {
-        $zrodloObrazu = $this->pobierzZrodloPierwszejStrony();
+    public function updateObrazka(): mixed{
+        $this->pobierzDaneObrazu();
+        return $this->pobierzZrodlo();
+    }
+
+    public function wyswietlObraz(): string {
+        $zrodloObrazu = $this->pobierzZrodlo();
         return  <<<HTML
         
         <img 

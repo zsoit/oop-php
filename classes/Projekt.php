@@ -7,7 +7,7 @@ use Pilkanozna\Controller\KontrolerStrony;
 use Pilkanozna\Views\StronaHtml;
 
 
-class Projekt
+final class Projekt
 {
     public static function Uruchom(): void
     {
