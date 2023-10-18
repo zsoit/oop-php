@@ -2,6 +2,7 @@
 
 namespace Pilkanozna\Views;
 
+use Pilkanozna\Models\PobieraczObrazowWikipedia; 
 class SzablonHtml
 {
 
@@ -18,36 +19,38 @@ class SzablonHtml
         $awatar =  $pobieraczObrazow->wyswietlObraz();
 
         $id = $wiersz['id'];
-        echo <<<HTML
-        <div class='card'>
-            <ul>
-                <div class='card__avatar'>
-                    $awatar
-                </div>
-                <h2>{$wiersz['nazwisko']}</h2>
-                <h3>{$wiersz['imie']} </h3>
-            <div class='fakeBtn_wrapper'>
-                <a class="fakeBtn" href="/usun?id=$id" name='delete'>
-                    <i class="fa-solid fa-trash"></i>
-                    <span>Usuń</span>
-                </a>
-                <a class="fakeBtn" href="/edytuj?id=$id" name='edit'>
-                <i class="fa-solid fa-pen-to-square"></i>
-                <span>Edytuj</span>
-                </a>
-            </div>
-            <li> wzrost: <span>{$wiersz['wzrost']} m</span></li>
-            <li> data urodzenia: <span>{$wiersz['data_urodzenia']}</span></li>
-            <li> wiodąca noga: <span>{$wiersz['wiodaca_noga']}</span></li>
-            <li> wartość rynkowa: <span>{$wiersz['wartosc_rynkowa']}</span></li>
-            <li> ilość strzelonych goli: <span>{$wiersz['ilosc_strzelonych_goli']}</span></li>
-            <li> kraj: <span>{$wiersz['pilkarzkraj']}</span></li>
-            <li> numer na koszulce: <span>{$wiersz['numer']}</span></li>
-            <li> pozycja: <span>{$wiersz['pozycja']}</span></li>
-            </ul>
-            </div>
-        </div>
-        HTML;
+
+        echo $awatar;
+        // echo <<<HTML
+        // <div class='card'>
+        //     <ul>
+        //         <div class='card__avatar'>
+        //             $awatar
+        //         </div>
+        //         <h2>{$wiersz['nazwisko']}</h2>
+        //         <h3>{$wiersz['imie']} </h3>
+        //     <div class='fakeBtn_wrapper'>
+        //         <a class="fakeBtn" href="/usun?id=$id" name='delete'>
+        //             <i class="fa-solid fa-trash"></i>
+        //             <span>Usuń</span>
+        //         </a>
+        //         <a class="fakeBtn" href="/edytuj?id=$id" name='edit'>
+        //         <i class="fa-solid fa-pen-to-square"></i>
+        //         <span>Edytuj</span>
+        //         </a>
+        //     </div>
+        //     <li> wzrost: <span>{$wiersz['wzrost']} m</span></li>
+        //     <li> data urodzenia: <span>{$wiersz['data_urodzenia']}</span></li>
+        //     <li> wiodąca noga: <span>{$wiersz['wiodaca_noga']}</span></li>
+        //     <li> wartość rynkowa: <span>{$wiersz['wartosc_rynkowa']}</span></li>
+        //     <li> ilość strzelonych goli: <span>{$wiersz['ilosc_strzelonych_goli']}</span></li>
+        //     <li> kraj: <span>{$wiersz['pilkarzkraj']}</span></li>
+        //     <li> numer na koszulce: <span>{$wiersz['numer']}</span></li>
+        //     <li> pozycja: <span>{$wiersz['pozycja']}</span></li>
+        //     </ul>
+        //     </div>
+        // </div>
+        // HTML;
     }
 
     public static function Naglowek(string $napis): void

@@ -16,9 +16,7 @@ Fl::Controllers("Autoryzacja");
 Fl::Controllers("KontrolerStrony");
 
 
-
-include_once "./classes/Models/PobieraczObrazkowWikipedia.php";
-
+Fl::Models("PobieraczObrazkowWikipedia");
 Fl::Views("SzablonHtml");
 Fl::Views("StronaHtml");
 
