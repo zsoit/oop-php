@@ -50,6 +50,10 @@ class KontrolerStrony extends Aplikacja
                 $this->Szukaj();
                 break;
 
+            case '/filtry':
+                $this->Filtry();
+                break;
+
             case '/zaloguj':
                 $autoryzacja->SprobojZalogowac();
                 $this->Zaloguj();
@@ -63,6 +67,7 @@ class KontrolerStrony extends Aplikacja
                 $autoryzacja->SprawdzCzyZalogowano();
                 $this->Wyswietl();
                 break;
+
 
             default:
                 $this->Error404();

@@ -63,6 +63,7 @@ pre {
 
 .card__avatar img {
     width: 100px;
+    max-height: 150px;
     border-radius: 20px;
     justify-content: center;
 }
@@ -89,11 +90,30 @@ pre {
     margin: 0;
 }
 
+.gold {
+    color: gold;
+}
+
 @media screen and (max-width: 800px) {
     /* reguły stylów dla urządzeń o szerokości ekranu mniejszej lub równej 600px */
-    .menu {
+    .menu,
+    .filter {
         flex-wrap: wrap;
     }
+}
+
+
+/* filtrowanie */
+
+.filter {
+    display: flex;
+    flex-direction: row;
+}
+
+.filter__item {
+    padding: 10px;
+    margin: 8px;
+    font-size: 15px;
 }
 
 

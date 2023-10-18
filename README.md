@@ -17,7 +17,7 @@ Katalog z piłkarzmi , umożlia:
 - filtrowanie po np. kraju, pozycji itp.
 - interfejs webowy, zarządzanie bazą danych z poziomu aplikacji internetowej w PHP
 - logowanie oraz autoryzację użytkownika
-- dodawanie/edycje, zdjęcia piłkarza
+- wyświetlanie zdjęć piłkarzy, które automatycznie są pobierane z wikipedii 
 
 
 ## CECHY
@@ -37,7 +37,7 @@ MVC Model-View-Controller (pol. Model-Widok-Kontroler) :
 
 4. Ikonki z https://fontawesome.com/search
 
-
+5. Obrazki są pobierane z API Wikipedia
 
 ## UŻYTE OPROGRAMOWANIE
 

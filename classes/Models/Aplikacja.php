@@ -190,6 +190,12 @@ class Aplikacja extends BazaDanych
         SzablonHtml::Naglowek("404 - Strona nie istnieje! ");
     }
 
+    protected function Filtry(): void
+    {
+        SzablonHtml::Naglowek("Filtry");
+        SzablonHtml::Filtry();
+    }
+
 
     // FORMULARZ
 

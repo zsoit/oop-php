@@ -41,11 +41,13 @@ class ZapytaniaSql
         return <<<SQL
         SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa,
         ilosc_strzelonych_goli,
-        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
+        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja',
+        awatar.link as 'link'
         FROM pilkarz
         join krajpilkarza on FK_kraj=PK_kraj
         join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
         join pozycja on FK_pozycja=PK_pozycja
+        join awatar on Fk_pilkarz=Pk_pilkarz
         WHERE
             imie LIKE "%$SZUKAJ%" OR
             imie LIKE "$SZUKAJ%"  OR
@@ -188,11 +190,9 @@ class ZapytaniaSql
     public static function insert_Awatar($link, $liczba)
     {
         return <<<SQL
-
         INSERT INTO `awatar` (`pk_awatar`, `link`, `fk_pilkarz`) 
         VALUES (NULL, '$link', '$liczba')
         ;
-
         SQL;
     }
 
@@ -200,11 +200,9 @@ class ZapytaniaSql
     public static function update_Awatar($link, $pk_pilkarz)
     {
         return <<<SQL
-
         UPDATE awatar
         SET link = "$link"
         WHERE awatar.fk_pilkarz = $pk_pilkarz;
-
         SQL;
     }
 
@@ -212,11 +210,9 @@ class ZapytaniaSql
     public static function delete_Awatar($pk_pilkarz)
     {
         return <<<SQL
-
         DELETE FROM `awatar` 
         WHERE `awatar`.`fk_pilkarz` = $pk_pilkarz
-
-
+        ;
         SQL;
     }
 

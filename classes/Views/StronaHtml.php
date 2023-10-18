@@ -92,6 +92,15 @@ class StronaHtml
                 </a>
             </div>
 
+            <div class="menu__item">
+               <a href="/filtry" class="gold">
+               <i class="fa-solid fa-filter"></i>
+                Filtry
+               </a>
+            </div>
+
+
+
             </div>
         </header>
         <main>
@@ -114,36 +123,37 @@ class StronaHtml
             </footer>
 
             <script>
-                let observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(function (entry) {
-                    if (entry.intersectionRatio > 0 || entry.isIntersecting) {
-                    const image = entry.target;
-                    observer.unobserve(image);
+            // Tworzenie obserwatora dla przewijania strony
+            let obserwator = new IntersectionObserver((wpisy, obserwator) => {
+            wpisy.forEach(function (wpis) {
+            if (wpis.intersectionRatio > 0 || wpis.isIntersecting) {
+                const obraz = wpis.target;
+                obserwator.unobserve(obraz);
 
-                    if (image.hasAttribute('src')) {
-                        // Image has been loaded already
-                        return;
-                    }
+                // Sprawdzanie, czy obraz już ma atrybut 'src'
+                if (obraz.hasAttribute('src')) {
+                    return;
+                }
 
-                    // Image has not been loaded so load it
-                    const sourceUrl = image.getAttribute('data-src');
-                    image.setAttribute('src', sourceUrl);
+                // Pobranie adresu źródłowego z atrybutu 'data-src'
+                const adresZrodlowy = obraz.getAttribute('data-src');
+                obraz.setAttribute('src', adresZrodlowy);
 
-                    image.onload = () => {
-                        // Do stuff
-                    }
+                obraz.onload = () => {
+                    // Dodatkowe działania, które można wykonać po załadowaniu obrazu
+                }
 
-                    // Removing the observer
-                    observer.unobserve(image);
-                    }
-                });
-                });
+                obserwator.unobserve(obraz);
+            }
+            });
+            });
 
-                document.querySelectorAll('.lazyload').forEach((el) => {
-                observer.observe(el);
-                });
-
+            // Obserwowanie wszystkich elementów z klasą 'lazyload'
+            document.querySelectorAll('.lazyload').forEach((element) => {
+            obserwator.observe(element);
+            });
             </script>
+
             
             </body>
             </html>

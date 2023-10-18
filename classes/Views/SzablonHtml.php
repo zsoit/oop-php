@@ -205,4 +205,55 @@ class SzablonHtml
 
         HTML;
     }
+
+
+    public static function Filtry()
+    {
+        echo <<<HTML
+        <div class="filter">
+            <div class="filter__item">
+                <label for="kraj">Kraj: </label>
+                <select name="kraj" id="kraj">
+                    <option value="">Polska</option>
+                    <option value="">Polska</option>
+
+                </select>
+            </div>
+
+            <div class="filter__item">
+                <label for="kraj">Pozycja: </label>
+                <select name="kraj" id="kraj">
+                    <option value="">Napastnik</option>
+                    <option value="">Polska</option>
+
+                </select>
+            </div>
+
+
+            <div class="filter__item">
+                <label for="kraj">Wiodąca noga: </label>
+                <select name="kraj" id="kraj">
+                    <option value="">Lewa</option>
+                    <option value="">Polska</option>
+
+                </select>
+            </div>
+
+
+            <div class="filter__item">
+                <label for="kraj">Sortowanie alfabetyczne: </label>
+                <select name="kraj" id="kraj">
+                    <option value="">Rosnąco</option>
+                    <option value="">Malejąco</option>
+
+                </select>
+            </div>
+
+
+
+        </div>
+
+
+        HTML;
+    }
 }

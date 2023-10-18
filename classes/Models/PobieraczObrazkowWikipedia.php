@@ -43,8 +43,9 @@ class PobieraczObrazowWikipedia
         
         <img 
             data-src='$zrodloObrazu' 
-            width='50px'  
             class='lazyload' 
+            width="150px"
+            style="border-radius: 20px;"
         />
         
         HTML;
