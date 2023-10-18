@@ -16,6 +16,13 @@ create table pilkarz (
 	fk_numernakoszulce int not null,
 	fk_pozycja int not null
 );
+
+create table awatar(
+	pk_awatar int primary key auto_increment,
+	link varchar(200) not null,
+	fk_pilkarz int not null
+);
+
 create table druzyna (
 	pk_druzyna int primary key auto_increment,
 	nazwa varchar(55) not null unique,

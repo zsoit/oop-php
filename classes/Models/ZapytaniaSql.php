@@ -4,16 +4,34 @@ namespace Pilkanozna\Models;
 class ZapytaniaSql
 {
 
+    public static function getWszytkieKolumnyPilkarz()
+    {
+
+        $kolumny = array();
+        $kolumny = [
+            "id", "imie", "nazwisko", "wzrost",
+            "data_urodzenia", "wiodaca_noga",
+            "wartosc_rynkowa", "ilosc_strzelonych_goli",
+            "fk_kraj", "fk_numernakoszulce", "fk_pozycja",
+            'pk_kraj',"pk_numernakoszulce", "pk_pozycja"
+    
+        ];
+
+        return $kolumny;
+    }
+
     public static function select_Wyswietl(): string
     {
         return <<<SQL
         SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa,
         ilosc_strzelonych_goli,
-        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja'
+        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja',
+        awatar.link as 'link'
         FROM pilkarz
         join krajpilkarza on FK_kraj=PK_kraj
         join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
         join pozycja on FK_pozycja=PK_pozycja
+        join awatar on Fk_pilkarz=Pk_pilkarz
         order by pk_pilkarz DESC
         SQL;
     }
@@ -148,4 +166,62 @@ class ZapytaniaSql
         FROM pozycja
         SQL;
     }
+
+    public static function select_ostaniZawodnik()
+    {
+        return <<<SQL
+        SELECT pk_pilkarz FROM `pilkarz` 
+        ORDER BY `pilkarz`.`pk_pilkarz` 
+        DESC limit 1
+        SQL;
+    }
+
+
+    public static function select_Awatar()
+    {
+        return <<<SQL
+        SELECT link, fk_pilkarz
+        FROM awatar
+        SQL;
+    }
+
+    public static function insert_Awatar($link, $liczba)
+    {
+        return <<<SQL
+
+        INSERT INTO `awatar` (`pk_awatar`, `link`, `fk_pilkarz`) 
+        VALUES (NULL, '$link', '$liczba')
+        ;
+
+        SQL;
+    }
+
+
+    public static function update_Awatar($link, $pk_pilkarz)
+    {
+        return <<<SQL
+
+        UPDATE awatar
+        SET link = "$link"
+        WHERE awatar.fk_pilkarz = $pk_pilkarz;
+
+        SQL;
+    }
+
+
+    public static function delete_Awatar($pk_pilkarz)
+    {
+        return <<<SQL
+
+        DELETE FROM `awatar` 
+        WHERE `awatar`.`fk_pilkarz` = $pk_pilkarz
+
+
+        SQL;
+    }
+
+
+
+
+    
 }

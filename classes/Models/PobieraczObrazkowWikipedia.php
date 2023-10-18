@@ -10,8 +10,8 @@ namespace Pilkanozna\Models;
 class PobieraczObrazowWikipedia 
 {
     const API_URL = "https://pl.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles=";
+    const ANON_AVATAR = "public/user.png";
 
-    const ANON_AVATAR = "https://as2.ftcdn.net/v2/jpg/02/00/60/53/1000_F_200605342_J2OWrDUM57tnrGwPpbwMe4mqPvhIERjO.jpg";
 
     private $szukaneHaslo;
     private $daneJson;
@@ -42,23 +42,11 @@ class PobieraczObrazowWikipedia
         return  <<<HTML
         
         <img 
-        data-src='$zrodloObrazu' 
-        width='50px'  
-        class='lazyload' 
+            data-src='$zrodloObrazu' 
+            width='50px'  
+            class='lazyload' 
         />
         
         HTML;
     }
 }
-
-// Przykład użycia:
-
-// $imie = "Robert";
-// $nazwisko = "Lewandowski";
-
-// // $imie = "Kylian";
-// // $nazwisko = "Mbappé";
-
-// $pobieraczObrazow = new PobieraczObrazowWikipedia($imie, $nazwisko);
-// $pobieraczObrazow->pobierzDaneObrazu();
-// $pobieraczObrazow->wyswietlObraz();
