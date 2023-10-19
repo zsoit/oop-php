@@ -7,9 +7,7 @@ use Pilkanozna\Helper\BazaDanychHelpers;
 use Pilkanozna\Models\ZapytaniaSql;
 use Pilkanozna\Views\SzablonHtml;
 use Pilkanozna\Helper\FormularzHelpers;
-
-use Pilkanozna\Models\Pilkarz;
-
+use Pilkanozna\Controller\Pilkarz;
 
 
 class Aplikacja extends BazaDanychHelpers
@@ -90,7 +88,7 @@ class Aplikacja extends BazaDanychHelpers
         SzablonHtml::Naglowek("Zapisano <b>{$this->Pilkarz->getImie()} {$this->Pilkarz->getNazwisko()}</b>!");
         
         // update info o pilkarzu
-        $this->Zapytanie(ZapytaniaSql::update_Zapisz($this->Pilkarz->getId(),$this->Pilkarz->setTablicePOST(ZapytaniaSql::getWszytkieKolumnyPilkarz()) )
+        $this->Zapytanie(ZapytaniaSql::update_Zapisz($this->Pilkarz->getId(),$this->Pilkarz->getTablicaPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz()) )
         );
     
         // update obrazka
@@ -107,7 +105,7 @@ class Aplikacja extends BazaDanychHelpers
         SzablonHtml::Naglowek("Dodawanie");
 
         $pusty_formularz = (array)
-        $pusty_formularz = $this->Pilkarz->setTablicePOST(ZapytaniaSql::getWszytkieKolumnyPilkarz());
+        $pusty_formularz = $this->Pilkarz->getTablicaPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz());
 
         $this->Formularz->Pilkarz($pusty_formularz, "/dodaj", "Dodaj",[$this, 'pobierzDane']);
     }
@@ -120,7 +118,7 @@ class Aplikacja extends BazaDanychHelpers
         $this->Zapytanie
         (
             ZapytaniaSql::insert_Dodaj(
-                $this->Pilkarz->setTablicePOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
+                $this->Pilkarz->getTablicaPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
             )
         );
 

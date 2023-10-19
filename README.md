@@ -10,43 +10,85 @@ III Semestr, Zastosowanie Programowania Obiektowego
 
 
 ## ZAŁOŻENIA
-Język: PHP
-Katalog z piłkarzmi , umożlia:
+**Temat aplikacji**: Piłka Nożna – Katalog (Aplikacja PHP)
 
-- edycje, usuwanie, dodawanie nowego piłkarza, sortowanie oraz wyświetalnie zdjęć, wyszukiwanie
-- filtrowanie po np. kraju, pozycji itp.
-- interfejs webowy, zarządzanie bazą danych z poziomu aplikacji internetowej w PHP
-- logowanie oraz autoryzację użytkownika
-- wyświetlanie zdjęć piłkarzy, które automatycznie są pobierane z wikipedii 
+**Rodzaj aplikacja**: Aplikacja internetowa (architektura klient-serwer)
+
+Aplikacja uruchamina lokalnie na komputerach oraz zdalnie na serwerze VPS.
+Aplikacja jest dososowana również do urządzeń moblinych.
+
+**Środkowisko lokalne**: Windows 10, Ubuntu 22.04 LTS\
+**Środowisko produkcyjne (serwer)**: VPS Linux (Ubuntu 20.04 LTS): 
+
+**Środowisko uruchomieniowe**: 
+
+Dla Windows: 
+- XAMPP 8.2.4 (serwer HTTP Apache, Serwer bazy danych MariaDB, interpreter PHP)
+	
+Dla Ubuntu:
+- PHP 8.1.2-1ubuntu2.14 Development Server (serwer HTTP + interpreter PHP)
+- mysql-server  ver 8.0.34-0ubuntu0.22.04.1 (serwer bazy danych MySQL)
+
+Dla VPS:
+- Serwer HTTP Apache2
+- Serwer MySQL – MariaDB
+- Interpreter PHP 8+
+
 
 
 ## CECHY
-1. Aplikacja napisana jest w sposób obiektowy OOP, tak aby była jak najbardziej skalowalna, czytelna, łatwa w debugowaniu
+1. Zastosowanie statycznego typowania (zmiennych, funkcji, metod, pól klasy), podobnie jak w językach C/C++, Java, C#. Jest to bardziej przewidywalene i pozwala narzucić określony typ np. zwracanej zmiennej, aby uniknąć wielu błędów. Domyślnie PHP nie wymaga statycznego typowania.
 
-2. Stosowanane jest Typowanie właściwości (zmiennych, funkcji, metod, pól klasy),
-podobnie jak w językach C/C++, Java, C#. Jest to bardziej przewidywalene i pozwala narzucić określony typ np. zwracanej zmiennej, aby uniknąć wielu błędów.
-
-3. Podział projektu na wiele plików według struktury:
-
-MVC Model-View-Controller (pol. Model-Widok-Kontroler) :
-
+2. Podział projektu na wiele plików według struktury :
+MVC Model-View-Controller (pol. Model-Widok-Kontroler)
 - Model jest pewną reprezentacją problemu bądź logiki aplikacji.
-- Widok opisuje, jak wyświetlić pewną część modelu w ramach interfejsu użytkownika. Może składać się z podwidoków odpowiedzialnych za mniejsze części interfejsu.
-- Kontroler przyjmuje dane wejściowe od użytkownika i reaguje na jego poczynania, zarządzając aktualizacje modelu oraz odświeżenie widoków.
+- Widok opisuje, jak wyświetlić pewną część modelu w ramach interfejsu użytkownika. 
+- Kontroler przyjmuje dane wejściowe od użytkownika i reaguje na jego poczynania
+
+3. Logika aplikacji będzie zawarta w sposób obiektowy w klasach, każda klasa to osobny  plik.
+
+4. Obrazki są pobierane z API Wikipedia
 
 
-4. Ikonki z https://fontawesome.com/search
+ **Ograniczenia**:
 
-5. Obrazki są pobierane z API Wikipedia
+- PHP jest podatny na pewne rodzaje ataków, takich jak na przykład wstrzykiwanie SQL, dlatego bezpieczństwo aplikacji nie jest na najwyższym możliwym poziomie i szczegłówa konfiguracja zabezpieczeń nie jest łatwa do wdrożenia w krótkim czasie
+- PHP jest językiem interpretowanym dlatego wydajność w stosunku do języków komplilowanych jest niższa
+- PHP nie posiada wszystkich elementów obiektowowych znanych z innych języków
+- Ograniczony czas, przez co nie można zawrzeć wszystkich celów w wzorcowy sposób zgodny w 100% z dokumentacją
+- Ograniczenie aktualnej wiedzy, przez co niektóre elementy projektu mogą stanowić wyzwanie
 
-## UŻYTE OPROGRAMOWANIE
+**Narzędzia programistyczne**:
 
-### środowisko lokalne: 
-- Windows/Ubuntu: XAMPP, Visual Studio Code
-- pakiet make - automatyzacja poleń w terminalu
+Język: PHP 8+ OOP\
+Dodatkowe biblioteki: mysqli (łączenie się z bazą danych)\
+Dodatkowe technologie: HTML,CSS, JavaScript, MySQL, FontAwesone(ikonki)\
 
-### serwer:
-- Linux: serwer HTTP Apache + serwer MariaDB
+IDE: Visual Studio Code + PHP Code Extenions\
+GIT – System Kontroli Wersji\
+Figma – Prototypowanie wyglądu aplikacji \
+Trello – zarządzanie zadaniami w zespole\
+Przeglądarka internetowa – Posiadająca narzędzia Chrome DevTools \
+Pakiet make – automatyzacja poleceń w terminalu\
+FileZilla – klient FTP
+
+**Wykaz funkcjonalności aplikacji**
+
+
+Interfejs webowy, zarządzanie bazą danych z poziomu przeglądarki internetowej:
+
+- edycje, usuwanie, dodawanie nowego piłkarza,
+- sortowanie oraz wyświetalnie zdjęć,
+- wyszukiwanie po nazwisku, imieniu itp.
+- filtrowanie szczegłówe po np. kraju, pozycji itp.
+- logowanie oraz autoryzacja użytkownika przeglądającego aplikacje
+- dodawanie/edycje, zdjęcia piłkarza
+
+
+Użytkwonik może za pomocą przegląrki internetowej połączyć się z serwerem na którym hostowana jest aplikacja, zalogować się do panelu poprzez formularz logowania, uzyskać autoryzacje. Panel umożliwia przeglądanie katalogu  piłkarzy w przystępnej formie oraz inne operacje (edycja, usuwaniem, filtrowanie itp.). 
+
+Użytkownik końcowy (klient) nie musi posiadać znajomości obsługi relacyjnej bazy danych aby w intuakcyjny sposób zarządzać aplikacją.
+
 
 ## KONIFGURACJA SERWERA MYSQL
 ```sql
@@ -56,3 +98,34 @@ CREATE USER 'projekt'@'localhost' IDENTIFIED BY 'Pracownia107!';
 -- uprawnienia
 GRANT ALL PRIVILEGES ON pilkanozna.* TO 'projekt'@'localhost';
 ```
+
+
+## KLASY PROJEKTU
+
+
+### Controllers
+- Autoryzacja - loggowanie i autoryzacja
+- KontolerDanych - Klasa do odbieranie danych z adresow URL
+- KontrolerStrony - Routing i zarządzanie adresami URL
+- Pilkarz - Odbieranie danych z adresów URL odnośnie piłkarza
+
+### Helpers
+- BazaDanychHelper - metody wspomagające operację na bazie danych
+- FormularzHelper - metody wspomagające formularze do edycji i dodawania
+
+### Models
+- Aplikacja - główna klasa, logika aplikacji
+- BazaDanych - połączenie z bazą danych
+- PobieraczObrazkowWikipedia - pobranie obrazu z Wikipedii
+- ZapytaniaSQL - Klasa abstrakcyjna zawiera zapytania do bazy
+
+### Views
+- StronaHtml - Zawiera szkielet storny w HTML
+- SzablonHtml - zawiera szablony elementów w HTML
+
+---
+- FileLoader - dodaje do projektu pliki z klas
+- Project- Finanlna krasa, która inizjalizuje cały projekt
+
+---
+- index.php - uruchamia klasę Projekt i załącza pliki używając klasy FileLoader

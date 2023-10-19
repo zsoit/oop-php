@@ -1,6 +1,6 @@
 <?php
 
-namespace Pilkanozna\Models;
+namespace Pilkanozna\Controller;
 use Pilkanozna\Models\PobieraczObrazowWikipedia;
 use Pilkanozna\Controller\KontrolerDanych;
 
@@ -39,7 +39,7 @@ class Pilkarz
 
     public function getSzukaj(): string{ return $this->szukaj;}
 
-    public function setTablicePOST($lista)
+    public function getTablicaPOST($lista): mixed
     {
         $tablica = $this->Dane->setPOST($lista);
         return $tablica;

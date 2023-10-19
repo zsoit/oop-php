@@ -4,7 +4,7 @@ namespace Pilkanozna\Models;
 abstract class ZapytaniaSql
 {
 
-    public static function getWszytkieKolumnyPilkarz()
+    public static function getWszytkieKolumnyPilkarz(): array
     {
 
         $kolumny = array();

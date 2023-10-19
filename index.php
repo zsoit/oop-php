@@ -7,7 +7,7 @@ include_once './classes/Projekt.php';
 
 // kolejnosc ladowania - nie zmieniac
 
-Fl::Models("Pilkarz");
+Fl::Controllers("Pilkarz");
 Fl::Models("BazaDanych");
 Fl::Helpers("BazaDanychHelper");
 Fl::Models("ZapytaniaSql");
@@ -19,7 +19,7 @@ Fl::Controllers("Autoryzacja");
 Fl::Controllers("KontrolerStrony");
 
 
-Fl::Models("PobieraczObrazkowWikipedia");
+Fl::Models("PobieraczObrazowWikipedia");
 Fl::Views("SzablonHtml");
 Fl::Views("StronaHtml");
 
