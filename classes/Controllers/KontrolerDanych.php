@@ -4,6 +4,14 @@ namespace Pilkanozna\Controller;
 
 class KontrolerDanych
 {
+
+    public static function getMetoda(string $slowo)
+    {
+
+        if (isset($_GET[$slowo])) return $_GET[$slowo];
+        else return "";
+    }
+
     // POBIERA ID Z LINKU
     public static function getID(): int
     {
@@ -11,6 +19,8 @@ class KontrolerDanych
         if (isset($_GET['id'])) return $_GET['id'];
         else return 0;
     }
+
+
 
     // POBIERA POLE Z FORMULARZA
     public function getPOST(string $nazwa): string

@@ -50,10 +50,6 @@ class KontrolerStrony extends Aplikacja
                 $this->Szukaj();
                 break;
 
-            case '/filtry':
-                $this->Filtry();
-                break;
-
             case '/zaloguj':
                 $autoryzacja->SprobojZalogowac();
                 $this->Zaloguj();

@@ -197,49 +197,132 @@ abstract class SzablonHtml
         HTML;
     }
 
-
-    public static function Filtry()
+    public static function FormularzFiltrowania($kraje,$numernakoszulce,$pozycja)
     {
         echo <<<HTML
-        <div class="filter">
-            <div class="filter__item">
-                <label for="kraj">Kraj: </label>
-                <select name="kraj" id="kraj">
-                    <option value="">Polska</option>
-                    <option value="">Polska</option>
 
-                </select>
-            </div>
+        <form action="/szukaj" method="POST">
+            <table>
 
-            <div class="filter__item">
-                <label for="kraj">Pozycja: </label>
-                <select name="kraj" id="kraj">
-                    <option value="">Napastnik</option>
-                    <option value="">Polska</option>
+            <tr>
+                <td>
+                    <label>Imię i nazwisko</label>
+                </td>
+                <td>
+                    <input type="text" name="szukane" id="">
+                </td>
+            </tr>
 
-                </select>
-            </div>
+            <tr>
+                <td><label>Sortuj</label></td>
+                <td>
+                    <select name="sortuj">
+                        <option value="a-z">Najnowsze wpisy</option>
+                        <option value="a-z">Najstarsze wpisy</option>
+
+                        <option value="z-a">Alfabetycznie A-Z (Nazwisko)</option>
+                        <option value="z-a">Alfabetycznie Z-A (Nazwisko)</option>
+
+                        <option value="z-a">Rosnąco: Wzrost</option>
+                        <option value="z-a">Malejąco: Wzrost</option>
+
+                        <option value="z-a">Rosnąco: Data urodzenia</option>
+                        <option value="z-a">Malejąco: Data urodzenia</option>
+
+                        <option value="z-a">Malejąco: Wartośc rynkowa</option>
+                        <option value="z-a">Malejąco: Wartośc rynkowa</option>
+
+                    </select>
+                </td>
+            </tr>
 
 
-            <div class="filter__item">
-                <label for="kraj">Wiodąca noga: </label>
-                <select name="kraj" id="kraj">
-                    <option value="">Lewa</option>
-                    <option value="">Polska</option>
+            <tr>
+                <td>
+                    <input type="checkbox" id="noga_check" name="noga_check" value="1">
+                    <label>Wiodąca noga</label>
+                </td>
+                <td>
+                    <select name="wiodaca_noga" id="noga">
+                        <option value="LEWA">LEWA</option>
+                        <option value="PRAWA">PRAWA</option>
+                        <option value="OBU-NOŻNY">OBU-NOŻNY</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" id="kraj_check" name="kraj_check" value="1">
+                    <label for="kraj">Wybierz kraj:</label>
+                </td>
+                <td>$kraje</td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" id="numernakoszulce_check" name="numernakoszulce_check" value="1">
+                    <label for="numrnakoszulce">Numer na koszulce</label>
+                </td>
+                <td>$numernakoszulce</td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" id="pozycja_check" name="pozycja_check" value="1">
+                    <label for="pozycja">Pozycja</label>
+                </td>
+                <td>$pozycja</td>
+            </tr>
+            <tr>
+                <td><br>
+                <button class="fakeBtn">
+                    <i class="fa-regular fa-floppy-disk"></i>
+                    <span>Szukaj</span>
+                </button>
+                </td>
+            </tr>
+            </table>
+            </form>
 
-                </select>
-            </div>
+            <script>
 
 
-            <div class="filter__item">
-                <label for="kraj">Sortowanie alfabetyczne: </label>
-                <select name="kraj" id="kraj">
-                    <option value="">Rosnąco</option>
-                    <option value="">Malejąco</option>
+            </script>
 
-                </select>
-            </div>
-        </div>
+            <script>
+            function setupCheckboxAndSelect(checkboxId, selectId) {
+                // Pobierz checkbox i pole wyboru na podstawie przekazanych identyfikatorów
+                var checkbox = document.getElementById(checkboxId);
+                var select = document.getElementById(selectId);
+
+                // Ustaw początkowy stan (domyślnie wyłączone)
+                select.disabled = true;
+
+                // Nasłuchuj zdarzenia zmiany stanu checkboxa
+                checkbox.addEventListener("change", function () {
+                    if (checkbox.checked) {
+                        select.disabled = false;
+                        checkbox.value="1";
+                    }
+                    else {
+                        select.disabled = true;
+                        checkbox.value="0";
+                    }
+                });
+            }
+
+            // Wywołaj funkcję po załadowaniu strony, przekazując identyfikatory checkboxa i selecta
+            window.addEventListener("load", function () {
+                setupCheckboxAndSelect("noga_check", "noga");
+                setupCheckboxAndSelect("kraj_check", "fk_kraj");
+                setupCheckboxAndSelect("numernakoszulce_check", "fk_numernakoszulce");
+                setupCheckboxAndSelect("pozycja_check", "fk_pozycja");
+
+                var szukaneslowo = document.querySelector("#szukaneslowo").innerHTML;
+                var szukany_input = document.querySelector("#szukane-slowo");
+
+                szukany_input.value = szukaneslowo;
+
+            });
+            </script>
 
 
         HTML;

@@ -76,8 +76,8 @@ class StronaHtml
                 </a>
             </div>
             <div class="menu__item menu__item--search">
-                <form action="/szukaj" method="POST">
-                    <input class="fakeBtn"  type="text" name="slowo" placeholder="Imie lub nazwisko" required>
+                <form action="/szukaj" method="GET">
+                    <input class="fakeBtn"  type="text" name="slowo" placeholder="Imie lub nazwisko" id="szukane-slowo"required>
                     <button class="fakeBtn" >
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <span>Szukaj</span>
@@ -93,12 +93,11 @@ class StronaHtml
             </div>
 
             <div class="menu__item">
-               <a href="/filtry" class="gold">
+               <a href="/szukaj" class="gold">
                <i class="fa-solid fa-filter"></i>
                 Filtry
                </a>
             </div>
-
 
 
             </div>

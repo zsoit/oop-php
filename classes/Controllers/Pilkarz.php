@@ -23,7 +23,7 @@ class Pilkarz
         $this->id = $this->Dane->getID();
         $this->imie = $this->Dane->getPOST("imie");
         $this->nazwisko = $this->Dane->getPOST("nazwisko");
-        $this->szukaj = $this->Dane->getPOST('slowo');
+        $this->szukaj = $this->Dane->getMetoda('slowo');
         
         $this->Wikipedia = new PobieraczObrazowWikipedia($this->imie, $this->nazwisko);
         $this->awatar = $this->Wikipedia->updateObrazka();

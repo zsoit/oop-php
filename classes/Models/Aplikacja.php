@@ -133,11 +133,21 @@ class Aplikacja extends BazaDanychHelpers
 
     }
 
+
+    private function Filtry(): void
+    {
+        SzablonHtml::Naglowek("Filtry");
+
+        $this->Formularz->Filtrowanie([$this, 'pobierzDane']);
+    }
+
+
     protected function Szukaj(): void
     {
-
-        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b>{$this->Pilkarz->getSzukaj()}</b>");
-
+        
+        $this->Filtry();
+        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b id='szukaneslowo'>{$this->Pilkarz->getSzukaj()}</b>");
+        
         $sql = ZapytaniaSql::select_Szukaj($this->Pilkarz->getSzukaj());
         $wynik = $this->Zapytanie(
             $sql
@@ -162,15 +172,6 @@ class Aplikacja extends BazaDanychHelpers
     {
         SzablonHtml::Naglowek("404 - Strona nie istnieje! ");
     }
-
-    protected function Filtry(): void
-    {
-        SzablonHtml::Naglowek("Filtry");
-        SzablonHtml::Filtry();
-    }
-
-
-
 
 
 }
