@@ -6,7 +6,8 @@ use Pilkanozna\Models\BazaDanych;
 use Pilkanozna\Models\ZapytaniaSql;
 
 
-class BazaDanychHelper extends BazaDanych
+
+class BazaDanychHelpers extends BazaDanych
 {
 
     public function __construct()
@@ -20,7 +21,7 @@ class BazaDanychHelper extends BazaDanych
     }
 
 
-    public function fetchData($sql, $idkolumny, $nazwakolumny): array
+    public function pobierzDane($sql, $idkolumny, $nazwakolumny): array
     {
         $wynik = $this->Zapytanie($sql);
         $dane = [];
@@ -48,7 +49,5 @@ class BazaDanychHelper extends BazaDanych
         $wiersz = $wynik->fetch_array();
         return  $wiersz[0];
     }
-    
-
 
 }

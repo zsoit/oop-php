@@ -110,18 +110,10 @@ class StronaHtml
     }
 
 
-    public function Footer(): void 
+    private function LazyLoadigJS(): string
     {
 
-        echo <<<HTML
-            </main>
-            <footer class='footer'>
-                &COPY; {$this->rok} {$this->autorzy} <br>
-                 {$this->przedmiot} <br>
-                {$this->uczelnia}
-                
-            </footer>
-
+        return  <<<HTML
             <script>
             // Tworzenie obserwatora dla przewijania strony
             let obserwator = new IntersectionObserver((wpisy, obserwator) => {
@@ -154,7 +146,25 @@ class StronaHtml
             });
             </script>
 
-            
+        HTML;
+
+    }
+
+
+    public function Footer(): void 
+    {
+
+        $js = $this->LazyLoadigJS();
+
+        echo <<<HTML
+            </main>
+            <footer class='footer'>
+                &COPY; {$this->rok} {$this->autorzy} <br>
+                 {$this->przedmiot} <br>
+                {$this->uczelnia}
+                
+            </footer>
+                $js
             </body>
             </html>
         HTML;

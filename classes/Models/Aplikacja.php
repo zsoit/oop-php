@@ -3,45 +3,27 @@
 namespace Pilkanozna\Models;
 
 
-use Pilkanozna\Helper\BazaDanychHelper;
+use Pilkanozna\Helper\BazaDanychHelpers;
 use Pilkanozna\Models\ZapytaniaSql;
-use Pilkanozna\Controller\KontrolerDanych;
 use Pilkanozna\Views\SzablonHtml;
-use Pilkanozna\Helper\FormularzHelper;
+use Pilkanozna\Helper\FormularzHelpers;
+
+use Pilkanozna\Models\Pilkarz;
 
 
-// klasa Pilkarz
 
-class Aplikacja extends BazaDanychHelper
+class Aplikacja extends BazaDanychHelpers
 {
-    protected int $id;
 
-    protected object $Dane;
-    private string $imie;
-    private string $nazwisko;
-    private string $szukaj;
-
-    private object $Wikipedia;
-    private mixed $link;
-
+    private object $Pilkarz;
     private object $Formularz;
 
 
     public function __construct()
     {
 
-        $this->Dane = new KontrolerDanych();
-
-        $this->id = $this->Dane->getID();
-        $this->imie = $this->Dane->getPOST("imie");
-        $this->nazwisko = $this->Dane->getPOST("nazwisko");
-        $this->szukaj = $this->Dane->getPOST('slowo');
-
-        $this->Wikipedia = new PobieraczObrazowWikipedia($this->imie, $this->nazwisko);
-        $this->Formularz = new FormularzHelper();
-
-        $this->link = $this->Wikipedia->updateObrazka();
-
+        $this->Formularz = new FormularzHelpers();
+        $this->Pilkarz = new Pilkarz();
 
     }
 
@@ -66,28 +48,27 @@ class Aplikacja extends BazaDanychHelper
         $nazwisko = "";
 
         $wynik = $this->Zapytanie(
-            ZapytaniaSql::select_ZawodnikById($this->id)
+            ZapytaniaSql::select_ZawodnikById($this->Pilkarz->getId())
         );
-        while ($wiersz = $wynik->fetch_assoc())
-        {
+
+        while ($wiersz = $wynik->fetch_assoc()){
             $imie = $wiersz['imie'];
             $nazwisko = $wiersz['nazwisko'];
         }
 
         $potwierdzenie =  (isset($_GET['potwierdzenie'])) ? $_GET['potwierdzenie'] : null;
 
-        if($potwierdzenie == "tak")
-        {
+        if($potwierdzenie == "tak"){
 
             SzablonHtml::Naglowek("Usunięto piłkarza <b>$imie $nazwisko</b>!");
 
-            $this->Zapytanie(ZapytaniaSql::delete_pilkarz($this->id));
-            $this->Zapytanie(ZapytaniaSql::delete_Awatar($this->id));
+            $this->Zapytanie(ZapytaniaSql::delete_pilkarz($this->Pilkarz->getId()));
+            $this->Zapytanie(ZapytaniaSql::delete_Awatar($this->Pilkarz->getId()));
 
             $this->Wyswietl();
         }
         else{
-            SzablonHtml::PotwierdzUsuniecie($this->id,$imie,$nazwisko);
+            SzablonHtml::PotwierdzUsuniecie($this->Pilkarz->getId(),$imie,$nazwisko);
         }
     }
 
@@ -96,29 +77,25 @@ class Aplikacja extends BazaDanychHelper
         SzablonHtml::Naglowek("EDYCJA");
 
         $wynik = $this->Zapytanie(
-            ZapytaniaSql::select_Edytuj($this->id)
+            ZapytaniaSql::select_Edytuj($this->Pilkarz->getId())
         );
         
         while ($wiersz = (array) $wynik->fetch_assoc())
-            $this->Formularz->Pilkarz($wiersz, "/zapisz?id=$this->id", "Zapisz",[$this, 'fetchData']);
+            $this->Formularz->Pilkarz($wiersz, "/zapisz?id={$this->Pilkarz->getId()}", "Zapisz",[$this, 'pobierzDane']);
     }
 
     protected function Zapisz(): void
     {
 
-        SzablonHtml::Naglowek("Zapisano <b>$this->imie $this->nazwisko</b>!");
+        SzablonHtml::Naglowek("Zapisano <b>{$this->Pilkarz->getImie()} {$this->Pilkarz->getNazwisko()}</b>!");
         
         // update info o pilkarzu
-        $this->Zapytanie(
-            ZapytaniaSql::update_Zapisz(
-                $this->id,
-                $this->Dane->setPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
-        )
+        $this->Zapytanie(ZapytaniaSql::update_Zapisz($this->Pilkarz->getId(),$this->Pilkarz->setTablicePOST(ZapytaniaSql::getWszytkieKolumnyPilkarz()) )
         );
     
         // update obrazka
         $this->Zapytanie(
-            ZapytaniaSql::update_Awatar($this->link,$this->id)
+            ZapytaniaSql::update_Awatar($this->Pilkarz->getAwatar(),$this->Pilkarz->getId())
         );
         
         $this->Wyswietl();
@@ -130,27 +107,27 @@ class Aplikacja extends BazaDanychHelper
         SzablonHtml::Naglowek("Dodawanie");
 
         $pusty_formularz = (array)
-        $pusty_formularz = $this->Dane->setPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz());
+        $pusty_formularz = $this->Pilkarz->setTablicePOST(ZapytaniaSql::getWszytkieKolumnyPilkarz());
 
-        $this->Formularz->Pilkarz($pusty_formularz, "/dodaj", "Dodaj",[$this, 'fetchData']);
+        $this->Formularz->Pilkarz($pusty_formularz, "/dodaj", "Dodaj",[$this, 'pobierzDane']);
     }
 
     protected function Dodaj(): void
     {
-        SzablonHtml::Naglowek("Dodano <b>$this->imie $this->nazwisko</b>!");
+        SzablonHtml::Naglowek("Dodano <b>{$this->Pilkarz->getImie()} {$this->Pilkarz->getNazwisko()}</b>!");
         
         // ustaw obrazek
         $this->Zapytanie
         (
             ZapytaniaSql::insert_Dodaj(
-                $this->Dane->setPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
+                $this->Pilkarz->setTablicePOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
             )
         );
 
         $liczba = $this->OstatniPilkarz();
 
         $this->Zapytanie(
-            ZapytaniaSql::insert_Awatar($this->link, $liczba)
+            ZapytaniaSql::insert_Awatar($this->Pilkarz->getAwatar(), $liczba)
         );
 
         $this->Wyswietl();
@@ -161,9 +138,9 @@ class Aplikacja extends BazaDanychHelper
     protected function Szukaj(): void
     {
 
-        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b>$this->szukaj</b>");
+        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b>{$this->Pilkarz->getSzukaj()}</b>");
 
-        $sql = ZapytaniaSql::select_Szukaj($this->szukaj);
+        $sql = ZapytaniaSql::select_Szukaj($this->Pilkarz->getSzukaj());
         $wynik = $this->Zapytanie(
             $sql
         );

@@ -4,7 +4,7 @@ namespace Pilkanozna\Views;
 
 use Pilkanozna\Models\PobieraczObrazowWikipedia;
 
-class SzablonHtml
+abstract class SzablonHtml
 {
 
     public static function Zawodnik(array $wiersz): void
@@ -137,11 +137,11 @@ class SzablonHtml
             </tr>
             <tr>
                 <td><label>Wartość rynkowa</label></td>
-                <td><input type="number" value="{$wiersz['wartosc_rynkowa']}" name="wartosc_rynkowa" placeholder="np. 22" required></td>
+                <td><input type="number" value="{$wiersz['wartosc_rynkowa']}" name="wartosc_rynkowa" min="0" placeholder="np. 22" required></td>
             </tr>
             <tr>
                 <td><label>Ilość strzelonych goli</label></td>
-                <td><input type="number" value="{$wiersz['ilosc_strzelonych_goli']}" name="ilosc_strzelonych_goli"  placeholder="np. 5"  required></td>
+                <td><input type="number" value="{$wiersz['ilosc_strzelonych_goli']}" min="0" name="ilosc_strzelonych_goli"  placeholder="np. 5"  required></td>
             </tr>
             <tr>
                 <td><label for="kraj">Wybierz kraj:</label></td>
@@ -176,33 +176,24 @@ class SzablonHtml
     {
         echo <<<HTML
 
-       
-
-        <form method="post" action="/zaloguj">
-            <div class="mb-3">
-                <label for="uzytkownik" class="form-label">Użytkownik</label>
-                <input type="text" class="form-control" id="uzytkownik" name="uzytkownik" required>
+        <form method="post" action="/zaloguj" class="form">
+            <div class="form__group">
+                <label for="uzytkownik" class="form__label">Użytkownik</label>
+                <input type="text" class="form__control" id="uzytkownik" name="uzytkownik" required>
             </div>
-            <div class="mb-3">
-                <label for="haslo" class="form-label">haslo</label>
-                <input type="password" class="form-control" id="haslo" name="haslo" required>
+            <div class="form__group">
+                <label for="haslo" class="form__label">Hasło</label>
+                <input type="password" class="form__control" id="haslo" name="haslo" required>
             </div>
-            <p><i>Treść widoczna tylko dla zalogowanych użytkowników!</i></p>
-            <button type="submit" class="btn btn-primary">
-                Zaloguj <i class="fa-solid fa-right-to-bracket"></i>
+            <p class="form__note"><i>Treść widoczna tylko dla zalogowanych użytkowników!</i></p>
+            <button type="submit" class="form__button">
+                Zaloguj <i class="form__icon"></i>
             </button>
         </form>
 
-        <script>document.querySelector(".menu").style.display="none";</script>
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-            
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
-        <link rel="stylesheet" href="public/style.css">
-
-        
-
+        <script>
+            document.querySelector(".menu").style.display = "none";
+        </script>
         HTML;
     }
 
@@ -248,9 +239,6 @@ class SzablonHtml
 
                 </select>
             </div>
-
-
-
         </div>
 
 

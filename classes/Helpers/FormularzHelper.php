@@ -6,7 +6,7 @@ use Pilkanozna\Models\ZapytaniaSql;
 use Pilkanozna\Views\SzablonHtml;
 
 
-class FormularzHelper
+class FormularzHelpers
 {
     private function SelectHTML(array $dane, $id, $nazwa, $fk): string
     {
@@ -19,16 +19,16 @@ class FormularzHelper
         return $html;
     }
 
-    public function Pilkarz($dane, $adres, $napisprzycisk, $fetchData): void
+    public function Pilkarz($dane, $adres, $napisprzycisk, $pobierzDane): void
     {
         $sqlkraj = ZapytaniaSql::select_Kraj();
-        $kraje = $fetchData($sqlkraj, 'pk_kraj', 'nazwa');
+        $kraje = $pobierzDane($sqlkraj, 'pk_kraj', 'nazwa');
 
         $sqlnumer = ZapytaniaSql::select_Numernakoszulce();
-        $numery = $fetchData($sqlnumer, 'pk_numernakoszulce', 'numer');
+        $numery = $pobierzDane($sqlnumer, 'pk_numernakoszulce', 'numer');
 
         $sqlpozycja = ZapytaniaSql::select_Pozycja();
-        $pozycje = $fetchData($sqlpozycja, 'pk_pozycja', 'nazwa');
+        $pozycje = $pobierzDane($sqlpozycja, 'pk_pozycja', 'nazwa');
 
         $select_kraje_html = $this->SelectHTML($kraje, 'pk_kraj', 'nazwa', 'fk_kraj');
         $select_numernakoszulce_html = $this->SelectHTML($numery, 'pk_numernakoszulce', 'numer', 'fk_numernakoszulce');
