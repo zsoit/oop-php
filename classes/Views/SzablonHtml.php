@@ -201,36 +201,45 @@ abstract class SzablonHtml
     {
         echo <<<HTML
 
-        <form action="/szukaj" method="POST">
+        <form action="/szukaj" method="GET">
             <table>
 
             <tr>
                 <td>
-                    <label>Imię i nazwisko</label>
+                    <label>Imie</label>
                 </td>
                 <td>
-                    <input type="text" name="szukane" id="">
+                    <input type="text" name="imie" id="imie">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label>Nazwisko</label>
+                </td>
+                <td>
+                    <input type="text" name="nazwisko" id="nazwisko">
                 </td>
             </tr>
 
             <tr>
                 <td><label>Sortuj</label></td>
                 <td>
-                    <select name="sortuj">
-                        <option value="a-z">Najnowsze wpisy</option>
-                        <option value="a-z">Najstarsze wpisy</option>
+                    <select name="sortuj" id="sortuj">
+                        <option value="najnowsze">Najnowsze wpisy</option>
+                        <option value="najstarsze">Najstarsze wpisy</option>
 
-                        <option value="z-a">Alfabetycznie A-Z (Nazwisko)</option>
+                        <option value="a-z">Alfabetycznie A-Z (Nazwisko)</option>
                         <option value="z-a">Alfabetycznie Z-A (Nazwisko)</option>
 
-                        <option value="z-a">Rosnąco: Wzrost</option>
-                        <option value="z-a">Malejąco: Wzrost</option>
+                        <option value="wzrost-asc">Rosnąco: Wzrost</option>
+                        <option value="wzrost-desc">Malejąco: Wzrost</option>
 
-                        <option value="z-a">Rosnąco: Data urodzenia</option>
-                        <option value="z-a">Malejąco: Data urodzenia</option>
+                        <option value="dataurodzania-asc">Rosnąco: Data urodzenia</option>
+                        <option value="dataurodzania-desc">Malejąco: Data urodzenia</option>
 
-                        <option value="z-a">Malejąco: Wartośc rynkowa</option>
-                        <option value="z-a">Malejąco: Wartośc rynkowa</option>
+                        <option value="wartosc-asc">Malejąco: Wartośc rynkowa</option>
+                        <option value="wartosc-desc">Malejąco: Wartośc rynkowa</option>
 
                     </select>
                 </td>
@@ -239,11 +248,11 @@ abstract class SzablonHtml
 
             <tr>
                 <td>
-                    <input type="checkbox" id="noga_check" name="noga_check" value="1">
+                    <input type="checkbox" id="noga_check" value="1">
                     <label>Wiodąca noga</label>
                 </td>
                 <td>
-                    <select name="wiodaca_noga" id="noga">
+                    <select name="wiodaca_noga" id="noga" disabled>
                         <option value="LEWA">LEWA</option>
                         <option value="PRAWA">PRAWA</option>
                         <option value="OBU-NOŻNY">OBU-NOŻNY</option>
@@ -252,21 +261,21 @@ abstract class SzablonHtml
             </tr>
             <tr>
                 <td>
-                    <input type="checkbox" id="kraj_check" name="kraj_check" value="1">
+                    <input type="checkbox" id="kraj_check" value="1">
                     <label for="kraj">Wybierz kraj:</label>
                 </td>
                 <td>$kraje</td>
             </tr>
             <tr>
                 <td>
-                    <input type="checkbox" id="numernakoszulce_check" name="numernakoszulce_check" value="1">
+                    <input type="checkbox" id="numernakoszulce_check" value="1">
                     <label for="numrnakoszulce">Numer na koszulce</label>
                 </td>
                 <td>$numernakoszulce</td>
             </tr>
             <tr>
                 <td>
-                    <input type="checkbox" id="pozycja_check" name="pozycja_check" value="1">
+                    <input type="checkbox" id="pozycja_check" value="1">
                     <label for="pozycja">Pozycja</label>
                 </td>
                 <td>$pozycja</td>
@@ -309,6 +318,42 @@ abstract class SzablonHtml
                 });
             }
 
+                function pobierzParametrGet(parametr) {
+                    const queryString = window.location.search.substr(1); // Pobieramy część adresu URL po znaku zapytania (?)
+
+                    const paryParametrow = queryString.split('&'); // Rozdzielamy parametry na pary (nazwa=wartość)
+
+                    for (const paraParametru of paryParametrow) {
+                    const [nazwa, wartosc] = paraParametru.split('='); // Rozdzielamy nazwę i wartość parametru
+                    if (nazwa === parametr) {
+                    return decodeURIComponent(wartosc); // Znaleźliśmy pasujący parametr, zwracamy jego wartość
+                }
+                }
+
+                return null; // Parametr o podanej nazwie nie został znaleziony
+                }
+
+
+
+                function setFormularzPole(getparametr,formularzid){
+
+                   
+                    var wartosc = pobierzParametrGet(getparametr);;
+                    var pole = document.querySelector(formularzid);
+
+                    pole.value = wartosc;
+
+                }
+
+                function clickBox(id,id2){
+                    var box = document.getElementById(id);
+                    var wartosc = document.getElementById(id2);
+
+                    if(wartosc.value == "") console.log("puste"); 
+                    else box.click();
+                }
+                // Przykład użycia:
+
             // Wywołaj funkcję po załadowaniu strony, przekazując identyfikatory checkboxa i selecta
             window.addEventListener("load", function () {
                 setupCheckboxAndSelect("noga_check", "noga");
@@ -316,10 +361,21 @@ abstract class SzablonHtml
                 setupCheckboxAndSelect("numernakoszulce_check", "fk_numernakoszulce");
                 setupCheckboxAndSelect("pozycja_check", "fk_pozycja");
 
-                var szukaneslowo = document.querySelector("#szukaneslowo").innerHTML;
-                var szukany_input = document.querySelector("#szukane-slowo");
+                setFormularzPole("sortuj","#sortuj");
+                setFormularzPole("imie","#imie");
+                setFormularzPole("nazwisko","#nazwisko");
 
-                szukany_input.value = szukaneslowo;
+                setFormularzPole("wiodaca_noga","#noga");
+                clickBox("noga_check","noga");
+
+                setFormularzPole("fk_kraj","#fk_kraj");
+                clickBox("kraj_check","fk_kraj");
+
+                setFormularzPole("fk_pozycja","#fk_pozycja");
+                clickBox("pozycja_check","fk_pozycja");
+
+                setFormularzPole("fk_numernakoszulce","#fk_numernakoszulce");
+                clickBox("numernakoszulce_check","fk_numernakoszulce");
 
             });
             </script>

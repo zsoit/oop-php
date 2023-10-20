@@ -144,6 +144,9 @@ class Aplikacja extends BazaDanychHelpers
 
     protected function Szukaj(): void
     {
+
+
+        
         
         $this->Filtry();
         SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b id='szukaneslowo'>{$this->Pilkarz->getSzukaj()}</b>");

@@ -75,7 +75,7 @@ class StronaHtml
                     <span>Dodaj</span>
                 </a>
             </div>
-            <div class="menu__item menu__item--search">
+            <!-- <div class="menu__item menu__item--search">
                 <form action="/szukaj" method="GET">
                     <input class="fakeBtn"  type="text" name="slowo" placeholder="Imie lub nazwisko" id="szukane-slowo"required>
                     <button class="fakeBtn" >
@@ -83,7 +83,7 @@ class StronaHtml
                         <span>Szukaj</span>
                     </button>
                     </form>
-            </div>
+            </div> -->
             
             <div class="menu__item">
                 <a class="fakeBtn" href="/wyloguj">
