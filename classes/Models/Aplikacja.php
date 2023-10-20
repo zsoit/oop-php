@@ -145,21 +145,24 @@ class Aplikacja extends BazaDanychHelpers
     protected function Szukaj(): void
     {
 
-
-        
-        
+        ZapytaniaSql::test();
         $this->Filtry();
         SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b id='szukaneslowo'>{$this->Pilkarz->getSzukaj()}</b>");
         
-        $sql = ZapytaniaSql::select_Szukaj($this->Pilkarz->getSzukaj());
-        $wynik = $this->Zapytanie(
-            $sql
-        );
+        // $sql = ZapytaniaSql::select_Szukaj($this->Pilkarz->getSzukaj());
+        $sql = ZapytaniaSql::Select_Filtruj();
+
+        $wynik = $this->Zapytanie($sql);
 
         if ($wynik->num_rows > 0)
+        {
             while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Zawodnik($wiersz);
+        }
         else
+        {
             SzablonHtml::Naglowek("BRAK");
+
+        }
     }
 
 

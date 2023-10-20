@@ -2,11 +2,14 @@
 namespace Pilkanozna\Models;
 
 use Pilkanozna\Controller\KontrolerDanych;
+use Pilkanozna\Helper\FormularzHelpers;
 
 class FiltrowanieSql
 {
     private object $Dane;
-    private $szukane;
+    private $imie;
+    private $nazwisko;
+
     private $sortowanie;
     
     private $noga;
@@ -17,12 +20,15 @@ class FiltrowanieSql
 
     public function __construct() {
         $this->Dane = new KontrolerDanych();
-        $this->szukane = $this->Dane->getMetoda('szukane');
-        $this->sortowanie = $this->Dane->getMetoda('sortowanie');
+        $this->imie = $this->Dane->getMetoda('imie');
+        $this->nazwisko = $this->Dane->getMetoda('nazwisko');
+        $this->sortowanie = $this->Dane->getMetoda('sortuj');
         $this->noga = $this->Dane->getMetoda('wiodaca_noga');
-        $this->kraj = $this->Dane->getMetoda('wartosc_rynkowa');
-        $this->numernakoszulce = $this->Dane->getMetoda('numernakoszulce');
-        $this->pozycja = $this->Dane->getMetoda('pozycja');
+        $this->kraj = $this->Dane->getMetoda('fk_kraj');
+
+
+        $this->numernakoszulce = $this->Dane->getMetoda('fk_numernakoszulce');
+        $this->pozycja = $this->Dane->getMetoda('fk_pozycja');
 
     }
     public static function getWyswietl(): string
@@ -40,117 +46,198 @@ class FiltrowanieSql
         SQL;
     }
 
-
-    private function getSzukane(): string
+    public function setSql($kolumna,$parametr)
     {
+        $sql = " $kolumna='$parametr'";
+        $sql = $this->sprawdzCzyUstawiono($parametr,$sql);
 
-        $sql = "";
-
-        $sql = $this->szukane;
+        if($sql == "") $sql = " $kolumna IS NOT NULL ";
 
         return $sql;
-
     }
 
-    private function getSortowanie(): string
+
+
+    private function getImie(): string
     {
-        $SqlSortowanie = "ORDER BY ";
-        switch($this->sortowanie)
-        {
-    
-            case 'najnowsze':
-                $SqlSortowanie += "pk_pilkarz ASC";
-                break;
-            
-            case 'najstarsze':
-                $SqlSortowanie += "pk_pilkarz DESC";
-                break;        
-
-            case 'a-z':
-                $SqlSortowanie += "nazwisko ASC";
-                break;
-            
-            case 'z-a':
-                $SqlSortowanie += "nazwisko DESC";
-                break;
-
-            case "wzrost-desc":
-                $SqlSortowanie += "wzrost DESC";
-                break;
-            
-            case "wzrost-asc":
-                $SqlSortowanie += "wzrost ASC";
-                 break;
-
-            case "dataurodzenia-desc":
-                $SqlSortowanie += "data_urodzenia DESC";
-                break;
-                
-            case "dataurodzenia-asc":
-                $SqlSortowanie += "data_urodzenia ASC";
-                break;
 
 
-            case "wartosc-desc":
-                $SqlSortowanie += "wartosc_rynkowa DESC";
-                break;
-        
-            case "wartosc-asc":
-                $SqlSortowanie += "wartosc_rynkowa ASC";
-                break;                       
-        }
+        return $this->setSql("imie",$this->imie);
 
-        return $SqlSortowanie;
+
     }
+
+    private function getNazwisko(): string
+    {
+
+        return $this->setSql("nazwisko",$this->nazwisko);
+
+    }
+
+
 
     private function getNoga(): string
     {
-        $noga = $this->noga;
-        $sql = "WHERE pilkarz.wiodoca_noga='$noga'";
-        return $sql;
+
+        return $this->setSql("pilkarz.wiodaca_noga",$this->noga);
+
 
     }
 
     private function getKraj(): string
     {
-        $kraj = $this->kraj;
-        $sql = "WHERE krajpilkarza.pk_kraj='$kraj'";
-        return $sql;
 
+        return $this->setSql("pilkarz.fk_kraj",$this->kraj);
     }
 
     private function getNumernakoszulce(): string
     {
-        $numer = $this->numernakoszulce;
-        $sql = "WHERE numernakoszulce.numer='$numer'";
-        return $sql;
+
+        return $this->setSql("pilkarz.fk_numernakoszulce",$this->numernakoszulce);
+
 
     }
 
 
     private function getPozycja(): string
     {
-        $pozcyja = $this->pozycja;
-        $sql = "WHERE pozycja.pk_pozycja='$pozcyja'";
-        return $sql;
+        return $this->setSql("pilkarz.fk_pozycja",$this->pozycja);
 
     }
 
-    public function sprawdzCzyUstawiono($parametr)
+
+
+
+    private function getSortowanie()
+    {
+        $SqlSortowanie = " ORDER BY ";
+        switch($this->sortowanie)
+        {
+    
+            case 'najnowsze':
+                $SqlSortowanie .= "pk_pilkarz ASC";
+                break;
+            
+            case 'najstarsze':
+                $SqlSortowanie .= "pk_pilkarz DESC";
+                break;        
+
+            case 'a-z':
+                $SqlSortowanie .= "nazwisko ASC";
+                break;
+            
+            case 'z-a':
+                $SqlSortowanie .= "nazwisko DESC";
+                break;
+
+            case "wzrost-desc":
+                $SqlSortowanie .= "wzrost DESC";
+                break;
+            
+            case "wzrost-asc":
+                $SqlSortowanie .= "wzrost ASC";
+
+                 break;
+
+            case "dataurodzania-desc":
+                $SqlSortowanie .= "data_urodzenia DESC";
+                break;
+                
+            case "dataurodzania-asc":
+                $SqlSortowanie .= "data_urodzenia ASC";
+                break;
+
+
+            case "wartosc-desc":
+                $SqlSortowanie .= "wartosc_rynkowa DESC";
+                break;
+        
+            case "wartosc-asc":
+                $SqlSortowanie .= "wartosc_rynkowa ASC";
+                break;                       
+        }
+
+        $SqlSortowanie = $this->sprawdzCzyUstawiono($this->sortowanie,$SqlSortowanie);
+        
+        return $SqlSortowanie;
+    }
+
+
+
+
+    public function sprawdzCzyUstawiono($parametr, $sql)
     {
         if($parametr != "")
         {
-            return " AND ";
+            return $sql;
         }
         else{
-            return " ";
+            return "";
         }
     }
 
+
+    public function sprawdzWhere()
+    {
+        if(
+            $this->imie OR 
+            $this->nazwisko OR
+            $this->noga OR
+            $this->kraj OR
+            $this->numernakoszulce OR
+            $this->pozycja
+        )
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function getWhere()
+    {
+        if($this->sprawdzWhere()) return " WHERE ";
+        else return false;
+    }
+
+    public function ZapytanieDlaWhere()
+    {
+        $Imie = $this->getImie();
+        $Nazwisko = $this->getNazwisko();
+        $Noga = $this->getNoga();
+        $Kraj = $this->getKraj();
+
+        $Numer = $this->getNumernakoszulce();
+        $Pozycja = $this->getPozycja();
+
+
+        $Sql = $Imie . " AND " . $Nazwisko . 
+        " AND " . $Noga  . " AND " . $Kraj
+        . " AND " . $Numer . " AND " . $Pozycja
+        ;
+
+
+        return $Sql;
+
+
+
+    }
+
+
     public function getCaleZaytanie(): string
     {
-        $SqlWyswietl = $this->getWyswietl();
-        $Sql = $SqlWyswietl . $this->getSortowanie();
+        $Poczatek = $this->getWyswietl();
+        $Sortowanie = $this->getSortowanie();
+        $Where = $this->getWhere();
+
+        $ZapytaniaDlaWhere = $this->ZapytanieDlaWhere();
+
+        $Sql = $Poczatek;
+
+        if(!$Where) return $Sql . $Sortowanie;
+        
+        $Sql .= $Where . $ZapytaniaDlaWhere . $Sortowanie;
         return $Sql;
 
     }
@@ -380,6 +467,20 @@ abstract class ZapytaniaSql
         PK_pilkarz = $pk_pilkarz
         ;
         SQL;
+    }
+
+    public static function test()
+    {
+
+        $test = new FiltrowanieSql();
+        echo $test->getCaleZaytanie();
+
+    }
+
+    public static function Select_Filtruj()
+    {
+        $filtr = new FiltrowanieSql();
+        return $filtr->getCaleZaytanie();
     }
 
 
