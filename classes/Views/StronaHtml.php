@@ -3,8 +3,15 @@ namespace Pilkanozna\Views;
 
 include_once './KonfiguracjaApp.php';
 
+interface IStronaHtml
+{
+    public function Head(): void;
+    public function Header(): void;
+    public function Footer(): void;
 
-class StronaHtml
+}
+
+class StronaHtml implements IStronaHtml
 {
 
 
@@ -14,7 +21,7 @@ class StronaHtml
     private string $przedmiot = PRZEDMIOT;
     private string $uczelnia = UCZLENIA;
 
-    public function  Head() :void
+    public function Head(): void
     {
         echo <<<HTML
 
@@ -75,15 +82,6 @@ class StronaHtml
                     <span>Dodaj</span>
                 </a>
             </div>
-            <!-- <div class="menu__item menu__item--search">
-                <form action="/szukaj" method="GET">
-                    <input class="fakeBtn"  type="text" name="slowo" placeholder="Imie lub nazwisko" id="szukane-slowo"required>
-                    <button class="fakeBtn" >
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Szukaj</span>
-                    </button>
-                    </form>
-            </div> -->
             
             <div class="menu__item">
                 <a class="fakeBtn" href="/wyloguj">

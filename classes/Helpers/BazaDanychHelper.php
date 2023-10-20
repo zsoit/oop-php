@@ -6,8 +6,7 @@ use Pilkanozna\Models\BazaDanych;
 use Pilkanozna\Models\ZapytaniaSql;
 
 
-
-class BazaDanychHelpers extends BazaDanych
+class BazaDanychHelper extends BazaDanych
 {
 
     public function __construct()

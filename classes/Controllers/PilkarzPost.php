@@ -4,15 +4,13 @@ namespace Pilkanozna\Controller;
 use Pilkanozna\Models\PobieraczObrazowWikipedia;
 use Pilkanozna\Controller\KontrolerDanych;
 
-class Pilkarz
+class PilkarzPost
 
 {
     private int $id;
     private string $imie;
     private string $nazwisko;
     private string $awatar;
-
-    private string $szukaj;
 
     private object $Dane;
     private object $Wikipedia;
@@ -23,7 +21,6 @@ class Pilkarz
         $this->id = $this->Dane->getID();
         $this->imie = $this->Dane->getPOST("imie");
         $this->nazwisko = $this->Dane->getPOST("nazwisko");
-        $this->szukaj = $this->Dane->getMetoda('slowo');
         
         $this->Wikipedia = new PobieraczObrazowWikipedia($this->imie, $this->nazwisko);
         $this->awatar = $this->Wikipedia->updateObrazka();
@@ -37,7 +34,6 @@ class Pilkarz
 
     public function getAwatar(): mixed { return $this->awatar;}
 
-    public function getSzukaj(): string{ return $this->szukaj;}
 
     public function getTablicaPOST($lista): mixed
     {

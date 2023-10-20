@@ -7,9 +7,10 @@ include_once './classes/Projekt.php';
 
 // kolejnosc ladowania - nie zmieniac
 
-Fl::Controllers("Pilkarz");
+Fl::Controllers("PilkarzPost");
 Fl::Models("BazaDanych");
 Fl::Helpers("BazaDanychHelper");
+Fl::Models("FiltrowanieSql");
 Fl::Models("ZapytaniaSql");
 Fl::Helpers("FormularzHelper");
 Fl::Models("Aplikacja");

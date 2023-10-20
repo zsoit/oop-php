@@ -4,7 +4,19 @@ namespace Pilkanozna\Views;
 
 use Pilkanozna\Models\PobieraczObrazowWikipedia;
 
-abstract class SzablonHtml
+interface ISzablonHtml
+{
+    public static function Zawodnik(array $wiersz): void;
+    public static function Naglowek(string $napis): void;
+    public static function PotwierdzUsuniecie($id,$imie,$nazwisko): void;
+    public static function Formularz(array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk): void;
+    public static function FormularzLogowania(): void;
+    public static function FormularzFilrowaniaJs(): void;
+    public static function FormularzFiltrowania($kraje,$numernakoszulce,$pozycja): void;
+
+}
+
+abstract class SzablonHtml implements ISzablonHtml
 {
 
     public static function Zawodnik(array $wiersz): void
@@ -74,9 +86,7 @@ abstract class SzablonHtml
     }
 
 
-    public static function Formularz(
-        array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk
-    ): void
+    public static function Formularz(array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk): void
     {
 
 
@@ -187,7 +197,7 @@ abstract class SzablonHtml
             </div>
             <p class="form__note"><i>Treść widoczna tylko dla zalogowanych użytkowników!</i></p>
             <button type="submit" class="form__button">
-                Zaloguj <i class="form__icon"></i>
+                Zaloguj <i class="fa-solid fa-right-to-bracket"></i>
             </button>
         </form>
 
@@ -197,7 +207,117 @@ abstract class SzablonHtml
         HTML;
     }
 
-    public static function FormularzFiltrowania($kraje,$numernakoszulce,$pozycja)
+
+    public static function FormularzFilrowaniaJs(): void
+    {
+        echo <<<HTML
+                 <script>
+            function setupCheckboxAndSelect(checkboxId, selectId) {
+                // Pobierz checkbox i pole wyboru na podstawie przekazanych identyfikatorów
+                var checkbox = document.getElementById(checkboxId);
+                var select = document.getElementById(selectId);
+
+                // Ustaw początkowy stan (domyślnie wyłączone)
+                select.disabled = true;
+
+                // Nasłuchuj zdarzenia zmiany stanu checkboxa
+                checkbox.addEventListener("change", function () {
+                    if (checkbox.checked) {
+                        select.disabled = false;
+                        checkbox.value="1";
+                    }
+                    else {
+                        select.disabled = true;
+                        checkbox.value="0";
+                    }
+                });
+            }
+
+                function pobierzParametrGet(parametr) {
+                    const queryString = window.location.search.substr(1);
+
+                    const paryParametrow = queryString.split('&');
+
+                    for (const paraParametru of paryParametrow) {
+                    const [nazwa, wartosc] = paraParametru.split('=');
+                    if (nazwa === parametr) {
+                    return decodeURIComponent(wartosc);
+                }
+                }
+
+                    return null;
+                }
+
+
+
+                function setFormularzPole(getparametr,formularzid){
+
+                   
+                    var wartosc = pobierzParametrGet(getparametr);;
+                    var pole = document.querySelector(formularzid);
+
+                    pole.value = wartosc;
+
+                }
+
+                function clickBox(id,id2){
+                    var box = document.getElementById(id);
+                    var wartosc = document.getElementById(id2);
+
+                    if(wartosc.value == "") console.log("puste"); 
+                    else box.click();
+                }
+
+                function WynikiWyszukiwania()
+                {
+                    var imie = pobierzParametrGet("imie");
+                    var nazwisko = pobierzParametrGet("nazwisko");
+
+
+                    var pole = document.querySelector("#szukanypilkarz");
+                    var wartosc = imie + " " + nazwisko;
+                    if(imie==null && nazwisko==null) wartosc=" "; 
+                   
+
+                    pole.innerHTML = wartosc;
+
+
+                }
+
+            window.addEventListener("load", function () {
+                setupCheckboxAndSelect("noga_check", "noga");
+                setupCheckboxAndSelect("kraj_check", "fk_kraj");
+                setupCheckboxAndSelect("numernakoszulce_check", "fk_numernakoszulce");
+                setupCheckboxAndSelect("pozycja_check", "fk_pozycja");
+
+                setFormularzPole("sortuj","#sortuj");
+                setFormularzPole("imie","#imie");
+                setFormularzPole("nazwisko","#nazwisko");
+
+                setFormularzPole("wiodaca_noga","#noga");
+                clickBox("noga_check","noga");
+
+                setFormularzPole("fk_kraj","#fk_kraj");
+                clickBox("kraj_check","fk_kraj");
+
+                setFormularzPole("fk_pozycja","#fk_pozycja");
+                clickBox("pozycja_check","fk_pozycja");
+
+                setFormularzPole("fk_numernakoszulce","#fk_numernakoszulce");
+                clickBox("numernakoszulce_check","fk_numernakoszulce");
+
+                WynikiWyszukiwania()
+
+
+
+            });
+            </script>
+
+        HTML;
+
+    }
+
+    public static function FormularzFiltrowania($kraje,$numernakoszulce,$pozycja): void
     {
         echo <<<HTML
 
@@ -283,104 +403,16 @@ abstract class SzablonHtml
             <tr>
                 <td><br>
                 <button class="fakeBtn">
-                    <i class="fa-regular fa-floppy-disk"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
                     <span>Szukaj</span>
                 </button>
                 </td>
             </tr>
             </table>
             </form>
-
-            <script>
-
-
-            </script>
-
-            <script>
-            function setupCheckboxAndSelect(checkboxId, selectId) {
-                // Pobierz checkbox i pole wyboru na podstawie przekazanych identyfikatorów
-                var checkbox = document.getElementById(checkboxId);
-                var select = document.getElementById(selectId);
-
-                // Ustaw początkowy stan (domyślnie wyłączone)
-                select.disabled = true;
-
-                // Nasłuchuj zdarzenia zmiany stanu checkboxa
-                checkbox.addEventListener("change", function () {
-                    if (checkbox.checked) {
-                        select.disabled = false;
-                        checkbox.value="1";
-                    }
-                    else {
-                        select.disabled = true;
-                        checkbox.value="0";
-                    }
-                });
-            }
-
-                function pobierzParametrGet(parametr) {
-                    const queryString = window.location.search.substr(1); // Pobieramy część adresu URL po znaku zapytania (?)
-
-                    const paryParametrow = queryString.split('&'); // Rozdzielamy parametry na pary (nazwa=wartość)
-
-                    for (const paraParametru of paryParametrow) {
-                    const [nazwa, wartosc] = paraParametru.split('='); // Rozdzielamy nazwę i wartość parametru
-                    if (nazwa === parametr) {
-                    return decodeURIComponent(wartosc); // Znaleźliśmy pasujący parametr, zwracamy jego wartość
-                }
-                }
-
-                return null; // Parametr o podanej nazwie nie został znaleziony
-                }
-
-
-
-                function setFormularzPole(getparametr,formularzid){
-
-                   
-                    var wartosc = pobierzParametrGet(getparametr);;
-                    var pole = document.querySelector(formularzid);
-
-                    pole.value = wartosc;
-
-                }
-
-                function clickBox(id,id2){
-                    var box = document.getElementById(id);
-                    var wartosc = document.getElementById(id2);
-
-                    if(wartosc.value == "") console.log("puste"); 
-                    else box.click();
-                }
-                // Przykład użycia:
-
-            // Wywołaj funkcję po załadowaniu strony, przekazując identyfikatory checkboxa i selecta
-            window.addEventListener("load", function () {
-                setupCheckboxAndSelect("noga_check", "noga");
-                setupCheckboxAndSelect("kraj_check", "fk_kraj");
-                setupCheckboxAndSelect("numernakoszulce_check", "fk_numernakoszulce");
-                setupCheckboxAndSelect("pozycja_check", "fk_pozycja");
-
-                setFormularzPole("sortuj","#sortuj");
-                setFormularzPole("imie","#imie");
-                setFormularzPole("nazwisko","#nazwisko");
-
-                setFormularzPole("wiodaca_noga","#noga");
-                clickBox("noga_check","noga");
-
-                setFormularzPole("fk_kraj","#fk_kraj");
-                clickBox("kraj_check","fk_kraj");
-
-                setFormularzPole("fk_pozycja","#fk_pozycja");
-                clickBox("pozycja_check","fk_pozycja");
-
-                setFormularzPole("fk_numernakoszulce","#fk_numernakoszulce");
-                clickBox("numernakoszulce_check","fk_numernakoszulce");
-
-            });
-            </script>
-
-
         HTML;
     }
+
+
+
 }

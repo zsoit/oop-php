@@ -4,7 +4,15 @@ namespace Pilkanozna\Controller;
 include_once './KonfiguracjaApp.php';
 
 
-class Autoryzacja
+interface iAutoryzacja
+{
+    public function SprawdzCzyZalogowano(): void;
+    public function SprobojZalogowac(): void;
+    public function Wyloguj(): void;
+
+}
+
+class Autoryzacja implements iAutoryzacja
 {
     private string $login = UZYTKOWNIKADMIN;
     private string $haslo= HASLOADMIN;

@@ -3,14 +3,14 @@
 namespace Pilkanozna\Models;
 
 
-use Pilkanozna\Helper\BazaDanychHelpers;
+use Pilkanozna\Helper\BazaDanychHelper;
 use Pilkanozna\Models\ZapytaniaSql;
 use Pilkanozna\Views\SzablonHtml;
-use Pilkanozna\Helper\FormularzHelpers;
-use Pilkanozna\Controller\Pilkarz;
+use Pilkanozna\Helper\FormularzHelper;
+use Pilkanozna\Controller\PilkarzPost;
 
 
-class Aplikacja extends BazaDanychHelpers
+class Aplikacja extends BazaDanychHelper
 {
 
     private object $Pilkarz;
@@ -20,8 +20,8 @@ class Aplikacja extends BazaDanychHelpers
     public function __construct()
     {
 
-        $this->Formularz = new FormularzHelpers();
-        $this->Pilkarz = new Pilkarz();
+        $this->Formularz = new FormularzHelper();
+        $this->Pilkarz = new PilkarzPost();
 
     }
 
@@ -137,7 +137,6 @@ class Aplikacja extends BazaDanychHelpers
     private function Filtry(): void
     {
         SzablonHtml::Naglowek("Filtry");
-
         $this->Formularz->Filtrowanie([$this, 'pobierzDane']);
     }
 
@@ -145,11 +144,11 @@ class Aplikacja extends BazaDanychHelpers
     protected function Szukaj(): void
     {
 
-        ZapytaniaSql::test();
+
         $this->Filtry();
-        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b id='szukaneslowo'>{$this->Pilkarz->getSzukaj()}</b>");
+        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b id='szukanypilkarz'></b>");
         
-        // $sql = ZapytaniaSql::select_Szukaj($this->Pilkarz->getSzukaj());
+
         $sql = ZapytaniaSql::Select_Filtruj();
 
         $wynik = $this->Zapytanie($sql);

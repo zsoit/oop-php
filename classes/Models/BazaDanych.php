@@ -3,6 +3,7 @@ namespace Pilkanozna\Models;
 
 use mysqli;
 
+
 class BazaDanych
 {
     private ?mysqli $polaczenie = null;

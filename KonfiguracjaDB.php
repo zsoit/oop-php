@@ -4,5 +4,3 @@ define("HOST", "localhost");
 define("UZYTKOWNIK", "projekt");
 define("HASLO", "Pracownia107!");
 define("BAZADANYCH", "pilkanozna");
-
-

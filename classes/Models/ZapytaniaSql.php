@@ -1,247 +1,7 @@
 <?php
 namespace Pilkanozna\Models;
 
-use Pilkanozna\Controller\KontrolerDanych;
-use Pilkanozna\Helper\FormularzHelpers;
-
-class FiltrowanieSql
-{
-    private object $Dane;
-    private $imie;
-    private $nazwisko;
-
-    private $sortowanie;
-    
-    private $noga;
-    private $kraj;
-    private $numernakoszulce;
-    private $pozycja;
-
-
-    public function __construct() {
-        $this->Dane = new KontrolerDanych();
-        $this->imie = $this->Dane->getMetoda('imie');
-        $this->nazwisko = $this->Dane->getMetoda('nazwisko');
-        $this->sortowanie = $this->Dane->getMetoda('sortuj');
-        $this->noga = $this->Dane->getMetoda('wiodaca_noga');
-        $this->kraj = $this->Dane->getMetoda('fk_kraj');
-
-
-        $this->numernakoszulce = $this->Dane->getMetoda('fk_numernakoszulce');
-        $this->pozycja = $this->Dane->getMetoda('fk_pozycja');
-
-    }
-    public static function getWyswietl(): string
-    {
-        return <<<SQL
-        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa,
-        ilosc_strzelonych_goli,
-        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja',
-        awatar.link as 'link'
-        FROM pilkarz
-        join krajpilkarza on FK_kraj=PK_kraj
-        join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
-        join pozycja on FK_pozycja=PK_pozycja
-        join awatar on Fk_pilkarz=Pk_pilkarz
-        SQL;
-    }
-
-    public function setSql($kolumna,$parametr)
-    {
-        $sql = " $kolumna='$parametr'";
-        $sql = $this->sprawdzCzyUstawiono($parametr,$sql);
-
-        if($sql == "") $sql = " $kolumna IS NOT NULL ";
-
-        return $sql;
-    }
-
-
-
-    private function getImie(): string
-    {
-
-
-        return $this->setSql("imie",$this->imie);
-
-
-    }
-
-    private function getNazwisko(): string
-    {
-
-        return $this->setSql("nazwisko",$this->nazwisko);
-
-    }
-
-
-
-    private function getNoga(): string
-    {
-
-        return $this->setSql("pilkarz.wiodaca_noga",$this->noga);
-
-
-    }
-
-    private function getKraj(): string
-    {
-
-        return $this->setSql("pilkarz.fk_kraj",$this->kraj);
-    }
-
-    private function getNumernakoszulce(): string
-    {
-
-        return $this->setSql("pilkarz.fk_numernakoszulce",$this->numernakoszulce);
-
-
-    }
-
-
-    private function getPozycja(): string
-    {
-        return $this->setSql("pilkarz.fk_pozycja",$this->pozycja);
-
-    }
-
-
-
-
-    private function getSortowanie()
-    {
-        $SqlSortowanie = " ORDER BY ";
-        switch($this->sortowanie)
-        {
-    
-            case 'najnowsze':
-                $SqlSortowanie .= "pk_pilkarz ASC";
-                break;
-            
-            case 'najstarsze':
-                $SqlSortowanie .= "pk_pilkarz DESC";
-                break;        
-
-            case 'a-z':
-                $SqlSortowanie .= "nazwisko ASC";
-                break;
-            
-            case 'z-a':
-                $SqlSortowanie .= "nazwisko DESC";
-                break;
-
-            case "wzrost-desc":
-                $SqlSortowanie .= "wzrost DESC";
-                break;
-            
-            case "wzrost-asc":
-                $SqlSortowanie .= "wzrost ASC";
-
-                 break;
-
-            case "dataurodzania-desc":
-                $SqlSortowanie .= "data_urodzenia DESC";
-                break;
-                
-            case "dataurodzania-asc":
-                $SqlSortowanie .= "data_urodzenia ASC";
-                break;
-
-
-            case "wartosc-desc":
-                $SqlSortowanie .= "wartosc_rynkowa DESC";
-                break;
-        
-            case "wartosc-asc":
-                $SqlSortowanie .= "wartosc_rynkowa ASC";
-                break;                       
-        }
-
-        $SqlSortowanie = $this->sprawdzCzyUstawiono($this->sortowanie,$SqlSortowanie);
-        
-        return $SqlSortowanie;
-    }
-
-
-
-
-    public function sprawdzCzyUstawiono($parametr, $sql)
-    {
-        if($parametr != "")
-        {
-            return $sql;
-        }
-        else{
-            return "";
-        }
-    }
-
-
-    public function sprawdzWhere()
-    {
-        if(
-            $this->imie OR 
-            $this->nazwisko OR
-            $this->noga OR
-            $this->kraj OR
-            $this->numernakoszulce OR
-            $this->pozycja
-        )
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public function getWhere()
-    {
-        if($this->sprawdzWhere()) return " WHERE ";
-        else return false;
-    }
-
-    public function ZapytanieDlaWhere()
-    {
-        $Imie = $this->getImie();
-        $Nazwisko = $this->getNazwisko();
-        $Noga = $this->getNoga();
-        $Kraj = $this->getKraj();
-
-        $Numer = $this->getNumernakoszulce();
-        $Pozycja = $this->getPozycja();
-
-
-        $Sql = $Imie . " AND " . $Nazwisko . 
-        " AND " . $Noga  . " AND " . $Kraj
-        . " AND " . $Numer . " AND " . $Pozycja
-        ;
-
-
-        return $Sql;
-
-
-
-    }
-
-
-    public function getCaleZaytanie(): string
-    {
-        $Poczatek = $this->getWyswietl();
-        $Sortowanie = $this->getSortowanie();
-        $Where = $this->getWhere();
-
-        $ZapytaniaDlaWhere = $this->ZapytanieDlaWhere();
-
-        $Sql = $Poczatek;
-
-        if(!$Where) return $Sql . $Sortowanie;
-        
-        $Sql .= $Where . $ZapytaniaDlaWhere . $Sortowanie;
-        return $Sql;
-
-    }
-}
+use Pilkanozna\Models\FiltrowanieSql;
 
 abstract class ZapytaniaSql
 {
@@ -278,29 +38,6 @@ abstract class ZapytaniaSql
         SQL;
     }
 
-    public static function select_Szukaj($SZUKAJ): string
-    {
-        return <<<SQL
-        SELECT PK_pilkarz as 'id', imie, nazwisko, wzrost, data_urodzenia, wiodaca_noga, wartosc_rynkowa,
-        ilosc_strzelonych_goli,
-        krajpilkarza.nazwa as 'pilkarzkraj', numernakoszulce.numer, pozycja.nazwa as 'pozycja',
-        awatar.link as 'link'
-        FROM pilkarz
-        join krajpilkarza on FK_kraj=PK_kraj
-        join numernakoszulce on FK_numernakoszulce=PK_numernakoszulce
-        join pozycja on FK_pozycja=PK_pozycja
-        join awatar on Fk_pilkarz=Pk_pilkarz
-        WHERE
-            imie LIKE "%$SZUKAJ%" OR
-            imie LIKE "$SZUKAJ%"  OR
-            imie LIKE "%$SZUKAJ"
-        OR
-            nazwisko LIKE "%$SZUKAJ%" OR
-            nazwisko LIKE "$SZUKAJ%" OR
-            nazwisko LIKE "%$SZUKAJ"
-        SQL;
-    }
-
     public static function liczbaZawodnikow(): string
     {
         return <<<SQL
@@ -317,8 +54,6 @@ abstract class ZapytaniaSql
         WHERE pk_pilkarz = $id
         SQL;
     }
-
-
 
     public static function select_Edytuj(string $id): string
     {
@@ -469,18 +204,18 @@ abstract class ZapytaniaSql
         SQL;
     }
 
-    public static function test()
+    public static function FiltrujTest()
     {
 
         $test = new FiltrowanieSql();
-        echo $test->getCaleZaytanie();
+        echo $test->getCaleZapytanie();
 
     }
 
     public static function Select_Filtruj()
     {
         $filtr = new FiltrowanieSql();
-        return $filtr->getCaleZaytanie();
+        return $filtr->getCaleZapytanie();
     }
 
 
