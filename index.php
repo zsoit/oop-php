@@ -10,6 +10,7 @@ include_once './classes/Projekt.php';
 Fl::Controllers("PilkarzPost");
 Fl::Models("BazaDanych");
 Fl::Helpers("BazaDanychHelper");
+Fl::Controllers("FiltrowanieKontroler");
 Fl::Models("FiltrowanieSql");
 Fl::Models("ZapytaniaSql");
 Fl::Helpers("FormularzHelper");

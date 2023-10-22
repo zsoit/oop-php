@@ -1,36 +1,11 @@
 <?php
 namespace Pilkanozna\Models;
 
-use Pilkanozna\Controller\KontrolerDanych;
+use Pilkanozna\Controller\FiltrowanieKontroler;
 
-class FiltrowanieSql
+class FiltrowanieSql extends FiltrowanieKontroler
 {
-    private object $Dane;
-    private $imie;
-    private $nazwisko;
-
-    private $sortowanie;
-    
-    private $noga;
-    private $kraj;
-    private $numernakoszulce;
-    private $pozycja;
-
-
-    public function __construct() {
-        $this->Dane = new KontrolerDanych();
-        $this->imie = $this->Dane->getMetoda('imie');
-        $this->nazwisko = $this->Dane->getMetoda('nazwisko');
-        $this->sortowanie = $this->Dane->getMetoda('sortuj');
-        $this->noga = $this->Dane->getMetoda('wiodaca_noga');
-        $this->kraj = $this->Dane->getMetoda('fk_kraj');
-
-
-        $this->numernakoszulce = $this->Dane->getMetoda('fk_numernakoszulce');
-        $this->pozycja = $this->Dane->getMetoda('fk_pozycja');
-
-    }
-    
+   
     public static function getWyswietl(): string
     {
         return <<<SQL
