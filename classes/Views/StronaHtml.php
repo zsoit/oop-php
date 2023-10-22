@@ -91,7 +91,7 @@ class StronaHtml implements IStronaHtml
             </div>
 
             <div class="menu__item">
-               <a href="/szukaj" class="gold">
+               <a href="/szukaj?imie=&nazwisko=" class="gold">
                <i class="fa-solid fa-filter"></i>
                 Filtry
                </a>

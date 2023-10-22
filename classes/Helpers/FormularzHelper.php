@@ -71,4 +71,16 @@ class FormularzHelper
         SzablonHtml::FormularzFilrowaniaJs();
 
     }
+
+
+    public function FormularzZapisu($wiersz, $id, $pobierzDane)
+    {
+        $this->Pilkarz($wiersz, "/zapisz?id=$id", "Zapisz",$pobierzDane);
+    }
+
+    public function FormularzDodawania($wiersz,$pobierzDane)
+    {
+        $this->Pilkarz($wiersz, "/dodaj", "Dodaj",$pobierzDane);
+
+    }
 }

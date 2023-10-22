@@ -13,6 +13,11 @@ Fl::Helpers("BazaDanychHelper");
 Fl::Models("FiltrowanieSql");
 Fl::Models("ZapytaniaSql");
 Fl::Helpers("FormularzHelper");
+
+Fl::Controllers("ZarzadzaniePilkarzami");
+Fl::Models("WyswietlaniePilkarzy");
+Fl::Models("OperacjePilkarzy");
+
 Fl::Models("Aplikacja");
 
 Fl::Controllers("KontrolerDanych");

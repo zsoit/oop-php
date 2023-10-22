@@ -3,179 +3,105 @@
 namespace Pilkanozna\Models;
 
 
-use Pilkanozna\Helper\BazaDanychHelper;
-use Pilkanozna\Models\ZapytaniaSql;
 use Pilkanozna\Views\SzablonHtml;
-use Pilkanozna\Helper\FormularzHelper;
-use Pilkanozna\Controller\PilkarzPost;
+use Pilkanozna\Models\WyswietlaniePilkarzy;
+use Pilkanozna\Models\OperacjePilkarzy;
 
 
-class Aplikacja extends BazaDanychHelper
+class Aplikacja 
 {
 
-    private object $Pilkarz;
-    private object $Formularz;
+    private object $Operacja;
+    private object $Wyswietalnie;
+
+    private object $SzablonHtml;
+
+    private $naglowek;
+    private $zawodnik;
+    private $potwierdzUsuniecie;
+
 
 
     public function __construct()
     {
 
-        $this->Formularz = new FormularzHelper();
-        $this->Pilkarz = new PilkarzPost();
+        $this->Operacja = new OperacjePilkarzy();
+        $this->Wyswietalnie = new WyswietlaniePilkarzy();
+        $this->SzablonHtml = new SzablonHtml();
+
+        $this->naglowek = [$this->SzablonHtml, 'Naglowek'];
+        $this->zawodnik = [$this->SzablonHtml, 'Zawodnik'];
+        $this->potwierdzUsuniecie = [$this->SzablonHtml, 'PotwierdzUsuniecie'];
 
     }
 
     protected function Wyswietl(): void
     {
-        SzablonHtml::Naglowek("ZAWODNICY ({$this->LiczbaPilkarzy()})");
- 
-        $wynik = $this->Zapytanie(
-            ZapytaniaSql::select_Wyswietl()
-        );
-
-        if ($wynik->num_rows > 0)
-            while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Zawodnik($wiersz);
-        else SzablonHtml::Naglowek("Brak piłkarzy");
-        
-                
+        $this->Wyswietalnie->WyswietlPilkarzy($this->naglowek,$this->zawodnik);      
     }
 
     protected function Usun(): void
     {
-        $imie = "";
-        $nazwisko = "";
-
-        $wynik = $this->Zapytanie(
-            ZapytaniaSql::select_ZawodnikById($this->Pilkarz->getId())
-        );
-
-        while ($wiersz = $wynik->fetch_assoc()){
-            $imie = $wiersz['imie'];
-            $nazwisko = $wiersz['nazwisko'];
-        }
-
-        $potwierdzenie =  (isset($_GET['potwierdzenie'])) ? $_GET['potwierdzenie'] : null;
-
-        if($potwierdzenie == "tak"){
-
-            SzablonHtml::Naglowek("Usunięto piłkarza <b>$imie $nazwisko</b>!");
-
-            $this->Zapytanie(ZapytaniaSql::delete_pilkarz($this->Pilkarz->getId()));
-            $this->Zapytanie(ZapytaniaSql::delete_Awatar($this->Pilkarz->getId()));
-
-            $this->Wyswietl();
-        }
-        else{
-            SzablonHtml::PotwierdzUsuniecie($this->Pilkarz->getId(),$imie,$nazwisko);
-        }
+        $this->Operacja->UsunPilkarza($this->naglowek,$this->potwierdzUsuniecie);
     }
 
     protected function Edytuj(): void
     {
-        SzablonHtml::Naglowek("EDYCJA");
-
-        $wynik = $this->Zapytanie(
-            ZapytaniaSql::select_Edytuj($this->Pilkarz->getId())
-        );
-        
-        while ($wiersz = (array) $wynik->fetch_assoc())
-            $this->Formularz->Pilkarz($wiersz, "/zapisz?id={$this->Pilkarz->getId()}", "Zapisz",[$this, 'pobierzDane']);
+        $this->SzablonHtml->Naglowek("EDYCJA");
+        $this->Wyswietalnie->WyswietlFomularzEdycji();
     }
 
     protected function Zapisz(): void
     {
-
-        SzablonHtml::Naglowek("Zapisano <b>{$this->Pilkarz->getImie()} {$this->Pilkarz->getNazwisko()}</b>!");
-        
-        // update info o pilkarzu
-        $this->Zapytanie(ZapytaniaSql::update_Zapisz($this->Pilkarz->getId(),$this->Pilkarz->getTablicaPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz()) )
-        );
-    
-        // update obrazka
-        $this->Zapytanie(
-            ZapytaniaSql::update_Awatar($this->Pilkarz->getAwatar(),$this->Pilkarz->getId())
-        );
-        
+        $this->Operacja->ZapiszPilkarza($this->naglowek);
+        header( "refresh:1;url=/" );
         $this->Wyswietl();
     }
 
 
     protected function Formularz_Dodaj(): void
     {
-        SzablonHtml::Naglowek("Dodawanie");
-
-        $pusty_formularz = (array)
-        $pusty_formularz = $this->Pilkarz->getTablicaPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz());
-
-        $this->Formularz->Pilkarz($pusty_formularz, "/dodaj", "Dodaj",[$this, 'pobierzDane']);
+        $this->SzablonHtml->Naglowek("Dodawanie");
+        $this->Wyswietalnie->WyswietlFormularzDodawania();
     }
 
     protected function Dodaj(): void
     {
-        SzablonHtml::Naglowek("Dodano <b>{$this->Pilkarz->getImie()} {$this->Pilkarz->getNazwisko()}</b>!");
-        
-        // ustaw obrazek
-        $this->Zapytanie
-        (
-            ZapytaniaSql::insert_Dodaj(
-                $this->Pilkarz->getTablicaPOST(ZapytaniaSql::getWszytkieKolumnyPilkarz())
-            )
-        );
-
-        $liczba = $this->OstatniPilkarz();
-
-        $this->Zapytanie(
-            ZapytaniaSql::insert_Awatar($this->Pilkarz->getAwatar(), $liczba)
-        );
-
+ 
+        $this->Operacja->DodajPilkarza($this->naglowek);
+        header( "refresh:1;url=/" );
         $this->Wyswietl();
       
-
     }
 
 
     private function Filtry(): void
     {
-        SzablonHtml::Naglowek("Filtry");
-        $this->Formularz->Filtrowanie([$this, 'pobierzDane']);
+        $this->SzablonHtml->Naglowek("Filtry");
+        $this->Operacja->FiltrujPilkarzy();
+        $this->SzablonHtml->Naglowek("Wyniki wyszukiwania:  <b id='szukanypilkarz'></b>");
     }
 
 
     protected function Szukaj(): void
     {
-
-
         $this->Filtry();
-        SzablonHtml::Naglowek("Wyniki wyszukiwania:  <b id='szukanypilkarz'></b>");
-        
-
-        $sql = ZapytaniaSql::Select_Filtruj();
-
-        $wynik = $this->Zapytanie($sql);
-
-        if ($wynik->num_rows > 0)
-        {
-            while ($wiersz = $wynik->fetch_assoc()) SzablonHtml::Zawodnik($wiersz);
-        }
-        else
-        {
-            SzablonHtml::Naglowek("BRAK");
-
-        }
+        $this->Wyswietalnie->WyswietlFiltrowanychPilkarzy($this->naglowek, $this->zawodnik);
+    
     }
 
 
     protected function Zaloguj(): void
     {
 
-        SzablonHtml::Naglowek("Zaloguj się");
-        SzablonHtml::FormularzLogowania();
+        $this->SzablonHtml->Naglowek("Zaloguj się");
+        $this->SzablonHtml->FormularzLogowania();
 
     }
 
     protected function Error404(): void
     {
-        SzablonHtml::Naglowek("404 - Strona nie istnieje! ");
+        $this->SzablonHtml->Naglowek("404 - Strona nie istnieje! ");
     }
 
 

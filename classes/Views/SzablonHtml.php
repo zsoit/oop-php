@@ -6,9 +6,9 @@ use Pilkanozna\Models\PobieraczObrazowWikipedia;
 
 interface ISzablonHtml
 {
-    public static function Zawodnik(array $wiersz): void;
-    public static function Naglowek(string $napis): void;
-    public static function PotwierdzUsuniecie($id,$imie,$nazwisko): void;
+    public function Zawodnik(array $wiersz): void;
+    public function Naglowek(string $napis): void;
+    public function PotwierdzUsuniecie($id,$imie,$nazwisko): void;
     public static function Formularz(array $wiersz, string $adres, $kraje, $numernakoszulce, $pozycja, $napisprzycisk): void;
     public static function FormularzLogowania(): void;
     public static function FormularzFilrowaniaJs(): void;
@@ -16,10 +16,10 @@ interface ISzablonHtml
 
 }
 
-abstract class SzablonHtml implements ISzablonHtml
+class SzablonHtml implements ISzablonHtml
 {
 
-    public static function Zawodnik(array $wiersz): void
+    public function Zawodnik(array $wiersz): void
     {
 
         $id = $wiersz['id'];
@@ -57,14 +57,14 @@ abstract class SzablonHtml implements ISzablonHtml
         HTML;
     }
 
-    public static function Naglowek(string $napis): void
+    public function Naglowek(string $napis): void
     {
         echo <<<HTML
             <div class="alert alert__header" >$napis</div>
         HTML;
     }
 
-    public static function PotwierdzUsuniecie($id,$imie,$nazwisko): void
+    public function PotwierdzUsuniecie($id,$imie,$nazwisko): void
     {
         echo <<<HTML
             <div class="alert" >
@@ -268,14 +268,22 @@ abstract class SzablonHtml implements ISzablonHtml
                     else box.click();
                 }
 
+                function policzElementyZKlasaCard() {
+                    var elementy = document.querySelectorAll('.card');
+                    return elementy.length;
+                }
+
+
                 function WynikiWyszukiwania()
                 {
                     var imie = pobierzParametrGet("imie");
                     var nazwisko = pobierzParametrGet("nazwisko");
 
+                    var ile = policzElementyZKlasaCard();
+
 
                     var pole = document.querySelector("#szukanypilkarz");
-                    var wartosc = imie + " " + nazwisko;
+                    var wartosc = imie + " " + nazwisko + " ("+ile+")";
                     if(imie==null && nazwisko==null) wartosc=" "; 
                    
 
@@ -283,6 +291,7 @@ abstract class SzablonHtml implements ISzablonHtml
 
 
                 }
+
 
             window.addEventListener("load", function () {
                 setupCheckboxAndSelect("noga_check", "noga");
