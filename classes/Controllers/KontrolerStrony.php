@@ -46,7 +46,6 @@ class KontrolerStrony extends Aplikacja
                 break;
 
             case '/szukaj':
-                $autoryzacja->SprawdzCzyZalogowano();
                 $this->Szukaj();
                 break;
 
@@ -60,7 +59,6 @@ class KontrolerStrony extends Aplikacja
                 break;
 
             case '/':
-                $autoryzacja->SprawdzCzyZalogowano();
                 $this->Wyswietl();
                 break;
 

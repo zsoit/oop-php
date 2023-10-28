@@ -19,6 +19,7 @@ class Autoryzacja implements iAutoryzacja
 
     public function __construct() {
         session_start();
+        $this->cssDlaNiezalogowanych();
     }
 
 
@@ -64,6 +65,29 @@ class Autoryzacja implements iAutoryzacja
         unset($_SESSION['logged_in']);
         header('Location: /zaloguj');
         exit();
+    }
+
+
+
+    private function cssDlaNiezalogowanych(): void
+    {
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+            echo <<<HTML
+            <style>
+            .btn_admin, .card .fakeBtn{
+                display: none;
+            }
+            </style>
+            <script>
+                const btn_text = document.querySelector(".btn-login span");
+                const btn_a = document.querySelector(".btn-login");
+
+                btn_text.textContent = "Zaloguj";
+                btn_a.href = "/zaloguj";
+            
+            </script>
+            HTML;
+        }
     }
 }
 

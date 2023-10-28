@@ -77,14 +77,14 @@ class StronaHtml implements IStronaHtml
             </div>
 
             <div class="menu__item">
-                <a class="fakeBtn" href="/formularz_dodaj">
+                <a class="fakeBtn btn_admin" href="/formularz_dodaj">
                     <i class="fa-solid fa-user-plus"></i>
                     <span>Dodaj</span>
                 </a>
             </div>
             
             <div class="menu__item">
-                <a class="fakeBtn" href="/wyloguj">
+                <a class="fakeBtn btn-login" href="/wyloguj">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Wyloguj</span>
                 </a>
