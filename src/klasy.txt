@@ -1,0 +1,25 @@
+
+classes
+├── Controllers
+│   ├── Autoryzacja.php
+│   ├── FiltrowanieKontroler.php
+│   ├── KontrolerDanych.php
+│   ├── KontrolerStrony.php
+│   ├── PilkarzPost.php
+│   └── ZarzadzaniePilkarzami.php
+├── FileLoader.php
+├── Helpers
+│   ├── BazaDanychHelper.php
+│   └── FormularzHelper.php
+├── Models
+│   ├── Aplikacja.php
+│   ├── BazaDanych.php
+│   ├── FiltrowanieSql.php
+│   ├── OperacjePilkarzy.php
+│   ├── PobieraczObrazowWikipedia.php
+│   ├── WyswietlaniePilkarzy.php
+│   └── ZapytaniaSql.php
+├── Projekt.php
+└── Views
+    ├── StronaHtml.php
+    └── SzablonHtml.php

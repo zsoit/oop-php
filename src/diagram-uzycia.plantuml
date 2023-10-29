@@ -1,0 +1,55 @@
+@startuml DiagramUzycia
+skinparam package {
+    BackgroundColor White
+}
+
+left to right direction
+
+
+actor Klient as User #Red
+actor Administrator as Admin  #Green
+actor "Baza Danych" as Database  #Blue
+actor "Kontroler" as Controller #Blue
+
+rectangle "Katalog Pilkarzy" {
+    User -> (Przeglądanie katalogu piłkarzy) #Red
+    User -> (Filtrowanie zawartości) #Red
+    User -> (Możliwość zalogowania) #Red 
+
+
+    Admin -> (Przeglądanie katalogu piłkarzy) #Green
+    Admin -> (Filtrowanie zawartości) #Green
+    Admin -> (Dodawanie piłkarzy) #Green
+    Admin -> (Edytowanie danych piłkarzy) #Green
+    Admin -> (Usuwanie piłkarzy) #Green
+
+    Database -- (Przechowywanie danych piłkarzy) #Blue 
+    Controller -- (Zarządzanie interakcjami) #Blue
+    Controller -- (Współpraca z bazą danych) #Blue
+    Controller -- (Zarządzanie logiką aplikacji) #Blue
+}
+
+User - [Użytkownik aplikacji]
+Admin - [Administrator aplikacji, pełne uprawnienia]
+Database - [Serwer bazodanowy SQL]
+Controller - [Kontroler, logika aplikacji]
+
+
+[Przeglądanie katalogu piłkarzy] .up.> (Filtrowanie zawartości) : include
+[Dodawanie piłkarzy] .up.> (Edytowanie danych piłkarzy) : extend
+
+[Filtrowanie zawartości] <.down. (Sortowanie rosnące/malejące po): extended 
+[Filtrowanie zawartości] <.down. (Po wiodącej nodze): extended 
+[Filtrowanie zawartości] <.down. (Po kraju): extended 
+[Filtrowanie zawartości] <.down. (Po Koszulce): extended 
+[Filtrowanie zawartości] <.down. (Po Pozycji): extended 
+
+[Sortowanie rosnące/malejące po] <.down. ( dacie urodzenia): include
+[Sortowanie rosnące/malejące po] <.down. ( dacie dodania): include
+[Sortowanie rosnące/malejące po] <.down. ( alfabetycznie po imieniu lub nazwisku): include
+[Sortowanie rosnące/malejące po] <.down. (Wartosci rynkowej): include
+
+
+
+
+@enduml

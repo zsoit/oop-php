@@ -1,0 +1,162 @@
+@startuml DiagramKlas
+skinparam class {
+    BackgroundColor LightYellow
+    BorderColor Black
+}
+
+package "Classes" {
+    package "Controllers" {
+
+        interface IAutoryzacja(){
+            + SprawdzCzyZalogowano()
+            + SprobojZalogowac()
+            + Wyloguj()
+
+        }
+        class Autoryzacja{
+
+            + SprawdzCzyZalogowano()
+            + SprobojZalogowac()
+            + Wyloguj()
+            -cssDlaNiezalogowanych()
+        }
+        class FiltrowanieKontroler
+        class KontrolerDanych
+        class KontrolerStrony
+        class PilkarzPost
+        class ZarzadzaniePilkarzami{
+            ' use Pilkanozna\Models\ZapytaniaSql;
+            ' use Pilkanozna\Helper\BazaDanychHelper;
+            ' use Pilkanozna\Controller\PilkarzPost;
+            ' use Pilkanozna\Helper\FormularzHelper;
+
+            # object Pilkarz
+            # object Formularz
+
+            # string id
+            # string imie
+            # string nazwisko
+            # string awatar
+            # array tablicaPost
+        }
+
+    }
+
+    class FileLoader
+    package "Helpers" {
+        class BazaDanychHelper
+        class FormularzHelper
+    }
+
+    package "Models" {
+        class Aplikacja {
+            ' + Pilkanozna\Views\SzablonHtml
+            ' + Pilkanozna\Models\WyswietlaniePilkarzy
+            ' + Pilkanozna\Models\OperacjePilkarzy
+            - object Operacja
+            - object Wyswietlanie
+            - object SzablonHtml
+            - naglowek
+            - zawodnik
+            - potwierdzUsuniecie
+
+            # Wyswietl(): void
+            # Usun(): void
+            # Edytuj(): void
+            # Zapisz(): void
+            # Formularz_Dodaj(): void
+            # Dodaj(): void
+            # Filtry(): void
+            # Szukaj(): void
+            # Zaloguj(): void
+            # Error404(): void
+        }
+        class BazaDanych {
+            + BazaDanych()
+            + Polaczenie()
+            + Rozlaczenie()
+            + Zapytanie()
+        }
+        class WyswietlaniePilkarzy{
+            ' use Pilkanozna\Controller\ZarzadzaniePilkarzami;
+            + WyswietlPilkarzy(): void
+            + WyswietlFiltrowanychPilkarzy(): void
+            + WyswietlFormularzDodawania(): void
+            + WyswietlFomularzEdycji(): void
+            + WyswietlaniePilkarzy(): void
+            + WyswietlPilkarzy(): void
+            + WyswietlFiltrowanychPilkarzy(): void
+            + WyswietlFormularzDodawania(): void
+            + WyswietlFomularzEdycji(): void
+
+        }
+
+        class OperacjePilkarzy{
+            ' use Pilkanozna\Models\ZarzadzaniePilkarzami;
+            + ZapiszPilkarza(): void
+            + DodajPilkarza(): void
+            + UsunPilkarza(): void
+            + FiltrujPilkarzy(): void
+            + OperacjePilkarzy(): void
+            + ZapiszPilkarza(): void
+            + DodajPilkarza(): void
+            + UsunPilkarza(): void
+            + FiltrujPilkarzy(): void
+        }
+
+        class PobieraczObrazowWikipedia
+        class ZapytaniaSql
+        class FiltrowanieSql
+    }
+
+    class Projekt {
+        + Pilkanozna\Controller\KontrolerStrony
+        + Pilkanozna\Views\StronaHtml
+        + FileLoader
+        + Uruchom()
+    }
+
+    class SzablonHtml {
+        + Pilkanozna\Models\PobieraczObrazowWikipedia
+    }
+
+
+
+    Autoryzacja --|> IAutoryzacja
+
+
+    Aplikacja --> SzablonHtml
+    Aplikacja --> WyswietlaniePilkarzy
+    Aplikacja --> OperacjePilkarzy
+
+
+
+    OperacjePilkarzy --> ZarzadzaniePilkarzami
+    WyswietlaniePilkarzy --> ZarzadzaniePilkarzami
+
+    ZarzadzaniePilkarzami --> ZapytaniaSql
+    ZarzadzaniePilkarzami --> BazaDanychHelper
+    ZarzadzaniePilkarzami --> PilkarzPost
+    ZarzadzaniePilkarzami --> FormularzHelper
+
+
+    FileLoader --|> Projekt
+
+
+
+    ' Autoryzacja --|> KontrolerStrony
+    ' FiltrowanieKontroler --|> KontrolerStrony
+    ' PilkarzPost --|> KontrolerStrony
+    ' ZarzadzaniePilkarzami --|> KontrolerStrony
+    ' FileLoader --> BazaDanychHelper
+    ' FileLoader --> FormularzHelper
+    ' BazaDanych --> ZapytaniaSql
+    ' BazaDanych --> FiltrowanieSql
+    ' BazaDanych --> OperacjePilkarzy
+    ' BazaDanych --> WyswietlaniePilkarzy
+    ' BazaDanych --> Aplikacja
+    ' WyswietlaniePilkarzy --> PobieraczObrazowWikipedia
+    ' Projekt --> SzablonHtml
+    ' SzablonHtml --> StronaHtml
+}
+@enduml
