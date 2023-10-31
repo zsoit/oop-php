@@ -1,11 +1,10 @@
 <?php
 use Pilkanozna\Projekt;
 
-
 include_once './classes/FileLoader.php';
 include_once './classes/Projekt.php';
 
-// kolejnosc ladowania - nie zmieniac
+// kolejnosc ladowania klas - nie zmieniac
 
 Fl::Controllers("PilkarzPost");
 Fl::Models("BazaDanych");
@@ -25,14 +24,9 @@ Fl::Controllers("KontrolerDanych");
 Fl::Controllers("Autoryzacja");
 Fl::Controllers("KontrolerStrony");
 
-
 Fl::Models("PobieraczObrazowWikipedia");
 Fl::Views("SzablonHtml");
 Fl::Views("StronaHtml");
 
 
 Projekt::Uruchom();
-
-
-
-

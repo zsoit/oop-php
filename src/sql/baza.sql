@@ -1,7 +1,6 @@
--- drop database if exists pilkanozna;
-
--- create database pilkanozna;
--- use pilkanozna;
+DROP DATABASE IF EXISTS pilkanozna;
+CREATE DATABASE pilkanozna;
+USE pilkanozna;
 
 CREATE TABLE pilkarz (
 	pk_pilkarz int primary key auto_increment,
@@ -37,9 +36,38 @@ CREATE TABLE pozycja (
 );
 
 
-INSERT INTO `pozycja` VALUES (1,'Środkowy napastnik'),(2,'Środkowy obrońca'),(3,'Prawy napastnik'),(4,'Bramkarz'),(5,'Lewy napastnik'),(6,'Ofensywny pomocnik'),(7,'Środkowy pomocnik');
-INSERT INTO `numernakoszulce` VALUES (1,7),(2,9),(3,24),(4,15),(5,3),(6,99),(7,10),(8,30),(9,18),(10,20),(11,19),(12,6),(13,33),(14,5),(15,23);
-INSERT INTO `krajpilkarza` VALUES (1,'Portugalia'),(2,'Polska'),(3,'Hiszpania'),(4,'Dania'),(5,'Francja'),(6,'Włochy'),(7,'Brazylia'),(8,'Argentyna'),(9,'Norwegia'),(10,'Niemcy'),(11,'Holandia'),(12,'Ukraina'),(13,'Anglia');
+INSERT INTO pozycja VALUES 
+(1,'Środkowy napastnik'),
+(2,'Środkowy obrońca'),
+(3,'Prawy napastnik'),
+(4,'Bramkarz'),
+(5,'Lewy napastnik'),
+(6,'Ofensywny pomocnik'),
+(7,'Środkowy pomocnik')
+;
+
+INSERT INTO numernakoszulce
+VALUES (1,7),(2,9),
+(3,24),(4,15),(5,3),(6,99),(7,10),(8,30),
+(9,18),(10,20),(11,19),(12,6),(13,33),
+(14,5),(15,23);
+
+INSERT INTO krajpilkarza 
+VALUES 
+(1,'Portugalia'),
+(2,'Polska'),
+(3,'Hiszpania'),
+(4,'Dania'),
+(5,'Francja'),
+(6,'Włochy'),
+(7,'Brazylia'),
+(8,'Argentyna'),
+(9,'Norwegia'),
+(10,'Niemcy'),
+(11,'Holandia'),
+(12,'Ukraina'),
+(13,'Anglia')
+;
 
 
 

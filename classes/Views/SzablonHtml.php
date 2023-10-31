@@ -46,7 +46,7 @@ class SzablonHtml implements ISzablonHtml
             <li> wzrost: <span>{$wiersz['wzrost']} m</span></li>
             <li> data urodzenia: <span>{$wiersz['data_urodzenia']}</span></li>
             <li> wiodąca noga: <span>{$wiersz['wiodaca_noga']}</span></li>
-            <li> wartość rynkowa: <span>{$wiersz['wartosc_rynkowa']}</span></li>
+            <li> wartość rynkowa: <span>{$wiersz['wartosc_rynkowa']} (mln USD)</span></li>
             <li> ilość strzelonych goli: <span>{$wiersz['ilosc_strzelonych_goli']}</span></li>
             <li> kraj: <span>{$wiersz['pilkarzkraj']}</span></li>
             <li> numer na koszulce: <span>{$wiersz['numer']}</span></li>
@@ -146,7 +146,7 @@ class SzablonHtml implements ISzablonHtml
                 <script>document.querySelector("select[name='wiodaca_noga'] option[value='{$wiersz['wiodaca_noga']}']").selected = true;</script>
             </tr>
             <tr>
-                <td><label>Wartość rynkowa</label></td>
+                <td><label>Wartość rynkowa (mln USD)</label></td>
                 <td><input type="number" value="{$wiersz['wartosc_rynkowa']}" name="wartosc_rynkowa" min="0" placeholder="np. 22" required></td>
             </tr>
             <tr>

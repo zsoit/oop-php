@@ -8,28 +8,23 @@ package "Classes" {
     package "Controllers" {
 
         interface IAutoryzacja(){
-            + SprawdzCzyZalogowano()
-            + SprobojZalogowac()
-            + Wyloguj()
+            + SprawdzCzyZalogowano(): void
+            + SprobojZalogowac(): void
+            + Wyloguj(): void
 
         }
         class Autoryzacja{
 
-            + SprawdzCzyZalogowano()
-            + SprobojZalogowac()
-            + Wyloguj()
-            -cssDlaNiezalogowanych()
+            + SprawdzCzyZalogowano(): void
+            + SprobojZalogowac(): void
+            + Wyloguj(): void
+            -cssDlaNiezalogowanych(): void
         }
         class FiltrowanieKontroler
         class KontrolerDanych
         class KontrolerStrony
         class PilkarzPost
         class ZarzadzaniePilkarzami{
-            ' use Pilkanozna\Models\ZapytaniaSql;
-            ' use Pilkanozna\Helper\BazaDanychHelper;
-            ' use Pilkanozna\Controller\PilkarzPost;
-            ' use Pilkanozna\Helper\FormularzHelper;
-
             # object Pilkarz
             # object Formularz
 
@@ -50,9 +45,6 @@ package "Classes" {
 
     package "Models" {
         class Aplikacja {
-            ' + Pilkanozna\Views\SzablonHtml
-            ' + Pilkanozna\Models\WyswietlaniePilkarzy
-            ' + Pilkanozna\Models\OperacjePilkarzy
             - object Operacja
             - object Wyswietlanie
             - object SzablonHtml
@@ -72,14 +64,11 @@ package "Classes" {
             # Error404(): void
         }
         class BazaDanych {
-            + BazaDanych()
             + Polaczenie()
             + Rozlaczenie()
             + Zapytanie()
         }
         class WyswietlaniePilkarzy{
-            ' use Pilkanozna\Controller\ZarzadzaniePilkarzami;
-            + WyswietlPilkarzy(): void
             + WyswietlFiltrowanychPilkarzy(): void
             + WyswietlFormularzDodawania(): void
             + WyswietlFomularzEdycji(): void
@@ -92,32 +81,69 @@ package "Classes" {
         }
 
         class OperacjePilkarzy{
-            ' use Pilkanozna\Models\ZarzadzaniePilkarzami;
             + ZapiszPilkarza(): void
             + DodajPilkarza(): void
             + UsunPilkarza(): void
             + FiltrujPilkarzy(): void
-            + OperacjePilkarzy(): void
             + ZapiszPilkarza(): void
             + DodajPilkarza(): void
             + UsunPilkarza(): void
             + FiltrujPilkarzy(): void
         }
 
-        class PobieraczObrazowWikipedia
-        class ZapytaniaSql
-        class FiltrowanieSql
+        class PobieraczObrazowWikipedia{
+            - API_URL
+            - ANON_AVATAR
+            +pobierzDaneObrazu(): void
+            +pobierzZrodlo(): mixed
+            +updateObrazka(): mixed
+            +wyswietlObraz(): string
+        }
+
+        abstract class ZapytaniaSql{
+            +getWszytkieKolumnyPilkarz(): array
+            +select_Wyswietl(): string
+            +liczbaZawodnikow(): string
+            +select_ZawodnikById(): string
+            +select_Edytuj(): string
+            +update_Zapisz(): string
+            +insert_Dodaj(): string
+            +select_Kraj(): string
+            +select_Numernakoszulce(): string
+            +select_Pozycja(): string
+            +select_ostaniZawodnik(): string
+            +select_Awatar(): string
+            +insert_Awatar(): string
+            +update_Awatar(): string
+            +delete_Awatar(): string
+            +delete_pilkarz(): string
+            +FiltrujTest(): string
+            +Select_Filtruj(): string
+        }
+        class FiltrowanieSql{
+            +getWyswietl(): string
+            +setSql(): mixed
+            -getImie(): string
+            -getNazwisko(): string
+            -getNoga(): string
+            -getKraj(): string
+            -getNumernakoszulce(): string
+            -getPozycja(): string
+            -getSortowanie(): string
+            -sprawdzCzyUstawiono()
+            -sprawdzWhere()
+            -getWhere(): string
+            -ZapytanieDlaWhere(): string
+            +getCaleZapytanie(): string
+        }
     }
 
     class Projekt {
-        + Pilkanozna\Controller\KontrolerStrony
-        + Pilkanozna\Views\StronaHtml
         + FileLoader
         + Uruchom()
     }
 
     class SzablonHtml {
-        + Pilkanozna\Models\PobieraczObrazowWikipedia
     }
 
 

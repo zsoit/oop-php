@@ -6,7 +6,7 @@
 
 
 
-package "Pilkanozna" {
+package "Pilkanozna - MySQL" {
 
     table( pilkarz ) {
         primary_key( id ): pk_pilkarz
@@ -51,11 +51,12 @@ package "Pilkanozna" {
         column( nazwa ): VARCHAR(30) NOT NULL UNIQUE
     }
  
-   pilkarz ||--o{ awatar : fk_pilkarz
-    pilkarz ||--o{ kraj : fk_kraj
-    awatar }--|| kraj : fk_pilkarz
+    pilkarz ||--o{ awatar : fk_pilkarz
     pilkarz ||--o{ numernakoszulce : fk_numernakoszulce
     pilkarz ||--o{ pozycja : fk_pozycja
+    pilkarz ||--o{ krajpilkarza : fk_kraj
+
+    krajpilkarza ||--o{ kraj: fk_kraj
 
 }
 
