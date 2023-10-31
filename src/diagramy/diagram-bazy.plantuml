@@ -1,0 +1,62 @@
+@startuml Pilkarznozna
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+
+
+package "Pilkanozna" {
+
+    table( pilkarz ) {
+        primary_key( id ): pk_pilkarz
+        column( imie ): VARCHAR(30) NOT NULL
+        column( nazwisko ): VARCHAR(30) NOT NULL
+        column( wzrost ): FLOAT NOT NULL
+        column( data_urodzenia ): DATE NOT NULL
+        column( wiodaca_noga ):  enum('LEWA', 'PRAWA', 'OBU-NOŻNY')
+        column( wartosc_rynkowa ): INT NOT NULL
+        column( ilosc_strzelonych_goli ): INT NOT NULL
+
+        foreign_key( fk_kraj ): INT<<FK>>
+        foreign_key( fk_numernakoszulce ): INT<<FK>>
+        foreign_key( fk_pozycja ): INT<<FK>>
+    }
+
+    table( awatar ) {
+        primary_key( id ): pk_awatar
+        column( link ): VARCHAR(200) NOT NULL
+        foreign_key( fk_pilkarz ): fk_pilkarz <<FK>>
+    }
+
+    table( kraj ) {
+        primary_key( id ): pk_kraj
+        column( link ): VARCHAR(200) NOT NULL
+        foreign_key( fk_kraj ): fk_pilkarz <<FK>>
+    }
+
+    table( krajpilkarza ) {
+        primary_key( id ): pk_kraj
+        column( nazwa ): VARCHAR(60) NOT NULL UNIQUE
+    }
+
+    table( numernakoszulce ) {
+        primary_key( id ): pk_numernakoszulce
+        column( numer ): INT NOT NULL UNIQUE
+    }
+
+   
+    table( pozycja ) {
+        primary_key( id ): pk_pozycja
+        column( nazwa ): VARCHAR(30) NOT NULL UNIQUE
+    }
+ 
+   pilkarz ||--o{ awatar : fk_pilkarz
+    pilkarz ||--o{ kraj : fk_kraj
+    awatar }--|| kraj : fk_pilkarz
+    pilkarz ||--o{ numernakoszulce : fk_numernakoszulce
+    pilkarz ||--o{ pozycja : fk_pozycja
+
+}
+
+@enduml
