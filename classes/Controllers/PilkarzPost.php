@@ -1,8 +1,8 @@
 <?php
 
-namespace Pilkanozna\Controller;
+namespace Pilkanozna\Controllers;
 use Pilkanozna\Models\PobieraczObrazowWikipedia;
-use Pilkanozna\Controller\KontrolerDanych;
+use Pilkanozna\Controllers\KontrolerDanych;
 
 class PilkarzPost
 

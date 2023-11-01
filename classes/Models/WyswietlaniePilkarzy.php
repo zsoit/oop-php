@@ -1,7 +1,7 @@
 <?php
 namespace Pilkanozna\Models;
 
-use Pilkanozna\Controller\ZarzadzaniePilkarzami;
+use Pilkanozna\Controllers\ZarzadzaniePilkarzami;
 
 interface iWyswietlaniePilkarzy
 {

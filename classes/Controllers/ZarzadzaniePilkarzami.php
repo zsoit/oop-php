@@ -1,10 +1,10 @@
 <?php
 
-namespace Pilkanozna\Controller;
+namespace Pilkanozna\Controllers;
 
 use Pilkanozna\Models\ZapytaniaSql;
 use Pilkanozna\Helpers\BazaDanychHelper;
-use Pilkanozna\Controller\PilkarzPost;
+use Pilkanozna\Controllers\PilkarzPost;
 use Pilkanozna\Helpers\FormularzHelper;
 
 

@@ -1,7 +1,7 @@
 <?php
 namespace Pilkanozna\Models;
 
-use Pilkanozna\Controller\FiltrowanieKontroler;
+use Pilkanozna\Controllers\FiltrowanieKontroler;
 
 class FiltrowanieSql extends FiltrowanieKontroler
 {

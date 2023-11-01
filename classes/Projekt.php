@@ -2,7 +2,7 @@
 // klasa do uruchamnia projektu
 namespace Pilkanozna;
 
-use Pilkanozna\Controller\KontrolerStrony;
+use Pilkanozna\Controllers\KontrolerStrony;
 use Pilkanozna\Views\StronaHtml;
 
 final class Projekt

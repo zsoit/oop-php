@@ -1,6 +1,6 @@
 <?php
 
-namespace Pilkanozna\Controller;
+namespace Pilkanozna\Controllers;
 
 
 interface IKontrolerDanych

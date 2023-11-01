@@ -1,5 +1,5 @@
 <?php
-namespace Pilkanozna\Controller;
+namespace Pilkanozna\Controllers;
 
 include_once './KonfiguracjaApp.php';
 

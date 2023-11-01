@@ -1,6 +1,6 @@
 <?php
-namespace Pilkanozna\Controller;
-use Pilkanozna\Controller\KontrolerDanych;
+namespace Pilkanozna\Controllers;
+use Pilkanozna\Controllers\KontrolerDanych;
 
 class FiltrowanieKontroler
 {

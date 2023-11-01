@@ -1,8 +1,8 @@
 <?php
 
-namespace Pilkanozna\Controller;
+namespace Pilkanozna\Controllers;
 
-use Pilkanozna\Controller\Autoryzacja;
+use Pilkanozna\Controllers\Autoryzacja;
 use Pilkanozna\Models\Aplikacja;
 
 
