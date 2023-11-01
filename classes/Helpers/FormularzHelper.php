@@ -1,5 +1,5 @@
 <?php
-namespace Pilkanozna\Helper;
+namespace Pilkanozna\Helpers;
 
 
 use Pilkanozna\Models\ZapytaniaSql;

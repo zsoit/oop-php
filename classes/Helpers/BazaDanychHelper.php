@@ -1,6 +1,6 @@
 <?php
 
-namespace Pilkanozna\Helper;
+namespace Pilkanozna\Helpers;
 
 use Pilkanozna\Models\BazaDanych;
 use Pilkanozna\Models\ZapytaniaSql;

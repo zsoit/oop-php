@@ -2,7 +2,6 @@
 
 class Fl 
 {
-
     public static function Views($name) {
         require_once "./classes/Views/$name.php";
     }

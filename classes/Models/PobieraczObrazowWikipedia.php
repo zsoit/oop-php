@@ -1,11 +1,5 @@
 <?php
-/* 
-Klasa łączy z API wikipedii i pobiera obrazy znanych osob z wikipedii na podstawie imienia i nazwiska
-Zrodlo: https://www.mediawiki.org/wiki/API:Main_page/pl
-*/
-
 namespace Pilkanozna\Models;
-
 
 class PobieraczObrazowWikipedia 
 {

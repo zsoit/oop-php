@@ -1,11 +1,9 @@
 <?php
 // klasa do uruchamnia projektu
-
 namespace Pilkanozna;
 
 use Pilkanozna\Controller\KontrolerStrony;
 use Pilkanozna\Views\StronaHtml;
-
 
 final class Projekt
 {
@@ -20,6 +18,4 @@ final class Projekt
         $Aplikacja->Routing();
         $Strona->Footer();
     }
-
-
 }

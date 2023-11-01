@@ -3,9 +3,9 @@
 namespace Pilkanozna\Controller;
 
 use Pilkanozna\Models\ZapytaniaSql;
-use Pilkanozna\Helper\BazaDanychHelper;
+use Pilkanozna\Helpers\BazaDanychHelper;
 use Pilkanozna\Controller\PilkarzPost;
-use Pilkanozna\Helper\FormularzHelper;
+use Pilkanozna\Helpers\FormularzHelper;
 
 
 class ZarzadzaniePilkarzami extends BazaDanychHelper
