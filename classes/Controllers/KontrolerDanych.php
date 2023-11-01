@@ -5,7 +5,7 @@ namespace Pilkanozna\Controller;
 
 interface IKontrolerDanych
 {
-    public static function getMetoda(string $slowo); // POBIERA POLE Z FORMULARZA METODĄ GET
+    public static function getMetoda(string $slowo): string; // POBIERA POLE Z FORMULARZA METODĄ GET
     public static function getID(): int;  // POBIERA ID Z LINKU
     public function getPOST(string $nazwa): string; // POBIERA POLE Z FORMULARZA METODĄ POST
     public function setPOST(array $lista): array;  // POBIERA I USTAWIA POLA Z FORMULARZA DO NOWEJ TABLICY
@@ -16,7 +16,7 @@ interface IKontrolerDanych
 class KontrolerDanych implements IKontrolerDanych
 {
 
-    public static function getMetoda(string $slowo)
+    public static function getMetoda(string $slowo): string
     {
         return (isset($_GET[$slowo])) ? $_GET[$slowo] :  "";
     }

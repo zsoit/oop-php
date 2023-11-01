@@ -20,10 +20,43 @@ package "Classes" {
             + Wyloguj(): void
             -cssDlaNiezalogowanych(): void
         }
-        class FiltrowanieKontroler
-        class KontrolerDanych
-        class KontrolerStrony
-        class PilkarzPost
+        class FiltrowanieKontroler{
+            # object Dane 
+            # string imie
+            # string nazwisko 
+            # string sortowanie
+            # string noga
+            # string kraj 
+            # string numernakoszulce 
+            # string pozycja 
+
+        }
+        class KontrolerDanych{
+            +getMetoda(): string
+            +getID(): int
+            +getPOST(): string
+            +setPOST(): array
+
+        }
+        class KontrolerStrony{
+            +Routing()
+        }
+
+        class PilkarzPost{
+            # int id
+            # string imie
+            # string nazwisko
+            # string awatar
+
+            # object Dane
+            # object Wikipedia
+
+            +getId(): int
+            +getNazwisko(): string
+            +getAwatar(): mixed
+            +getTablicaPOST(): mixed
+        }
+
         class ZarzadzaniePilkarzami{
             # object Pilkarz
             # object Formularz
@@ -35,12 +68,6 @@ package "Classes" {
             # array tablicaPost
         }
 
-    }
-
-    class FileLoader
-    package "Helpers" {
-        class BazaDanychHelper
-        class FormularzHelper
     }
 
     package "Models" {
@@ -138,51 +165,92 @@ package "Classes" {
         }
     }
 
+
+    package "Views"{
+        class StronaHtml{
+            +Head(): void
+            +Header(): void
+            -LazyLoadingJS(): void
+            +Footer(): void
+
+        }
+
+        class SzablonHtml {
+            +Zawodnik(): void
+            +Naglowek(): void
+            +potwierdzUsuniecie(): void
+            +Formularz(): void
+            +FormularzLogowania(): void
+            +FomularzFiltrowaniaJs(): void
+            +FormularzFiltrowania(): void
+        }
+
+    }
+
+    package "Helpers" {
+
+        class BazaDanychHelper
+        {
+            +pobierzDane(): array
+            +LiczbaPilkarzy(): int
+            +OstatniPilkarz(): int
+        }
+
+        class FormularzHelper
+        {
+            -kraje
+            -numery
+            -pozycjepublicpublic
+            -SelectHTML(): string
+            +Pilkarz(): void
+            +Filtrowanie(): void
+            +FormularzDodawania(): void
+        }
+    }
+
+
     class Projekt {
-        + FileLoader
         + Uruchom()
     }
 
-    class SzablonHtml {
+    class Fl{
+        +Views()
+        +Models()
+        +Controllers()
+        +Helpers()
     }
 
+    
+    Projekt --|> Fl #Red
+    Projekt --|> KontrolerStrony #Red
+    Projekt --|> StronaHtml #Red
 
-
-    Autoryzacja --|> IAutoryzacja
-
+    KontrolerStrony --|> Aplikacja #Red
+    KontrolerStrony --|> Autoryzacja
 
     Aplikacja --> SzablonHtml
-    Aplikacja --> WyswietlaniePilkarzy
-    Aplikacja --> OperacjePilkarzy
+    Aplikacja --> WyswietlaniePilkarzy #Blue
+    Aplikacja --> OperacjePilkarzy #Blue
+
+    OperacjePilkarzy --> ZarzadzaniePilkarzami #Blue
+    WyswietlaniePilkarzy --> ZarzadzaniePilkarzami #Blue
+
+    BazaDanychHelper --|> BazaDanych #Green
+
+    ZarzadzaniePilkarzami --|> BazaDanychHelper #LawnGreen
+    ZarzadzaniePilkarzami --|> ZapytaniaSql
+    ZarzadzaniePilkarzami --|> PilkarzPost
+    ZarzadzaniePilkarzami --|> FormularzHelper
 
 
 
-    OperacjePilkarzy --> ZarzadzaniePilkarzami
-    WyswietlaniePilkarzy --> ZarzadzaniePilkarzami
+    ZapytaniaSql --|> FiltrowanieSql #Orange
+    FiltrowanieSql --|> FiltrowanieKontroler #Orange
 
-    ZarzadzaniePilkarzami --> ZapytaniaSql
-    ZarzadzaniePilkarzami --> BazaDanychHelper
-    ZarzadzaniePilkarzami --> PilkarzPost
-    ZarzadzaniePilkarzami --> FormularzHelper
-
-
-    FileLoader --|> Projekt
+    PilkarzPost --|> PobieraczObrazowWikipedia
+    PilkarzPost --|> KontrolerDanych
 
 
 
-    ' Autoryzacja --|> KontrolerStrony
-    ' FiltrowanieKontroler --|> KontrolerStrony
-    ' PilkarzPost --|> KontrolerStrony
-    ' ZarzadzaniePilkarzami --|> KontrolerStrony
-    ' FileLoader --> BazaDanychHelper
-    ' FileLoader --> FormularzHelper
-    ' BazaDanych --> ZapytaniaSql
-    ' BazaDanych --> FiltrowanieSql
-    ' BazaDanych --> OperacjePilkarzy
-    ' BazaDanych --> WyswietlaniePilkarzy
-    ' BazaDanych --> Aplikacja
-    ' WyswietlaniePilkarzy --> PobieraczObrazowWikipedia
-    ' Projekt --> SzablonHtml
-    ' SzablonHtml --> StronaHtml
 }
 @enduml

@@ -5,15 +5,15 @@ use Pilkanozna\Controller\KontrolerDanych;
 class FiltrowanieKontroler
 {
     protected object $Dane;
-    protected $imie;
-    protected $nazwisko;
+    protected string $imie;
+    protected string $nazwisko;
 
-    protected $sortowanie;
+    protected string $sortowanie;
     
-    protected $noga;
-    protected $kraj;
-    protected $numernakoszulce;
-    protected $pozycja;
+    protected string $noga;
+    protected string $kraj;
+    protected string $numernakoszulce;
+    protected string $pozycja;
 
 
     public function __construct() {

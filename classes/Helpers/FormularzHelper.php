@@ -73,12 +73,12 @@ class FormularzHelper
     }
 
 
-    public function FormularzZapisu($wiersz, $id, $pobierzDane)
+    public function FormularzZapisu($wiersz, $id, $pobierzDane): void
     {
         $this->Pilkarz($wiersz, "/zapisz?id=$id", "Zapisz",$pobierzDane);
     }
 
-    public function FormularzDodawania($wiersz,$pobierzDane)
+    public function FormularzDodawania($wiersz,$pobierzDane): void
     {
         $this->Pilkarz($wiersz, "/dodaj", "Dodaj",$pobierzDane);
 
