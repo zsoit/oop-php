@@ -1,8 +1,8 @@
 <?php
 // KONFIGURACJA APLIKACJI
 
-define("UZYTKOWNIKADMIN", "xd");
-define("HASLOADMIN", "xd");
+define("UZYTKOWNIKADMIN", "admin");
+define("HASLOADMIN", "admin");
 
 
 define("TYTUL", "Piłka Nożna - Katalog");

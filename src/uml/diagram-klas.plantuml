@@ -5,70 +5,6 @@ skinparam class {
 }
 
 package "Classes" {
-    package "Controllers" {
-
-        interface IAutoryzacja(){
-            + SprawdzCzyZalogowano(): void
-            + SprobojZalogowac(): void
-            + Wyloguj(): void
-
-        }
-        class Autoryzacja{
-
-            + SprawdzCzyZalogowano(): void
-            + SprobojZalogowac(): void
-            + Wyloguj(): void
-            -cssDlaNiezalogowanych(): void
-        }
-        class FiltrowanieKontroler{
-            # object Dane 
-            # string imie
-            # string nazwisko 
-            # string sortowanie
-            # string noga
-            # string kraj 
-            # string numernakoszulce 
-            # string pozycja 
-
-        }
-        class KontrolerDanych{
-            +getMetoda(): string
-            +getID(): int
-            +getPOST(): string
-            +setPOST(): array
-
-        }
-        class KontrolerStrony{
-            +Routing()
-        }
-
-        class PilkarzPost{
-            # int id
-            # string imie
-            # string nazwisko
-            # string awatar
-
-            # object Dane
-            # object Wikipedia
-
-            +getId(): int
-            +getNazwisko(): string
-            +getAwatar(): mixed
-            +getTablicaPOST(): mixed
-        }
-
-        class ZarzadzaniePilkarzami{
-            # object Pilkarz
-            # object Formularz
-
-            # string id
-            # string imie
-            # string nazwisko
-            # string awatar
-            # array tablicaPost
-        }
-
-    }
 
     package "Models" {
         class Aplikacja {
@@ -100,18 +36,9 @@ package "Classes" {
             + WyswietlFormularzDodawania(): void
             + WyswietlFomularzEdycji(): void
             + WyswietlaniePilkarzy(): void
-            + WyswietlPilkarzy(): void
-            + WyswietlFiltrowanychPilkarzy(): void
-            + WyswietlFormularzDodawania(): void
-            + WyswietlFomularzEdycji(): void
-
         }
 
         class OperacjePilkarzy{
-            + ZapiszPilkarza(): void
-            + DodajPilkarza(): void
-            + UsunPilkarza(): void
-            + FiltrujPilkarzy(): void
             + ZapiszPilkarza(): void
             + DodajPilkarza(): void
             + UsunPilkarza(): void
@@ -186,6 +113,66 @@ package "Classes" {
         }
 
     }
+
+        package "Controllers" {
+
+        class Autoryzacja{
+
+            + SprawdzCzyZalogowano(): void
+            + SprobojZalogowac(): void
+            + Wyloguj(): void
+            -cssDlaNiezalogowanych(): void
+        }
+        class FiltrowanieKontroler{
+            # object Dane 
+            # string imie
+            # string nazwisko 
+            # string sortowanie
+            # string noga
+            # string kraj 
+            # string numernakoszulce 
+            # string pozycja 
+
+        }
+        class KontrolerDanych{
+            +getMetoda(): string
+            +getID(): int
+            +getPOST(): string
+            +setPOST(): array
+
+        }
+        class KontrolerStrony{
+            +Routing()
+        }
+
+        class PilkarzPost{
+            # int id
+            # string imie
+            # string nazwisko
+            # string awatar
+
+            # object Dane
+            # object Wikipedia
+
+            +getId(): int
+            +getNazwisko(): string
+            +getAwatar(): mixed
+            +getTablicaPOST(): mixed
+        }
+
+        class ZarzadzaniePilkarzami{
+            # object Pilkarz
+            # object Formularz
+
+            # string id
+            # string imie
+            # string nazwisko
+            # string awatar
+            # array tablicaPost
+        }
+
+    }
+
 
     package "Helpers" {
 
