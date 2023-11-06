@@ -44,10 +44,10 @@ Controller - [Kontroler, logika aplikacji]
 [Filtrowanie zawartości] <.down. (Po Koszulce): extended 
 [Filtrowanie zawartości] <.down. (Po Pozycji): extended 
 
-[Sortowanie rosnące/malejące po] <.down. ( dacie urodzenia): include
-[Sortowanie rosnące/malejące po] <.down. ( dacie dodania): include
-[Sortowanie rosnące/malejące po] <.down. ( alfabetycznie po imieniu lub nazwisku): include
-[Sortowanie rosnące/malejące po] <.down. (Wartosci rynkowej): include
+[Sortowanie rosnące/malejące po] <.down. ( dacie urodzenia): extended 
+[Sortowanie rosnące/malejące po] <.down. ( dacie dodania): extended 
+[Sortowanie rosnące/malejące po] <.down. ( alfabetycznie po imieniu lub nazwisku): extended 
+[Sortowanie rosnące/malejące po] <.down. (Wartosci rynkowej): extended 
 
 
 

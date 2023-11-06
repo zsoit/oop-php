@@ -17,10 +17,11 @@ CREATE TABLE pilkarz (
 );
 
 CREATE TABLE awatar (
-  pk_awatar int NOT NULL,
+  pk_awatar int primary key auto_increment,
   link varchar(200) NOT NULL,
   fk_pilkarz int NOT NULL
 )
+;
 
 CREATE TABLE krajpilkarza (
 	pk_kraj int primary key auto_increment,
