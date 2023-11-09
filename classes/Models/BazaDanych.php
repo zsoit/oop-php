@@ -11,7 +11,7 @@ class BazaDanych
     public function Polaczenie(): void
     {
         include_once './KonfiguracjaDB.php';
-        $this->polaczenie = new mysqli(HOST, UZYTKOWNIK, HASLO, BAZADANYCH);
+        $this->polaczenie = new mysqli(HOST, UZYTKOWNIK, HASLO, BAZADANYCH, PORT);
 
         if ($this->polaczenie->connect_error) {
             echo "<h1 style='color: red;'>Błąd połącznia z bazą danych: " . $this->polaczenie->connect_error . "</h1>";
